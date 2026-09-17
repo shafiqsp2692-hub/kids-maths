@@ -1,20 +1,40 @@
-/* PLAY BUTTON */
+/* =========================
+   PLAY BUTTON
+   ========================= */
 
 function playGame() {
 
-  document.getElementById("homePage")
+  document
+    .getElementById("homePage")
     .classList.add("hidden");
 
-  document.getElementById("menuPage")
+  document
+    .getElementById("menuPage")
     .classList.remove("hidden");
 
 }
 
 
-/* QUIZ FUNCTION
-   Abhi sirf menu button ka connection rakha hai.
-   Quiz ka complete system baad mein banayenge.
-*/
+/* =========================
+   HOME BUTTON
+   ========================= */
+
+function goHome() {
+
+  document
+    .getElementById("menuPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("homePage")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   MATH GAME
+   ========================= */
 
 function startQuiz(operation) {
 
