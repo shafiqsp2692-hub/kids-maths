@@ -8,26 +8,52 @@
 </head>
 <body>
 
-  <!-- FIRST HOME PAGE -->
+  <!-- ANIMATED HERO HOME PAGE -->
   <div id="homePage" class="home-page">
-    <img src="28B97794-32BF-41D3-80CC-872FF510292F.png" class="home-image" alt="Kids Maths">
-    <button class="play-button" onclick="playGame()">
-      <span class="play-icon">▶</span>
-      <span>PLAY</span>
-    </button>
+    <div class="floating-shapes">
+      <span class="shape s1">➕</span>
+      <span class="shape s2">➖</span>
+      <span class="shape s3">✖️</span>
+      <span class="shape s4">➗</span>
+      <span class="shape s5">1️⃣</span>
+      <span class="shape s6">2️⃣</span>
+      <span class="shape s7">3️⃣</span>
+    </div>
+
+    <div class="hero-content">
+      <div class="brand-badge">🎮 FUN LEARNING</div>
+      <h1 class="game-title">Kids <span>Maths</span></h1>
+      <p class="game-subtitle">Learn Maths & Have Fun! 🎉</p>
+
+      <button class="play-button" onclick="playGame()">
+        <span class="play-icon">▶</span>
+        <span>PLAY NOW</span>
+      </button>
+    </div>
   </div>
 
   <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
     <button class="home-button" onclick="goHome()">🏠 Home</button>
-    <h1>🧮 Kids Maths</h1>
-    <p>Choose a Maths Game 🎯</p>
+    <h1 class="menu-title">🧮 Choose a Mode</h1>
 
-    <div class="menu-buttons">
-      <button onclick="startQuiz('+')">➕ Addition</button>
-      <button onclick="startQuiz('-')">➖ Subtraction</button>
-      <button onclick="startQuiz('*')">✖️ Multiplication</button>
-      <button onclick="startQuiz('/')">➗ Division</button>
+    <div class="menu-grid">
+      <button class="card-btn add" onclick="startQuiz('+')">
+        <span class="icon">➕</span>
+        <span>Addition</span>
+      </button>
+      <button class="card-btn sub" onclick="startQuiz('-')">
+        <span class="icon">➖</span>
+        <span>Subtraction</span>
+      </button>
+      <button class="card-btn mul" onclick="startQuiz('*')">
+        <span class="icon">✖️</span>
+        <span>Multiplication</span>
+      </button>
+      <button class="card-btn div" onclick="startQuiz('/')">
+        <span class="icon">➗</span>
+        <span>Division</span>
+      </button>
     </div>
   </div>
 
@@ -35,15 +61,16 @@
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
-      <div id="scoreDisplay" class="score-display">Score: 0</div>
+      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
     <div class="question-card">
+      <span class="quiz-badge">Solve This!</span>
       <h2 id="questionText">5 + 3 = ?</h2>
     </div>
 
     <div id="optionsContainer" class="options-grid">
-      <!-- Options JS se load honge -->
+      <!-- Options JS se generate honge -->
     </div>
   </div>
 
