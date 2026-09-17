@@ -3,36 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Kids Maths</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <div class="app">
-    <h1>🧮 Kids Maths</h1>
-    <p class="subtitle">Learn Maths & Have Fun!</p>
 
+    <h1>🧮 Kids Maths</h1>
+
+    <p class="subtitle">
+      Learn Maths & Have Fun! 🎉
+    </p>
+
+    <!-- Main Menu -->
     <div class="menu">
-      <button onclick="startQuiz('+')">➕ Addition</button>
-      <button onclick="startQuiz('-')">➖ Subtraction</button>
-      <button onclick="startQuiz('*')">✖️ Multiplication</button>
-      <button onclick="startQuiz('/')">➗ Division</button>
+
+      <button onclick="startQuiz('+')">
+        ➕ Addition
+      </button>
+
+      <button onclick="startQuiz('-')">
+        ➖ Subtraction
+      </button>
+
+      <button onclick="startQuiz('*')">
+        ✖️ Multiplication
+      </button>
+
+      <button onclick="startQuiz('/')">
+        ➗ Division
+      </button>
+
     </div>
 
-    <div id="quiz" class="quiz hidden">
-      <div class="score">⭐ Score: <span id="score">0</span></div>
 
-      <h2 id="question">Question</h2>
+    <!-- Quiz Area -->
+    <div id="quiz" class="quiz hidden">
+
+      <div id="questionNumber">
+        Question 1/10
+      </div>
+
+      <div class="score">
+        ⭐ Score:
+        <span id="score">0</span>
+      </div>
+
+      <h2 id="question">
+        Question
+      </h2>
 
       <div id="answers"></div>
 
       <p id="result"></p>
 
-      <button class="next" onclick="nextQuestion()">Next ➡️</button>
+      <button
+        class="next"
+        onclick="nextQuestion()">
+        Next ➡️
+      </button>
+
     </div>
+
   </div>
 
+
   <script src="script.js"></script>
+
 </body>
 </html>
