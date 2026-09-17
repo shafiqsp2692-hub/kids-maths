@@ -33,7 +33,7 @@ function goHome() {
 
 
 /* =========================
-   MATH GAME
+   TEMPORARY GAME BUTTON
    ========================= */
 
 function startQuiz(operation) {
