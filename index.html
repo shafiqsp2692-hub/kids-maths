@@ -1,83 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Kids Maths</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
   <!-- FIRST HOME PAGE -->
-
   <div id="homePage" class="home-page">
-
-    <img
-      src="417970AC-A450-4095-98A7-348678ECDDC5.png"
-      class="home-image"
-      alt="Kids Maths"
-    >
-
-    <!-- PLAY BUTTON -->
-
-    <button
-      class="play-button"
-      onclick="playGame()"
-    >
-
+    <img src="417970AC-A450-4095-98A7-348678ECDDC5.png" class="home-image" alt="Kids Maths">
+    <button class="play-button" onclick="playGame()">
       <span class="play-icon">▶</span>
-
       <span>PLAY</span>
-
     </button>
-
   </div>
 
-
-  <!-- MAIN MENU -->
-
+  <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
-
-    <button
-      class="home-button"
-      onclick="goHome()"
-    >
-      🏠 Home
-    </button>
-
+    <button class="home-button" onclick="goHome()">🏠 Home</button>
     <h1>🧮 Kids Maths</h1>
-
     <p>Choose a Maths Game 🎯</p>
 
-
-    <button onclick="startQuiz('+')">
-      ➕ Addition
-    </button>
-
-
-    <button onclick="startQuiz('-')">
-      ➖ Subtraction
-    </button>
-
-
-    <button onclick="startQuiz('*')">
-      ✖️ Multiplication
-    </button>
-
-
-    <button onclick="startQuiz('/')">
-      ➗ Division
-    </button>
-
+    <div class="menu-buttons">
+      <button onclick="startQuiz('+')">➕ Addition</button>
+      <button onclick="startQuiz('-')">➖ Subtraction</button>
+      <button onclick="startQuiz('*')">✖️ Multiplication</button>
+      <button onclick="startQuiz('/')">➗ Division</button>
+    </div>
   </div>
 
+  <!-- QUIZ GAME PAGE -->
+  <div id="quizPage" class="quiz-page hidden">
+    <div class="quiz-header">
+      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+      <div id="scoreDisplay" class="score-display">Score: 0</div>
+    </div>
+
+    <div class="question-card">
+      <h2 id="questionText">5 + 3 = ?</h2>
+    </div>
+
+    <div id="optionsContainer" class="options-grid">
+      <!-- Options JS se load honge -->
+    </div>
+  </div>
 
   <script src="script.js"></script>
-
 </body>
-
 </html>
