@@ -4,20 +4,286 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kids Maths</title>
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Confetti Library for Video-like Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+      background: #f0f8ff;
+      overflow-x: hidden;
+    }
+
+    /* ANIMATED BACKGROUND */
+    .home-page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .floating-shapes .shape {
+      position: absolute;
+      font-size: 42px;
+      opacity: 0.35;
+      animation: floatAnim 4s infinite ease-in-out alternate;
+    }
+
+    .s1 { top: 10%; left: 10%; animation-delay: 0s; }
+    .s2 { top: 18%; right: 12%; animation-delay: 1s; }
+    .s3 { bottom: 20%; left: 15%; animation-delay: 2s; }
+    .s4 { bottom: 15%; right: 10%; animation-delay: 1.5s; }
+
+    @keyframes floatAnim {
+      0% { transform: translateY(0px) scale(1) rotate(0deg); }
+      100% { transform: translateY(-30px) scale(1.2) rotate(20deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand-badge {
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 15px;
+      display: inline-block;
+      margin-bottom: 12px;
+      backdrop-filter: blur(5px);
+    }
+
+    .game-title {
+      font-size: 54px;
+      color: #ffffff;
+      margin: 0;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: pulseTitle 2s infinite alternate;
+    }
+
+    .game-title span {
+      color: #feca57;
+    }
+
+    @keyframes pulseTitle {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    .game-subtitle {
+      color: #ffffff;
+      font-size: 20px;
+      margin: 10px 0 35px;
+      font-weight: 600;
+    }
+
+    /* 3D ANIMATED PLAY BUTTON */
+    .play-button {
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(to bottom, #ff9f43, #ee5253);
+      color: white;
+      font-size: 26px;
+      font-weight: 900;
+      padding: 16px 45px;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+      animation: buttonBounce 2s infinite;
+    }
+
+    @keyframes buttonBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .play-icon {
+      width: 40px;
+      height: 40px;
+      background: white;
+      color: #ee5253;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .play-button:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #b22222, 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    /* MENU PAGE */
+    .menu-page {
+      min-height: 100vh;
+      padding: 30px 20px;
+      text-align: center;
+      background: #f8f9fa;
+    }
+
+    .menu-title {
+      font-size: 32px;
+      color: #2d3436;
+      margin: 25px 0 30px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .card-btn {
+      border: none;
+      border-radius: 20px;
+      padding: 25px 15px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      transition: transform 0.2s;
+    }
+
+    .card-btn:active { transform: scale(0.95); }
+    .card-btn .icon { font-size: 38px; }
+    .card-btn span:nth-child(2) { font-size: 18px; font-weight: bold; color: #2d3436; }
+
+    /* QUIZ PAGE */
+    .quiz-page {
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #edf2f7;
+    }
+
+    .quiz-header {
+      width: 100%;
+      max-width: 450px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .score-display {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2d3436;
+      background: #feca57;
+      padding: 8px 18px;
+      border-radius: 20px;
+    }
+
+    .question-card {
+      width: 100%;
+      max-width: 450px;
+      background: white;
+      padding: 35px 20px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .pop-anim {
+      animation: popIn 0.4s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .question-card h2 {
+      font-size: 46px;
+      margin: 10px 0 0;
+      color: #2d3436;
+    }
+
+    .options-grid {
+      width: 100%;
+      max-width: 450px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .option-btn {
+      padding: 22px;
+      font-size: 28px;
+      font-weight: bold;
+      border: none;
+      border-radius: 18px;
+      background: white;
+      color: #0984e3;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .option-btn:active { transform: scale(0.92); }
+
+    .home-button {
+      padding: 8px 16px;
+      font-size: 15px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
 
-  <!-- ANIMATED HERO HOME PAGE -->
+  <!-- HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="floating-shapes">
       <span class="shape s1">➕</span>
       <span class="shape s2">➖</span>
       <span class="shape s3">✖️</span>
       <span class="shape s4">➗</span>
-      <span class="shape s5">1️⃣</span>
-      <span class="shape s6">2️⃣</span>
-      <span class="shape s7">3️⃣</span>
     </div>
 
     <div class="hero-content">
@@ -35,22 +301,22 @@
   <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
     <button class="home-button" onclick="goHome()">🏠 Home</button>
-    <h1 class="menu-title">🧮 Choose a Mode</h1>
+    <h1 class="menu-title">🧮 Choose Mode</h1>
 
     <div class="menu-grid">
-      <button class="card-btn add" onclick="startQuiz('+')">
+      <button class="card-btn" onclick="startQuiz('+')">
         <span class="icon">➕</span>
         <span>Addition</span>
       </button>
-      <button class="card-btn sub" onclick="startQuiz('-')">
+      <button class="card-btn" onclick="startQuiz('-')">
         <span class="icon">➖</span>
         <span>Subtraction</span>
       </button>
-      <button class="card-btn mul" onclick="startQuiz('*')">
+      <button class="card-btn" onclick="startQuiz('*')">
         <span class="icon">✖️</span>
         <span>Multiplication</span>
       </button>
-      <button class="card-btn div" onclick="startQuiz('/')">
+      <button class="card-btn" onclick="startQuiz('/')">
         <span class="icon">➗</span>
         <span>Division</span>
       </button>
@@ -64,16 +330,114 @@
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
-    <div class="question-card">
-      <span class="quiz-badge">Solve This!</span>
+    <div id="qCard" class="question-card">
       <h2 id="questionText">5 + 3 = ?</h2>
     </div>
 
-    <div id="optionsContainer" class="options-grid">
-      <!-- Options JS se generate honge -->
-    </div>
+    <div id="optionsContainer" class="options-grid"></div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    let currentOp = '+';
+    let currentAnswer = 0;
+    let score = 0;
+
+    function playGame() {
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("menuPage").classList.remove("hidden");
+    }
+
+    function goHome() {
+      document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("homePage").classList.remove("hidden");
+    }
+
+    function goMenu() {
+      document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("menuPage").classList.remove("hidden");
+    }
+
+    function startQuiz(operation) {
+      currentOp = operation;
+      score = 0;
+      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+      document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("quizPage").classList.remove("hidden");
+      generateQuestion();
+    }
+
+    function generateQuestion() {
+      let card = document.getElementById("qCard");
+      card.classList.remove("pop-anim");
+      void card.offsetWidth; // Trigger reflow for animation restart
+      card.classList.add("pop-anim");
+
+      let num1 = Math.floor(Math.random() * 10) + 1;
+      let num2 = Math.floor(Math.random() * 10) + 1;
+
+      if (currentOp === '-') {
+        if (num1 < num2) [num1, num2] = [num2, num1];
+        currentAnswer = num1 - num2;
+      } else if (currentOp === '*') {
+        currentAnswer = num1 * num2;
+      } else if (currentOp === '/') {
+        currentAnswer = num1;
+        num1 = num1 * num2;
+      } else {
+        currentAnswer = num1 + num2;
+      }
+
+      let symbol = currentOp === '*' ? '×' : currentOp === '/' ? '÷' : currentOp;
+      document.getElementById("questionText").innerText = `${num1} ${symbol} ${num2} = ?`;
+
+      generateOptions();
+    }
+
+    function generateOptions() {
+      let options = [currentAnswer];
+
+      while (options.length < 4) {
+        let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
+        if (wrong >= 0 && !options.includes(wrong)) {
+          options.push(wrong);
+        }
+      }
+
+      options.sort(() => Math.random() - 0.5);
+
+      let container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      options.forEach(opt => {
+        let btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, buttonEl) {
+      if (selected === currentAnswer) {
+        score += 10;
+        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+        buttonEl.style.background = "#55efc4";
+        
+        // Confetti Celebration Effect
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.7 }
+        });
+      } else {
+        buttonEl.style.background = "#ff7675";
+        buttonEl.style.color = "white";
+      }
+
+      setTimeout(() => {
+        generateQuestion();
+      }, 400);
+    }
+  </script>
 </body>
 </html>
