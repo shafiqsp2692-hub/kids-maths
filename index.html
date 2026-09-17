@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,69 +11,46 @@
 
 <body>
 
-  <div class="app">
+  <!-- HOME / START PAGE -->
+  <div id="homePage" class="home-page">
 
-    <!-- HOME PAGE -->
-    <div id="home">
-
-      <h1>🧮 Kids Maths</h1>
-
-      <p class="subtitle">
-        Learn Maths & Have Fun! 🎉
-      </p>
-
-      <div class="menu">
-
-        <button onclick="startQuiz('+')">
-          ➕ Addition
-        </button>
-
-        <button onclick="startQuiz('-')">
-          ➖ Subtraction
-        </button>
-
-        <button onclick="startQuiz('*')">
-          ✖️ Multiplication
-        </button>
-
-        <button onclick="startQuiz('/')">
-          ➗ Division
-        </button>
-
-      </div>
-
+    <div class="logo">
+      🧮
     </div>
 
+    <h1>Kids Maths</h1>
 
-    <!-- QUIZ PAGE -->
-    <div id="quiz" class="quiz hidden">
+    <p>Learn Maths & Have Fun! 🎉</p>
 
-      <button class="back" onclick="goHome()">
-        ⬅️ Home
-      </button>
+    <button class="play-button" onclick="playGame()">
+      ▶ PLAY
+    </button>
 
-      <div id="questionNumber">
-        Question 1/10
-      </div>
+  </div>
 
-      <div class="score">
-        ⭐ Score:
-        <span id="score">0</span>
-      </div>
 
-      <h2 id="question">
-        Question
-      </h2>
+  <!-- MAIN MENU -->
+  <div id="menuPage" class="menu-page hidden">
 
-      <div id="answers"></div>
+    <h1>🧮 Kids Maths</h1>
 
-      <p id="result"></p>
+    <p>Choose a Maths Game</p>
 
-      <button class="next" onclick="nextQuestion()">
-        Next ➡️
-      </button>
+    <button onclick="startQuiz('+')">
+      ➕ Addition
+    </button>
 
-    </div>
+    <button onclick="startQuiz('-')">
+      ➖ Subtraction
+    </button>
+
+    <button onclick="startQuiz('*')">
+      ✖️ Multiplication
+    </button>
+
+    <button onclick="startQuiz('/')">
+      ➗ Division
+    </button>
 
   </div>
 
@@ -82,5 +58,4 @@
   <script src="script.js"></script>
 
 </body>
-
 </html>
