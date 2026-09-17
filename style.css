@@ -5,106 +5,122 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f7ff;
+  background: linear-gradient(135deg, #e8f0ff, #ffffff);
   text-align: center;
+  min-height: 100vh;
 }
 
-.app {
-  max-width: 500px;
-  margin: 50px auto;
+
+/* FIRST PAGE */
+
+.home-page {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
   padding: 25px;
 }
 
-h1 {
-  font-size: 42px;
-  margin-bottom: 5px;
+.logo {
+  font-size: 90px;
+  margin-bottom: 10px;
 }
 
-.subtitle {
+.home-page h1 {
+  font-size: 48px;
+  margin: 5px 0;
+}
+
+.home-page p {
+  font-size: 22px;
+  color: #555;
+  margin: 10px 0 35px;
+}
+
+
+/* PLAY BUTTON */
+
+.play-button {
+  width: 240px;
+  padding: 20px;
+
+  border: none;
+  border-radius: 50px;
+
+  background: #222;
+  color: white;
+
+  font-size: 28px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px #aaa;
+
+  transition: 0.2s;
+}
+
+.play-button:hover {
+  transform: scale(1.05);
+}
+
+.play-button:active {
+  transform: scale(0.95);
+}
+
+
+/* MENU PAGE */
+
+.menu-page {
+  max-width: 500px;
+
+  margin: 0 auto;
+
+  padding: 50px 25px;
+}
+
+.menu-page h1 {
+  font-size: 42px;
+}
+
+.menu-page p {
   font-size: 20px;
   color: #555;
   margin-bottom: 30px;
 }
 
-.menu button,
-.next,
-.back {
+.menu-page button {
   width: 100%;
-  padding: 16px;
-  margin: 8px 0;
+
+  padding: 17px;
+
+  margin: 9px 0;
+
   border: none;
   border-radius: 15px;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 3px 10px #ccc;
-}
 
-.menu button {
   background: white;
+
+  font-size: 21px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px #ccc;
+
+  transition: 0.2s;
 }
 
-.menu button:hover,
-.next:hover,
-.back:hover {
+.menu-page button:hover {
   transform: scale(1.02);
 }
 
-.quiz {
-  margin-top: 25px;
-  padding: 20px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 5px 20px #ddd;
-}
+
+/* HIDE */
 
 .hidden {
   display: none;
-}
-
-.back {
-  background: #eeeeee;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-#questionNumber {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.score {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-#question {
-  font-size: 36px;
-  margin: 30px 0;
-}
-
-#answers button {
-  width: 100%;
-  padding: 14px;
-  margin: 7px 0;
-  border: none;
-  border-radius: 12px;
-  font-size: 22px;
-  cursor: pointer;
-  background: #eef1ff;
-}
-
-#answers button:hover {
-  transform: scale(1.02);
-}
-
-#result {
-  font-size: 22px;
-  font-weight: bold;
-  min-height: 30px;
-}
-
-.next {
-  background: #222;
-  color: white;
 }
