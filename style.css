@@ -7,35 +7,43 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100%;
-
+  height: 100%;
   font-family: Arial, sans-serif;
 }
 
 
 /* =========================
-   FIRST PAGE
+   HOME PAGE
    ========================= */
 
 .home-page {
+  position: relative;
 
   width: 100vw;
   height: 100vh;
 
-  min-height: 650px;
-
-  position: relative;
-
-  background-image:
-    url("kids-maths-home.jpg");
-
-  background-size: cover;
-
-  background-position: center;
-
-  background-repeat: no-repeat;
-
   overflow: hidden;
+
+  background: #dff3ff;
+}
+
+
+/* IMAGE */
+
+.home-image {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  left: 0;
+  top: 0;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  display: block;
 }
 
 
@@ -44,17 +52,15 @@ body {
    ========================= */
 
 .play-button {
-
   position: absolute;
 
   left: 50%;
 
-  bottom: 12%;
+  bottom: 10%;
 
   transform: translateX(-50%);
 
   width: 72%;
-
   max-width: 620px;
 
   height: 105px;
@@ -64,6 +70,7 @@ body {
   border-radius: 60px;
 
   background: linear-gradient(
+    to bottom,
     #ffb000,
     #ff7900
   );
@@ -82,13 +89,15 @@ body {
 
   justify-content: center;
 
-  gap: 28px;
+  gap: 25px;
 
   cursor: pointer;
 
   box-shadow:
     0 12px 0 #e85c00,
-    0 20px 30px rgba(0, 0, 0, 0.25);
+    0 20px 30px rgba(0,0,0,0.25);
+
+  z-index: 10;
 
   transition: 0.15s;
 }
@@ -97,9 +106,7 @@ body {
 /* PLAY ICON */
 
 .play-icon {
-
   width: 65px;
-
   height: 65px;
 
   background: white;
@@ -114,26 +121,25 @@ body {
 
   justify-content: center;
 
-  font-size: 35px;
+  font-size: 34px;
 
   padding-left: 5px;
 
   box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.15);
+    0 4px 10px rgba(0,0,0,0.15);
 }
 
 
 /* BUTTON PRESS */
 
 .play-button:active {
-
   transform:
     translateX(-50%)
     translateY(8px);
 
   box-shadow:
     0 4px 0 #e85c00,
-    0 8px 15px rgba(0, 0, 0, 0.2);
+    0 8px 15px rgba(0,0,0,0.2);
 }
 
 
@@ -142,12 +148,10 @@ body {
    ========================= */
 
 .menu-page {
-
   width: 100%;
-
   min-height: 100vh;
 
-  padding: 35px 25px;
+  padding: 30px 25px;
 
   text-align: center;
 
@@ -161,29 +165,20 @@ body {
 
 
 .menu-page h1 {
-
   font-size: 42px;
-
   margin: 25px 0 5px;
 }
 
 
 .menu-page p {
-
   font-size: 21px;
-
   color: #555;
-
   margin-bottom: 30px;
 }
 
 
-/* MENU BUTTONS */
-
 .menu-page button {
-
   width: 100%;
-
   max-width: 500px;
 
   padding: 18px;
@@ -205,41 +200,27 @@ body {
   cursor: pointer;
 
   box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.15);
-
-  transition: 0.2s;
-}
-
-
-.menu-page button:hover {
-
-  transform: scale(1.02);
+    0 5px 15px rgba(0,0,0,0.15);
 }
 
 
 /* HOME BUTTON */
 
 .menu-page .home-button {
-
   width: auto;
 
   padding: 10px 20px;
 
-  margin: 0 auto;
-
   font-size: 18px;
 
   background: #eeeeee;
-
-  box-shadow: 0 3px 8px #ccc;
 }
 
 
 /* HIDDEN */
 
 .hidden {
-
-  display: none;
+  display: none !important;
 }
 
 
@@ -250,45 +231,40 @@ body {
 @media (max-width: 600px) {
 
   .home-page {
+    width: 100vw;
+    height: 100vh;
+  }
 
-    min-height: 100vh;
 
-    background-position: center;
+  .home-image {
+    object-fit: cover;
+    object-position: center;
   }
 
 
   .play-button {
+    width: 73%;
 
-    width: 74%;
+    height: 80px;
 
-    height: 82px;
-
-    bottom: 12%;
+    bottom: 11%;
 
     font-size: 34px;
 
-    gap: 18px;
+    gap: 17px;
 
     box-shadow:
       0 9px 0 #e85c00,
-      0 15px 25px rgba(0, 0, 0, 0.25);
+      0 15px 25px rgba(0,0,0,0.25);
   }
 
 
   .play-icon {
+    width: 50px;
+    height: 50px;
 
-    width: 52px;
+    font-size: 27px;
 
-    height: 52px;
-
-    font-size: 28px;
-
-    border-radius: 15px;
-  }
-
-
-  .menu-page h1 {
-
-    font-size: 36px;
+    border-radius: 14px;
   }
 }
