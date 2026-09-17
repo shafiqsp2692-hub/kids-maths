@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7ff;
+  text-align: center;
+}
+
+.app {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #555;
+}
+
+.menu button,
+.next {
+  width: 100%;
+  padding: 16px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 3px 10px #ccc;
+}
+
+.menu button:hover,
+.next:hover {
+  transform: scale(1.02);
+}
+
+.quiz {
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px #ddd;
+}
+
+.hidden {
+  display: none;
+}
+
+.score {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#question {
+  font-size: 36px;
+  margin: 30px 0;
+}
+
+#answers button {
+  width: 100%;
+  padding: 14px;
+  margin: 7px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 22px;
+  cursor: pointer;
+  background: #eef1ff;
+}
+
+#result {
+  font-size: 22px;
+  font-weight: bold;
+  min-height: 30px;
+}
+
+.next {
+  background: #222;
+  color: white;
+}
