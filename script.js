@@ -20,7 +20,7 @@ function goMenu() {
 function startQuiz(operation) {
   currentOp = operation;
   score = 0;
-  document.getElementById("scoreDisplay").innerText = "Score: " + score;
+  document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
   document.getElementById("menuPage").classList.add("hidden");
   document.getElementById("quizPage").classList.remove("hidden");
   generateQuestion();
@@ -67,15 +67,23 @@ function generateOptions() {
     let btn = document.createElement("button");
     btn.className = "option-btn";
     btn.innerText = opt;
-    btn.onclick = () => checkAnswer(opt);
+    btn.onclick = () => checkAnswer(opt, btn);
     container.appendChild(btn);
   });
 }
 
-function checkAnswer(selected) {
+function checkAnswer(selected, buttonEl) {
   if (selected === currentAnswer) {
     score += 10;
-    document.getElementById("scoreDisplay").innerText = "Score: " + score;
+    document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+    buttonEl.style.background = "#55efc4";
+    buttonEl.style.color = "#00b894";
+  } else {
+    buttonEl.style.background = "#ff7675";
+    buttonEl.style.color = "#white";
   }
-  generateQuestion();
+
+  setTimeout(() => {
+    generateQuestion();
+  }, 300);
 }
