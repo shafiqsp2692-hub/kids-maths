@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>Kids Maths</title>
 
@@ -11,30 +14,33 @@
 
 <body>
 
-  <!-- HOME / START PAGE -->
+  <!-- FIRST PAGE -->
+
   <div id="homePage" class="home-page">
 
-    <div class="logo">
-      🧮
-    </div>
+    <button class="play-button"
+            onclick="playGame()">
 
-    <h1>Kids Maths</h1>
+      <span class="play-icon">▶</span>
+      <span>PLAY</span>
 
-    <p>Learn Maths & Have Fun! 🎉</p>
-
-    <button class="play-button" onclick="playGame()">
-      ▶ PLAY
     </button>
 
   </div>
 
 
   <!-- MAIN MENU -->
+
   <div id="menuPage" class="menu-page hidden">
+
+    <button class="home-button"
+            onclick="goHome()">
+      🏠 Home
+    </button>
 
     <h1>🧮 Kids Maths</h1>
 
-    <p>Choose a Maths Game</p>
+    <p>Choose a Maths Game 🎯</p>
 
     <button onclick="startQuiz('+')">
       ➕ Addition
@@ -58,4 +64,5 @@
   <script src="script.js"></script>
 
 </body>
+
 </html>
