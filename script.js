@@ -1,6 +1,9 @@
 let operation = "+";
 let correctAnswer = 0;
 let score = 0;
+let questionNumber = 0;
+const totalQuestions = 10;
+let answered = false;
 
 function randomNumber(max) {
   return Math.floor(Math.random() * max) + 1;
@@ -9,6 +12,8 @@ function randomNumber(max) {
 function startQuiz(op) {
   operation = op;
   score = 0;
+  questionNumber = 0;
+  answered = false;
 
   document.querySelector(".menu").style.display = "none";
   document.getElementById("quiz").classList.remove("hidden");
@@ -19,6 +24,14 @@ function startQuiz(op) {
 }
 
 function nextQuestion() {
+  if (questionNumber >= totalQuestions) {
+    showFinalResult();
+    return;
+  }
+
+  answered = false;
+  questionNumber++;
+
   document.getElementById("result").textContent = "";
 
   let a = randomNumber(10);
@@ -29,7 +42,9 @@ function nextQuestion() {
   }
 
   if (operation === "-") {
-    if (a < b) [a, b] = [b, a];
+    if (a < b) {
+      [a, b] = [b, a];
+    }
     correctAnswer = a - b;
   }
 
@@ -38,27 +53,34 @@ function nextQuestion() {
   }
 
   if (operation === "/") {
-    correctAnswer = a;
     b = randomNumber(10);
-    a = correctAnswer * b;
+    a = randomNumber(10) * b;
+    correctAnswer = a / b;
   }
 
   let symbol = operation === "*" ? "×" : operation;
+  let questionText = `${a} ${symbol} ${b} = ?`;
 
-  document.getElementById("question").textContent =
-    `${a} ${symbol} ${b} = ?`;
+  document.getElementById("question").textContent = questionText;
 
   createAnswers();
+
+  document.getElementById("questionNumber").textContent =
+    `Question ${questionNumber}/${totalQuestions}`;
 }
 
 function createAnswers() {
   let answers = [correctAnswer];
 
   while (answers.length < 4) {
-    let wrong = correctAnswer + Math.floor(Math.random() * 11) - 5;
+    let wrongAnswer =
+      correctAnswer + Math.floor(Math.random() * 11) - 5;
 
-    if (wrong >= 0 && !answers.includes(wrong)) {
-      answers.push(wrong);
+    if (
+      wrongAnswer >= 0 &&
+      !answers.includes(wrongAnswer)
+    ) {
+      answers.push(wrongAnswer);
     }
   }
 
@@ -72,25 +94,64 @@ function createAnswers() {
 
     button.textContent = answer;
 
-    button.onclick = () => checkAnswer(answer);
+    button.onclick = () => checkAnswer(answer, button);
 
     container.appendChild(button);
   });
 }
 
-function checkAnswer(answer) {
+function checkAnswer(answer, selectedButton) {
+  if (answered) return;
+
+  answered = true;
+
   const result = document.getElementById("result");
 
   if (answer === correctAnswer) {
     score++;
     result.textContent = "🎉 Correct! ⭐";
+    selectedButton.style.background = "#b7f7c1";
   } else {
-    result.textContent = `❌ Wrong! Answer: ${correctAnswer}`;
+    result.textContent = `❌ Wrong! Correct answer: ${correctAnswer}`;
+    selectedButton.style.background = "#ffc4c4";
   }
 
   document.getElementById("score").textContent = score;
 
   document.querySelectorAll("#answers button").forEach(button => {
     button.disabled = true;
+
+    if (Number(button.textContent) === correctAnswer) {
+      button.style.background = "#b7f7c1";
+    }
   });
+}
+
+function showFinalResult() {
+  document.getElementById("question").textContent =
+    "🏆 Quiz Complete!";
+
+  document.getElementById("answers").innerHTML = "";
+
+  let stars = "";
+
+  if (score === 10) {
+    stars = "⭐⭐⭐⭐⭐";
+  } else if (score >= 7) {
+    stars = "⭐⭐⭐⭐";
+  } else if (score >= 5) {
+    stars = "⭐⭐⭐";
+  } else if (score >= 3) {
+    stars = "⭐⭐";
+  } else {
+    stars = "⭐";
+  }
+
+  document.getElementById("result").innerHTML =
+    `${stars}<br><br>Your Score: ${score}/${totalQuestions}`;
+
+  document.querySelector(".next").textContent = "🔄 Try Again";
+  document.querySelector(".next").onclick = () => {
+    startQuiz(operation);
+  };
 }
