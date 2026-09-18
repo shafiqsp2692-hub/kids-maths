@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kids Maths</title>
-
-  <!-- Confetti Library for Video-like Effects -->
+  
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <style>
@@ -17,13 +16,12 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
       background: #f0f8ff;
-      overflow-x: hidden;
     }
 
-    /* ANIMATED BACKGROUND */
+    /* HOME PAGE */
     .home-page {
       position: relative;
       width: 100vw;
@@ -45,28 +43,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    .floating-shapes .shape {
-      position: absolute;
-      font-size: 42px;
-      opacity: 0.35;
-      animation: floatAnim 4s infinite ease-in-out alternate;
-    }
-
-    .s1 { top: 10%; left: 10%; animation-delay: 0s; }
-    .s2 { top: 18%; right: 12%; animation-delay: 1s; }
-    .s3 { bottom: 20%; left: 15%; animation-delay: 2s; }
-    .s4 { bottom: 15%; right: 10%; animation-delay: 1.5s; }
-
-    @keyframes floatAnim {
-      0% { transform: translateY(0px) scale(1) rotate(0deg); }
-      100% { transform: translateY(-30px) scale(1.2) rotate(20deg); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-    }
-
     .brand-badge {
       background: rgba(255, 255, 255, 0.3);
       color: #fff;
@@ -76,34 +52,23 @@
       font-size: 15px;
       display: inline-block;
       margin-bottom: 12px;
-      backdrop-filter: blur(5px);
     }
 
     .game-title {
-      font-size: 54px;
+      font-size: 52px;
       color: #ffffff;
       margin: 0;
       text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      animation: pulseTitle 2s infinite alternate;
     }
 
-    .game-title span {
-      color: #feca57;
-    }
-
-    @keyframes pulseTitle {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.05); }
-    }
+    .game-title span { color: #feca57; }
 
     .game-subtitle {
       color: #ffffff;
-      font-size: 20px;
-      margin: 10px 0 35px;
-      font-weight: 600;
+      font-size: 18px;
+      margin: 10px 0 30px;
     }
 
-    /* 3D ANIMATED PLAY BUTTON */
     .play-button {
       border: none;
       border-radius: 50px;
@@ -118,12 +83,6 @@
       cursor: pointer;
       box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
       transition: all 0.2s ease;
-      animation: buttonBounce 2s infinite;
-    }
-
-    @keyframes buttonBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
     }
 
     .play-icon {
@@ -140,48 +99,58 @@
 
     .play-button:active {
       transform: translateY(6px);
-      box-shadow: 0 2px 0 #b22222, 0 5px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 0 #b22222;
     }
 
-    /* MENU PAGE */
+    /* MENU PAGE WITH 10 CARDS */
     .menu-page {
       min-height: 100vh;
-      padding: 30px 20px;
+      padding: 25px 15px 40px;
       text-align: center;
-      background: #f8f9fa;
+      background: #f4f7fe;
     }
 
     .menu-title {
-      font-size: 32px;
+      font-size: 28px;
       color: #2d3436;
-      margin: 25px 0 30px;
+      margin: 15px 0 25px;
     }
 
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 20px;
-      max-width: 450px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 500px;
       margin: 0 auto;
     }
 
     .card-btn {
       border: none;
       border-radius: 20px;
-      padding: 25px 15px;
+      padding: 20px 10px;
       background: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-      transition: transform 0.2s;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      transition: transform 0.15s ease;
     }
 
-    .card-btn:active { transform: scale(0.95); }
-    .card-btn .icon { font-size: 38px; }
-    .card-btn span:nth-child(2) { font-size: 18px; font-weight: bold; color: #2d3436; }
+    .card-btn:active {
+      transform: scale(0.94);
+    }
+
+    .card-btn .icon {
+      font-size: 36px;
+    }
+
+    .card-btn span:nth-child(2) {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2d3436;
+    }
 
     /* QUIZ PAGE */
     .quiz-page {
@@ -220,20 +189,10 @@
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.08);
       margin-bottom: 25px;
-      transition: transform 0.3s ease;
-    }
-
-    .pop-anim {
-      animation: popIn 0.4s ease-out;
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
     }
 
     .question-card h2 {
-      font-size: 46px;
+      font-size: 42px;
       margin: 10px 0 0;
       color: #2d3436;
     }
@@ -247,8 +206,8 @@
     }
 
     .option-btn {
-      padding: 22px;
-      font-size: 28px;
+      padding: 20px;
+      font-size: 26px;
       font-weight: bold;
       border: none;
       border-radius: 18px;
@@ -256,10 +215,7 @@
       color: #0984e3;
       box-shadow: 0 6px 15px rgba(0,0,0,0.06);
       cursor: pointer;
-      transition: transform 0.1s;
     }
-
-    .option-btn:active { transform: scale(0.92); }
 
     .home-button {
       padding: 8px 16px;
@@ -279,13 +235,6 @@
 
   <!-- HOME PAGE -->
   <div id="homePage" class="home-page">
-    <div class="floating-shapes">
-      <span class="shape s1">➕</span>
-      <span class="shape s2">➖</span>
-      <span class="shape s3">✖️</span>
-      <span class="shape s4">➗</span>
-    </div>
-
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
       <h1 class="game-title">Kids <span>Maths</span></h1>
@@ -298,7 +247,7 @@
     </div>
   </div>
 
-  <!-- MAIN MENU PAGE -->
+  <!-- MAIN MENU PAGE (10 MODES) -->
   <div id="menuPage" class="menu-page hidden">
     <button class="home-button" onclick="goHome()">🏠 Home</button>
     <h1 class="menu-title">🧮 Choose Mode</h1>
@@ -308,17 +257,50 @@
         <span class="icon">➕</span>
         <span>Addition</span>
       </button>
+
       <button class="card-btn" onclick="startQuiz('-')">
         <span class="icon">➖</span>
         <span>Subtraction</span>
       </button>
+
       <button class="card-btn" onclick="startQuiz('*')">
         <span class="icon">✖️</span>
         <span>Multiplication</span>
       </button>
+
       <button class="card-btn" onclick="startQuiz('/')">
         <span class="icon">➗</span>
         <span>Division</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('count')">
+        <span class="icon">🔢</span>
+        <span>Counting</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('bigsmall')">
+        <span class="icon">⚖️</span>
+        <span>Big vs Small</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('missing')">
+        <span class="icon">❓</span>
+        <span>Missing Num</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('shapes')">
+        <span class="icon">📐</span>
+        <span>Shapes</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('clock')">
+        <span class="icon">🕒</span>
+        <span>Time / Clock</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('tables')">
+        <span class="icon">🧮</span>
+        <span>Tables</span>
       </button>
     </div>
   </div>
@@ -330,7 +312,7 @@
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
-    <div id="qCard" class="question-card">
+    <div class="question-card">
       <h2 id="questionText">5 + 3 = ?</h2>
     </div>
 
@@ -339,7 +321,7 @@
 
   <script>
     let currentOp = '+';
-    let currentAnswer = 0;
+    let currentAnswer = '';
     let score = 0;
 
     function playGame() {
@@ -367,43 +349,58 @@
     }
 
     function generateQuestion() {
-      let card = document.getElementById("qCard");
-      card.classList.remove("pop-anim");
-      void card.offsetWidth; // Trigger reflow for animation restart
-      card.classList.add("pop-anim");
-
       let num1 = Math.floor(Math.random() * 10) + 1;
       let num2 = Math.floor(Math.random() * 10) + 1;
+      let options = [];
 
-      if (currentOp === '-') {
+      if (currentOp === '+') {
+        currentAnswer = num1 + num2;
+        document.getElementById("questionText").innerText = `${num1} + ${num2} = ?`;
+      } else if (currentOp === '-') {
         if (num1 < num2) [num1, num2] = [num2, num1];
         currentAnswer = num1 - num2;
+        document.getElementById("questionText").innerText = `${num1} - ${num2} = ?`;
       } else if (currentOp === '*') {
         currentAnswer = num1 * num2;
+        document.getElementById("questionText").innerText = `${num1} × ${num2} = ?`;
       } else if (currentOp === '/') {
         currentAnswer = num1;
-        num1 = num1 * num2;
-      } else {
-        currentAnswer = num1 + num2;
+        document.getElementById("questionText").innerText = `${num1 * num2} ÷ ${num2} = ?`;
+      } else if (currentOp === 'count') {
+        currentAnswer = num1;
+        document.getElementById("questionText").innerText = `Count: ${'⭐ '.repeat(num1)}`;
+      } else if (currentOp === 'bigsmall') {
+        currentAnswer = Math.max(num1, num2);
+        document.getElementById("questionText").innerText = `Which is bigger? ${num1} or ${num2}`;
+        options = [num1, num2];
+      } else if (currentOp === 'missing') {
+        currentAnswer = num1 + 1;
+        document.getElementById("questionText").innerText = `${num1}, __, ${num1 + 2}`;
+      } else if (currentOp === 'shapes') {
+        const shapes = ['🔴 Circle', '🟦 Square', '🔺 Triangle', '⭐ Star'];
+        let picked = shapes[Math.floor(Math.random() * shapes.length)];
+        currentAnswer = picked.split(' ')[1];
+        document.getElementById("questionText").innerText = `Find: ${currentAnswer}`;
+        options = ['Circle', 'Square', 'Triangle', 'Star'];
+      } else if (currentOp === 'clock') {
+        currentAnswer = `${num1}:00`;
+        document.getElementById("questionText").innerText = `Clock shows ${num1} o'clock = ?`;
+        options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
+      } else if (currentOp === 'tables') {
+        currentAnswer = 2 * num1;
+        document.getElementById("questionText").innerText = `2 × ${num1} = ?`;
       }
 
-      let symbol = currentOp === '*' ? '×' : currentOp === '/' ? '÷' : currentOp;
-      document.getElementById("questionText").innerText = `${num1} ${symbol} ${num2} = ?`;
-
-      generateOptions();
-    }
-
-    function generateOptions() {
-      let options = [currentAnswer];
-
-      while (options.length < 4) {
-        let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
-        if (wrong >= 0 && !options.includes(wrong)) {
-          options.push(wrong);
+      if (options.length === 0) {
+        options = [currentAnswer];
+        while (options.length < 4) {
+          let wrong = (typeof currentAnswer === 'number') ? currentAnswer + (Math.floor(Math.random() * 7) - 3) : Math.floor(Math.random() * 20);
+          if (wrong >= 0 && !options.includes(wrong)) {
+            options.push(wrong);
+          }
         }
+        options.sort(() => Math.random() - 0.5);
       }
-
-      options.sort(() => Math.random() - 0.5);
 
       let container = document.getElementById("optionsContainer");
       container.innerHTML = "";
@@ -418,17 +415,11 @@
     }
 
     function checkAnswer(selected, buttonEl) {
-      if (selected === currentAnswer) {
+      if (selected == currentAnswer) {
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         buttonEl.style.background = "#55efc4";
-        
-        // Confetti Celebration Effect
-        confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.7 }
-        });
+        confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
       } else {
         buttonEl.style.background = "#ff7675";
         buttonEl.style.color = "white";
