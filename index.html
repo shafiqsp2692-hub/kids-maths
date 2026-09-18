@@ -286,14 +286,16 @@
       border: 2px dashed #ddd;
     }
 
-    .brush-selector {
+    .tools-bar {
       display: flex;
       gap: 12px;
       margin: 12px 0 5px;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .brush-btn {
+    .brush-btn, .eraser-btn {
       border: 2px solid #ddd;
       background: #f8f9fa;
       border-radius: 50%;
@@ -301,9 +303,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 16px;
     }
 
-    .brush-btn.active {
+    .brush-btn.active, .eraser-btn.active {
       border-color: #ff4757;
       background: #ffeae8;
     }
@@ -461,17 +464,22 @@
     <div class="canvas-card">
       <canvas id="colorCanvas" width="300" height="300"></canvas>
       
-      <!-- BRUSH SIZES -->
-      <div class="brush-selector">
-        <span style="font-size: 14px; font-weight: bold; color: #555;">Brush:</span>
-        <button class="brush-btn" style="width: 30px; height: 30px;" onclick="selectBrush(10, this)">
+      <!-- TOOLS & ERASER BAR -->
+      <div class="tools-bar">
+        <span style="font-size: 14px; font-weight: bold; color: #555;">Size:</span>
+        <button class="brush-btn tool-item" style="width: 32px; height: 32px;" onclick="selectBrush(12, this)">
           <div class="brush-dot" style="width: 8px; height: 8px;"></div>
         </button>
-        <button class="brush-btn active" style="width: 36px; height: 36px;" onclick="selectBrush(18, this)">
+        <button class="brush-btn tool-item active" style="width: 38px; height: 38px;" onclick="selectBrush(22, this)">
           <div class="brush-dot" style="width: 14px; height: 14px;"></div>
         </button>
-        <button class="brush-btn" style="width: 42px; height: 42px;" onclick="selectBrush(28, this)">
+        <button class="brush-btn tool-item" style="width: 44px; height: 44px;" onclick="selectBrush(34, this)">
           <div class="brush-dot" style="width: 22px; height: 22px;"></div>
+        </button>
+        
+        <!-- RABAR / ERASER -->
+        <button class="eraser-btn tool-item" style="width: 42px; height: 42px;" onclick="selectEraser(this)" title="Eraser / Rabar">
+          🧹
         </button>
       </div>
 
@@ -667,10 +675,11 @@
       }, 500);
     }
 
-    /* COLORING CANVAS CODE */
+    /* COLORING CANVAS CODE WITH MASKING & ERASER */
     let canvas, ctx;
     let currentColor = '#ff4757';
-    let currentBrushSize = 18;
+    let currentBrushSize = 22;
+    let isEraser = false;
     let isDrawing = false;
     let currentShape = 'apple';
 
@@ -691,14 +700,24 @@
     }
 
     function selectColor(color, el) {
+      isEraser = false;
       currentColor = color;
+      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.brush-btn')[1].classList.add('active'); // default medium size
       document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
       el.classList.add('active');
     }
 
     function selectBrush(size, el) {
+      isEraser = false;
       currentBrushSize = size;
-      document.querySelectorAll('.brush-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function selectEraser(el) {
+      isEraser = true;
+      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
     }
 
@@ -720,35 +739,69 @@
       let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
       let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
 
-      ctx.lineWidth = currentBrushSize;
+      ctx.save();
+      
+      // Restrict drawing ONLY inside the shape outline using Clip Path
+      applyShapeClip();
+
+      if (isEraser) {
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.lineWidth = currentBrushSize * 1.5;
+      } else {
+        ctx.globalCompositeOperation = "source-over";
+        ctx.lineWidth = currentBrushSize;
+        ctx.strokeStyle = currentColor;
+      }
+
       ctx.lineCap = "round";
-      ctx.strokeStyle = currentColor;
+      ctx.lineJoin = "round";
 
       ctx.lineTo(x, y);
       ctx.stroke();
       ctx.beginPath();
       ctx.moveTo(x, y);
 
-      redrawCurrentOutline();
+      ctx.restore();
+
+      // Redraw black outline on top so edges stay crisp
+      redrawOutlineBorders();
     }
 
     function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      redrawCurrentOutline();
+      redrawOutlineBorders();
     }
 
     function drawOutline(shape) {
       currentShape = shape;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      redrawCurrentOutline();
+      clearCanvas();
     }
 
-    function redrawCurrentOutline() {
+    function applyShapeClip() {
+      ctx.beginPath();
+      if (currentShape === 'apple') {
+        ctx.arc(120, 160, 50, 0, Math.PI * 2);
+        ctx.arc(180, 160, 50, 0, Math.PI * 2);
+        ctx.ellipse(150, 95, 15, 28, Math.PI / 4, 0, Math.PI * 2);
+      } else if (currentShape === 'star') {
+        defineStarPath(150, 150, 5, 85, 40);
+      } else if (currentShape === 'car') {
+        ctx.rect(50, 130, 200, 55);
+        ctx.rect(90, 80, 120, 55);
+        ctx.arc(90, 185, 22, 0, Math.PI * 2);
+        ctx.arc(210, 185, 22, 0, Math.PI * 2);
+      }
+      ctx.clip();
+    }
+
+    function redrawOutlineBorders() {
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
       ctx.lineWidth = 6;
       ctx.strokeStyle = "#2d3436";
       
+      ctx.beginPath();
       if (currentShape === 'apple') {
-        ctx.beginPath();
         ctx.arc(120, 160, 50, 0, Math.PI * 2);
         ctx.arc(180, 160, 50, 0, Math.PI * 2);
         ctx.stroke();
@@ -756,24 +809,26 @@
         ctx.ellipse(150, 95, 12, 25, Math.PI / 4, 0, Math.PI * 2);
         ctx.stroke();
       } else if (currentShape === 'star') {
-        drawStar(150, 150, 5, 80, 35);
+        defineStarPath(150, 150, 5, 85, 40);
+        ctx.stroke();
       } else if (currentShape === 'car') {
+        ctx.rect(50, 130, 200, 55);
+        ctx.rect(90, 80, 120, 55);
+        ctx.stroke();
         ctx.beginPath();
-        ctx.rect(60, 140, 180, 50);
-        ctx.rect(100, 90, 100, 50);
-        ctx.arc(90, 190, 20, 0, Math.PI * 2);
-        ctx.arc(210, 190, 20, 0, Math.PI * 2);
+        ctx.arc(90, 185, 22, 0, Math.PI * 2);
+        ctx.arc(210, 185, 22, 0, Math.PI * 2);
         ctx.stroke();
       }
+      ctx.restore();
     }
 
-    function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+    function defineStarPath(cx, cy, spikes, outerRadius, innerRadius) {
       let rot = Math.PI / 2 * 3;
       let x = cx;
       let y = cy;
       let step = Math.PI / spikes;
 
-      ctx.beginPath();
       ctx.moveTo(cx, cy - outerRadius);
       for (let i = 0; i < spikes; i++) {
         x = cx + Math.cos(rot) * outerRadius;
@@ -788,7 +843,6 @@
       }
       ctx.lineTo(cx, cy - outerRadius);
       ctx.closePath();
-      ctx.stroke();
     }
   </script>
 </body>
