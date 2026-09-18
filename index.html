@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Maths</title>
+  <title>Kids Maths - Ultimate Edition</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
@@ -168,7 +168,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .score-display {
@@ -181,10 +181,11 @@
     }
 
     .question-card {
+      position: relative;
       width: 100%;
       max-width: 450px;
       background: white;
-      padding: 35px 20px;
+      padding: 35px 20px 25px;
       border-radius: 24px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.08);
@@ -193,8 +194,22 @@
 
     .question-card h2 {
       font-size: 36px;
-      margin: 10px 0 0;
+      margin: 10px 0;
       color: #2d3436;
+    }
+
+    .sound-btn {
+      border: none;
+      background: #e0e8f9;
+      font-size: 20px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      cursor: pointer;
+      color: #0984e3;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .options-grid {
@@ -317,6 +332,7 @@
 
     <div class="question-card">
       <h2 id="questionText">5 + 3 = ?</h2>
+      <button class="sound-btn" onclick="speakQuestion()">🔊 Read Question</button>
     </div>
 
     <div id="optionsContainer" class="options-grid"></div>
@@ -325,7 +341,47 @@
   <script>
     let currentOp = '+';
     let currentAnswer = '';
+    let speechText = '';
     let score = 0;
+
+    // Web Audio API Sound Generator
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playAudioTone(freq, type, duration) {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function playCorrectSound() {
+      playAudioTone(523.25, 'triangle', 0.15); // C5
+      setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100); // E5
+      setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200); // G5
+    }
+
+    function playWrongSound() {
+      playAudioTone(220, 'sawtooth', 0.2); // A3
+      setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
+    }
+
+    function speakQuestion() {
+      if ('speechSynthesis' in window && speechText) {
+        window.speechSynthesis.cancel();
+        let utterance = new SpeechSynthesisUtterance(speechText);
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
 
     function playGame() {
       document.getElementById("homePage").classList.add("hidden");
@@ -359,26 +415,33 @@
       if (currentOp === '+') {
         currentAnswer = num1 + num2;
         document.getElementById("questionText").innerText = `${num1} + ${num2} = ?`;
+        speechText = `What is ${num1} plus ${num2}?`;
       } else if (currentOp === '-') {
         if (num1 < num2) [num1, num2] = [num2, num1];
         currentAnswer = num1 - num2;
         document.getElementById("questionText").innerText = `${num1} - ${num2} = ?`;
+        speechText = `What is ${num1} minus ${num2}?`;
       } else if (currentOp === '*') {
         currentAnswer = num1 * num2;
         document.getElementById("questionText").innerText = `${num1} × ${num2} = ?`;
+        speechText = `What is ${num1} multiplied by ${num2}?`;
       } else if (currentOp === '/') {
         currentAnswer = num1;
         document.getElementById("questionText").innerText = `${num1 * num2} ÷ ${num2} = ?`;
+        speechText = `What is ${num1 * num2} divided by ${num2}?`;
       } else if (currentOp === 'count') {
         currentAnswer = num1;
         document.getElementById("questionText").innerText = `Count: ${'⭐ '.repeat(num1)}`;
+        speechText = `Count the stars`;
       } else if (currentOp === 'bigsmall') {
         currentAnswer = Math.max(num1, num2);
         document.getElementById("questionText").innerText = `Which is bigger? ${num1} or ${num2}`;
+        speechText = `Which number is bigger, ${num1} or ${num2}?`;
         options = [num1, num2];
       } else if (currentOp === 'missing') {
         currentAnswer = num1 + 1;
         document.getElementById("questionText").innerText = `${num1}, __, ${num1 + 2}`;
+        speechText = `What is the missing number between ${num1} and ${num1 + 2}?`;
       } else if (currentOp === 'shapes') {
         const shapeList = [
           { symbol: '🔴', name: 'Circle' },
@@ -389,22 +452,25 @@
         let target = shapeList[Math.floor(Math.random() * shapeList.length)];
         currentAnswer = target.symbol;
         document.getElementById("questionText").innerText = `Find: ${target.name}`;
+        speechText = `Find the ${target.name}`;
         options = shapeList.map(s => s.symbol);
       } else if (currentOp === 'clock') {
         currentAnswer = `${num1}:00`;
         document.getElementById("questionText").innerText = `Clock shows ${num1} o'clock = ?`;
+        speechText = `Clock shows ${num1} o'clock`;
         options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
       } else if (currentOp === 'pattern') {
         const patternTypes = [
-          { seq: ['🔴', '🟦', '🔴', '🟦'], ans: '🔴', opts: ['🔴', '🟦', '⭐', '🔺'] },
-          { seq: ['🔺', '⭐', '🔺', '⭐'], ans: '🔺', opts: ['🔺', '⭐', '🔴', '🟦'] },
-          { seq: ['🍎', '🍌', '🍎', '🍌'], ans: '🍎', opts: ['🍎', '🍌', '🍇', '🍊'] },
-          { seq: ['2', '4', '6', '8'], ans: '10', opts: ['10', '9', '11', '12'] },
-          { seq: ['5', '10', '15', '20'], ans: '25', opts: ['25', '22', '30', '24'] }
+          { seq: ['🔴', '🟦', '🔴', '🟦'], ans: '🔴', opts: ['🔴', '🟦', '⭐', '🔺'], text: 'Circle, Square, Circle, Square. What comes next?' },
+          { seq: ['🔺', '⭐', '🔺', '⭐'], ans: '🔺', opts: ['🔺', '⭐', '🔴', '🟦'], text: 'Triangle, Star, Triangle, Star. What comes next?' },
+          { seq: ['🍎', '🍌', '🍎', '🍌'], ans: '🍎', opts: ['🍎', '🍌', '🍇', '🍊'], text: 'Apple, Banana, Apple, Banana. What comes next?' },
+          { seq: ['2', '4', '6', '8'], ans: '10', opts: ['10', '9', '11', '12'], text: '2, 4, 6, 8. What comes next?' },
+          { seq: ['5', '10', '15', '20'], ans: '25', opts: ['25', '22', '30', '24'], text: '5, 10, 15, 20. What comes next?' }
         ];
         let p = patternTypes[Math.floor(Math.random() * patternTypes.length)];
         currentAnswer = p.ans;
         document.getElementById("questionText").innerText = `${p.seq.join(' ')}  ?`;
+        speechText = p.text;
         options = p.opts;
       }
 
@@ -431,22 +497,27 @@
         btn.onclick = () => checkAnswer(opt, btn);
         container.appendChild(btn);
       });
+
+      // Question loud speak
+      speakQuestion();
     }
 
     function checkAnswer(selected, buttonEl) {
       if (selected == currentAnswer) {
+        playCorrectSound();
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         buttonEl.style.background = "#55efc4";
         confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
       } else {
+        playWrongSound();
         buttonEl.style.background = "#ff7675";
         buttonEl.style.color = "white";
       }
 
       setTimeout(() => {
         generateQuestion();
-      }, 400);
+      }, 500);
     }
   </script>
 </body>
