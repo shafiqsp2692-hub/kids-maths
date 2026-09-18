@@ -102,7 +102,7 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* MENU PAGE WITH 10 CARDS */
+    /* MENU PAGE */
     .menu-page {
       min-height: 100vh;
       padding: 25px 15px 40px;
@@ -207,7 +207,7 @@
 
     .option-btn {
       padding: 20px;
-      font-size: 26px;
+      font-size: 36px;
       font-weight: bold;
       border: none;
       border-radius: 18px;
@@ -247,7 +247,7 @@
     </div>
   </div>
 
-  <!-- MAIN MENU PAGE (10 MODES) -->
+  <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
     <button class="home-button" onclick="goHome()">🏠 Home</button>
     <h1 class="menu-title">🧮 Choose Mode</h1>
@@ -377,18 +377,25 @@
         currentAnswer = num1 + 1;
         document.getElementById("questionText").innerText = `${num1}, __, ${num1 + 2}`;
       } else if (currentOp === 'shapes') {
-        const shapes = ['🔴 Circle', '🟦 Square', '🔺 Triangle', '⭐ Star'];
-        let picked = shapes[Math.floor(Math.random() * shapes.length)];
-        currentAnswer = picked.split(' ')[1];
-        document.getElementById("questionText").innerText = `Find: ${currentAnswer}`;
-        options = ['Circle', 'Square', 'Triangle', 'Star'];
+        const shapeList = [
+          { symbol: '🔴', name: 'Circle' },
+          { symbol: '🟦', name: 'Square' },
+          { symbol: '🔺', name: 'Triangle' },
+          { symbol: '⭐', name: 'Star' }
+        ];
+        let target = shapeList[Math.floor(Math.random() * shapeList.length)];
+        currentAnswer = target.symbol;
+        document.getElementById("questionText").innerText = `Find: ${target.symbol}`;
+        options = shapeList.map(s => s.symbol);
       } else if (currentOp === 'clock') {
         currentAnswer = `${num1}:00`;
         document.getElementById("questionText").innerText = `Clock shows ${num1} o'clock = ?`;
         options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
       } else if (currentOp === 'tables') {
-        currentAnswer = 2 * num1;
-        document.getElementById("questionText").innerText = `2 × ${num1} = ?`;
+        let tableBase = Math.floor(Math.random() * 9) + 2; // Tables from 2 to 10
+        let multiplier = Math.floor(Math.random() * 10) + 1;
+        currentAnswer = tableBase * multiplier;
+        document.getElementById("questionText").innerText = `Table of ${tableBase}: ${tableBase} × ${multiplier} = ?`;
       }
 
       if (options.length === 0) {
