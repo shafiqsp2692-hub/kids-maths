@@ -3,32 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Maths - Ultimate Edition</title>
+  <title>Kids Maths & Coloring</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <style>
-    :root {
-      --bg-gradient: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
-      --page-bg: #edf2f7;
-      --card-bg: #ffffff;
-      --text-color: #2d3436;
-    }
-
-    body.theme-neon {
-      --bg-gradient: linear-gradient(-45deg, #fd79a8, #e84393, #6c5ce7, #a29bfe);
-      --page-bg: #2d3436;
-      --card-bg: #636e72;
-      --text-color: #ffffff;
-    }
-
-    body.theme-mint {
-      --bg-gradient: linear-gradient(-45deg, #00b894, #55efc4, #81ecec, #00cec9);
-      --page-bg: #e6faf5;
-      --card-bg: #ffffff;
-      --text-color: #2d3436;
-    }
-
     * {
       box-sizing: border-box;
     }
@@ -39,9 +18,7 @@
       width: 100%;
       min-height: 100vh;
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: var(--page-bg);
-      color: var(--text-color);
-      transition: all 0.3s ease;
+      background: #f0f8ff;
     }
 
     /* HOME PAGE */
@@ -49,7 +26,7 @@
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: var(--bg-gradient);
+      background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
       background-size: 400% 400%;
       animation: gradientBG 10s ease infinite;
       display: flex;
@@ -130,10 +107,12 @@
       min-height: 100vh;
       padding: 25px 15px 40px;
       text-align: center;
+      background: #f4f7fe;
     }
 
     .menu-title {
       font-size: 28px;
+      color: #2d3436;
       margin: 15px 0 25px;
     }
 
@@ -149,8 +128,7 @@
       border: none;
       border-radius: 20px;
       padding: 20px 10px;
-      background: var(--card-bg);
-      color: var(--text-color);
+      background: white;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -171,6 +149,7 @@
     .card-btn span:nth-child(2) {
       font-size: 16px;
       font-weight: bold;
+      color: #2d3436;
     }
 
     /* QUIZ PAGE */
@@ -180,6 +159,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      background: #edf2f7;
     }
 
     .quiz-header {
@@ -191,42 +171,20 @@
       margin-bottom: 20px;
     }
 
-    .score-container {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
     .score-display {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       color: #2d3436;
       background: #feca57;
-      padding: 8px 14px;
+      padding: 8px 18px;
       border-radius: 20px;
-    }
-
-    .streak-badge {
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-      background: #ff7675;
-      padding: 8px 12px;
-      border-radius: 20px;
-      display: none;
-      animation: pulse 0.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.08); }
     }
 
     .question-card {
       position: relative;
       width: 100%;
       max-width: 450px;
-      background: var(--card-bg);
+      background: white;
       padding: 35px 20px 25px;
       border-radius: 24px;
       text-align: center;
@@ -237,6 +195,7 @@
     .question-card h2 {
       font-size: 36px;
       margin: 10px 0;
+      color: #2d3436;
     }
 
     .sound-btn {
@@ -267,7 +226,7 @@
       font-weight: bold;
       border: none;
       border-radius: 18px;
-      background: var(--card-bg);
+      background: white;
       color: #0984e3;
       box-shadow: 0 6px 15px rgba(0,0,0,0.06);
       cursor: pointer;
@@ -276,24 +235,97 @@
       justify-content: center;
     }
 
-    .home-button, .theme-btn {
-      padding: 8px 14px;
-      font-size: 14px;
+    .home-button {
+      padding: 8px 16px;
+      font-size: 15px;
       border: none;
       border-radius: 12px;
-      background: var(--card-bg);
-      color: var(--text-color);
+      background: white;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       cursor: pointer;
       font-weight: bold;
     }
 
-    .top-bar {
-      width: 100%;
-      max-width: 500px;
+    /* COLORING PAGE */
+    .coloring-page {
+      min-height: 100vh;
+      padding: 20px;
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      flex-direction: column;
+      align-items: center;
+      background: #fff0f6;
+    }
+
+    .shape-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .shape-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      background: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .canvas-card {
+      background: white;
+      border-radius: 24px;
+      padding: 15px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #colorCanvas {
+      background: #ffffff;
+      border-radius: 16px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .palette {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .color-swatch.active {
+      transform: scale(1.25);
+      border-color: #2d3436;
+    }
+
+    .color-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #ff7675;
+      color: white;
     }
 
     .hidden { display: none !important; }
@@ -317,10 +349,7 @@
 
   <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
-    <div class="top-bar">
-      <button class="home-button" onclick="goHome()">🏠 Home</button>
-      <button class="theme-btn" onclick="toggleTheme()">🎨 Theme</button>
-    </div>
+    <button class="home-button" onclick="goHome()">🏠 Home</button>
     <h1 class="menu-title">🧮 Choose Mode</h1>
 
     <div class="menu-grid">
@@ -369,9 +398,9 @@
         <span>Time / Clock</span>
       </button>
 
-      <button class="card-btn" onclick="startQuiz('pattern')">
+      <button class="card-btn" onclick="openColoring()">
         <span class="icon">🎨</span>
-        <span>Patterns</span>
+        <span>Coloring Pad</span>
       </button>
     </div>
   </div>
@@ -380,10 +409,7 @@
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
-      <div class="score-container">
-        <div id="streakBadge" class="streak-badge">🔥 0 Streak</div>
-        <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
-      </div>
+      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
     <div class="question-card">
@@ -394,22 +420,44 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
+  <!-- COLORING GAME PAGE -->
+  <div id="coloringPage" class="coloring-page hidden">
+    <div class="quiz-header">
+      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+      <div style="font-weight: bold; font-size: 20px;">🎨 Coloring Fun</div>
+    </div>
+
+    <div class="shape-selector">
+      <button class="shape-btn" onclick="drawOutline('apple')">🍎 Apple</button>
+      <button class="shape-btn" onclick="drawOutline('star')">⭐ Star</button>
+      <button class="shape-btn" onclick="drawOutline('car')">🚗 Car</button>
+    </div>
+
+    <div class="canvas-card">
+      <canvas id="colorCanvas" width="300" height="300"></canvas>
+      
+      <div class="palette">
+        <div class="color-swatch active" style="background: #ff4757;" onclick="selectColor('#ff4757', this)"></div>
+        <div class="color-swatch" style="background: #2ed573;" onclick="selectColor('#2ed573', this)"></div>
+        <div class="color-swatch" style="background: #1e90ff;" onclick="selectColor('#1e90ff', this)"></div>
+        <div class="color-swatch" style="background: #ffa502;" onclick="selectColor('#ffa502', this)"></div>
+        <div class="color-swatch" style="background: #9b59b6;" onclick="selectColor('#9b59b6', this)"></div>
+        <div class="color-swatch" style="background: #ffffff;" onclick="selectColor('#ffffff', this)"></div>
+      </div>
+
+      <div class="color-controls">
+        <button class="action-btn" onclick="clearCanvas()">🗑️ Clear</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentOp = '+';
     let currentAnswer = '';
     let speechText = '';
     let score = 0;
-    let streak = 0;
 
-    const themes = ['', 'theme-neon', 'theme-mint'];
-    let currentThemeIdx = 0;
-
-    function toggleTheme() {
-      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-      document.body.className = themes[currentThemeIdx];
-    }
-
-    // Web Audio API Sound Generator
+    // Audio Context Setup
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playAudioTone(freq, type, duration) {
@@ -455,33 +503,24 @@
 
     function goHome() {
       document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("coloringPage").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
     }
 
     function goMenu() {
       document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("coloringPage").classList.add("hidden");
       document.getElementById("menuPage").classList.remove("hidden");
     }
 
     function startQuiz(operation) {
       currentOp = operation;
       score = 0;
-      streak = 0;
-      updateScoreUI();
+      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
       document.getElementById("menuPage").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
-    }
-
-    function updateScoreUI() {
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      let badge = document.getElementById("streakBadge");
-      if (streak >= 3) {
-        badge.style.display = "inline-block";
-        badge.innerText = `🔥 ${streak} Streak!`;
-      } else {
-        badge.style.display = "none";
-      }
     }
 
     function generateQuestion() {
@@ -536,19 +575,6 @@
         document.getElementById("questionText").innerText = `Clock shows ${num1} o'clock = ?`;
         speechText = `Clock shows ${num1} o'clock`;
         options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
-      } else if (currentOp === 'pattern') {
-        const patternTypes = [
-          { seq: ['🔴', '🟦', '🔴', '🟦'], ans: '🔴', opts: ['🔴', '🟦', '⭐', '🔺'], text: 'Circle, Square, Circle, Square. What comes next?' },
-          { seq: ['🔺', '⭐', '🔺', '⭐'], ans: '🔺', opts: ['🔺', '⭐', '🔴', '🟦'], text: 'Triangle, Star, Triangle, Star. What comes next?' },
-          { seq: ['🍎', '🍌', '🍎', '🍌'], ans: '🍎', opts: ['🍎', '🍌', '🍇', '🍊'], text: 'Apple, Banana, Apple, Banana. What comes next?' },
-          { seq: ['2', '4', '6', '8'], ans: '10', opts: ['10', '9', '11', '12'], text: '2, 4, 6, 8. What comes next?' },
-          { seq: ['5', '10', '15', '20'], ans: '25', opts: ['25', '22', '30', '24'], text: '5, 10, 15, 20. What comes next?' }
-        ];
-        let p = patternTypes[Math.floor(Math.random() * patternTypes.length)];
-        currentAnswer = p.ans;
-        document.getElementById("questionText").innerText = `${p.seq.join(' ')}  ?`;
-        speechText = p.text;
-        options = p.opts;
       }
 
       let container = document.getElementById("optionsContainer");
@@ -582,14 +608,11 @@
       if (selected == currentAnswer) {
         playCorrectSound();
         score += 10;
-        streak += 1;
-        updateScoreUI();
+        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         buttonEl.style.background = "#55efc4";
         confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
       } else {
         playWrongSound();
-        streak = 0;
-        updateScoreUI();
         buttonEl.style.background = "#ff7675";
         buttonEl.style.color = "white";
       }
@@ -597,6 +620,125 @@
       setTimeout(() => {
         generateQuestion();
       }, 500);
+    }
+
+    /* COLORING CANVAS CODE */
+    let canvas, ctx;
+    let currentColor = '#ff4757';
+    let isDrawing = false;
+    let currentShape = 'apple';
+
+    function openColoring() {
+      document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("coloringPage").classList.remove("hidden");
+      canvas = document.getElementById("colorCanvas");
+      ctx = canvas.getContext("2d");
+      
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
+
+      drawOutline('apple');
+    }
+
+    function selectColor(color, el) {
+      currentColor = color;
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      draw(e);
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      
+      let rect = canvas.getBoundingClientRect();
+      let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+      ctx.lineWidth = 18;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = currentColor;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+
+      // Re-draw outline over drawing
+      redrawCurrentOutline();
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      redrawCurrentOutline();
+    }
+
+    function drawOutline(shape) {
+      currentShape = shape;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      redrawCurrentOutline();
+    }
+
+    function redrawCurrentOutline() {
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = "#2d3436";
+      
+      if (currentShape === 'apple') {
+        ctx.beginPath();
+        ctx.arc(120, 160, 50, 0, Math.PI * 2);
+        ctx.arc(180, 160, 50, 0, Math.PI * 2);
+        ctx.stroke();
+        // Leaf
+        ctx.beginPath();
+        ctx.ellipse(150, 95, 12, 25, Math.PI / 4, 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (currentShape === 'star') {
+        drawStar(150, 150, 5, 80, 35);
+      } else if (currentShape === 'car') {
+        ctx.beginPath();
+        ctx.rect(60, 140, 180, 50);
+        ctx.rect(100, 90, 100, 50);
+        ctx.arc(90, 190, 20, 0, Math.PI * 2);
+        ctx.arc(210, 190, 20, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
+    function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+      let rot = Math.PI / 2 * 3;
+      let x = cx;
+      let y = cy;
+      let step = Math.PI / spikes;
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerRadius);
+      for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerRadius);
+      ctx.closePath();
+      ctx.stroke();
     }
   </script>
 </body>
