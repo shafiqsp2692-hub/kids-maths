@@ -146,6 +146,83 @@
       color: #2d3436;
     }
 
+    /* ADDITION SUB MENU (MATCHING YOUR IMAGE DESIGN) */
+    .addition-menu-page {
+      min-height: 100vh;
+      padding: 15px;
+      background: linear-gradient(to bottom, #7ed6df, #e056fd, #ffbe76);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .banner-title {
+      background: linear-gradient(to bottom, #ff9f43, #ee5253);
+      color: white;
+      padding: 10px 45px;
+      border-radius: 25px;
+      font-size: 28px;
+      font-weight: 900;
+      border: 3px solid #ffffff;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+      margin: 10px 0 20px;
+      letter-spacing: 1px;
+    }
+
+    .addition-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 720px;
+      width: 100%;
+    }
+
+    @media (max-width: 650px) {
+      .addition-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .add-card {
+      background: #ff7675;
+      border: 4px solid #d63031;
+      border-radius: 20px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+    }
+
+    .add-card:active {
+      transform: scale(0.95);
+    }
+
+    .add-card-inner {
+      background: #006266;
+      border-radius: 14px;
+      width: 100%;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .add-card-label {
+      color: white;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 6px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
     /* QUIZ PAGE */
     .quiz-page {
       min-height: 100vh;
@@ -381,7 +458,7 @@
     <h1 class="menu-title">🧮 Choose Mode</h1>
 
     <div class="menu-grid">
-      <button class="card-btn" onclick="startQuiz('+')">
+      <button class="card-btn" onclick="openAdditionSubMenu()">
         <span class="icon">➕</span>
         <span>Addition</span>
       </button>
@@ -433,10 +510,69 @@
     </div>
   </div>
 
+  <!-- ADDITION SUB MENU (MATCHES IMAGE) -->
+  <div id="additionSubMenu" class="addition-menu-page hidden">
+    <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
+      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+    </div>
+
+    <div class="banner-title">Addition</div>
+
+    <div class="addition-grid">
+      <!-- 1. Counting -->
+      <div class="add-card" onclick="startQuiz('count')">
+        <div class="add-card-inner">🧁🧁 ➔ [ 2 ]</div>
+        <div class="add-card-label">Counting</div>
+      </div>
+
+      <!-- 2. Compare -->
+      <div class="add-card" onclick="startQuiz('bigsmall')">
+        <div class="add-card-inner">3 [ &gt; ] 2</div>
+        <div class="add-card-label">Compare</div>
+      </div>
+
+      <!-- 3. Adding Fun -->
+      <div class="add-card" onclick="startQuiz('+')">
+        <div class="add-card-inner">2 + 2 = 4<br>🍬🍬 🍬🍬</div>
+        <div class="add-card-label">Adding Fun</div>
+      </div>
+
+      <!-- 4. Ten Frame -->
+      <div class="add-card" onclick="startQuiz('+')">
+        <div class="add-card-inner">🟡🟡🟡<br>🔴🔴 = 5</div>
+        <div class="add-card-label">Ten Frame addition</div>
+      </div>
+
+      <!-- 5. Adding Puzzle -->
+      <div class="add-card" onclick="startQuiz('missing')">
+        <div class="add-card-inner">6 + 4 = [10]</div>
+        <div class="add-card-label">Adding Puzzle</div>
+      </div>
+
+      <!-- 6. Addition Practice -->
+      <div class="add-card" onclick="startQuiz('+')">
+        <div class="add-card-inner">4 + 5 = 9<br>[ 7 ] [ 4 ]</div>
+        <div class="add-card-label">Addition Practice</div>
+      </div>
+
+      <!-- 7. 2 Digits + -->
+      <div class="add-card" onclick="startQuiz('2digit')">
+        <div class="add-card-inner">22 + 12 = 34</div>
+        <div class="add-card-label">2 Digits +</div>
+      </div>
+
+      <!-- 8. Word Problem -->
+      <div class="add-card" onclick="startQuiz('word')">
+        <div class="add-card-inner">2 + 1 = 3 🦋</div>
+        <div class="add-card-label">Word Problem</div>
+      </div>
+    </div>
+  </div>
+
   <!-- QUIZ GAME PAGE -->
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
-      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+      <button class="home-button" onclick="openAdditionSubMenu()">⬅️ Back</button>
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
@@ -556,6 +692,7 @@
 
     function goHome() {
       document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("additionSubMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.add("hidden");
       document.getElementById("coloringPage").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
@@ -563,8 +700,15 @@
 
     function goMenu() {
       document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("additionSubMenu").classList.add("hidden");
       document.getElementById("coloringPage").classList.add("hidden");
       document.getElementById("menuPage").classList.remove("hidden");
+    }
+
+    function openAdditionSubMenu() {
+      document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("additionSubMenu").classList.remove("hidden");
     }
 
     function startQuiz(operation) {
@@ -572,6 +716,7 @@
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
       document.getElementById("menuPage").classList.add("hidden");
+      document.getElementById("additionSubMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
     }
@@ -585,6 +730,16 @@
         currentAnswer = num1 + num2;
         document.getElementById("questionText").innerText = `${num1} + ${num2} = ?`;
         speechText = `What is ${num1} plus ${num2}?`;
+      } else if (currentOp === '2digit') {
+        num1 = Math.floor(Math.random() * 40) + 10;
+        num2 = Math.floor(Math.random() * 40) + 10;
+        currentAnswer = num1 + num2;
+        document.getElementById("questionText").innerText = `${num1} + ${num2} = ?`;
+        speechText = `What is ${num1} plus ${num2}?`;
+      } else if (currentOp === 'word') {
+        currentAnswer = num1 + num2;
+        document.getElementById("questionText").innerText = `Anaya has ${num1} apples 🍎. Rahul gives ${num2} apples. Total?`;
+        speechText = `Anaya has ${num1} apples. Rahul gives ${num2} apples. How many total?`;
       } else if (currentOp === '-') {
         if (num1 < num2) [num1, num2] = [num2, num1];
         currentAnswer = num1 - num2;
@@ -600,8 +755,8 @@
         speechText = `What is ${num1 * num2} divided by ${num2}?`;
       } else if (currentOp === 'count') {
         currentAnswer = num1;
-        document.getElementById("questionText").innerText = `Count: ${'⭐ '.repeat(num1)}`;
-        speechText = `Count the stars`;
+        document.getElementById("questionText").innerText = `Count: ${'🧁 '.repeat(num1)}`;
+        speechText = `Count the cupcakes`;
       } else if (currentOp === 'bigsmall') {
         currentAnswer = Math.max(num1, num2);
         document.getElementById("questionText").innerText = `Which is bigger? ${num1} or ${num2}`;
@@ -703,7 +858,7 @@
       isEraser = false;
       currentColor = color;
       document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.brush-btn')[1].classList.add('active'); // default medium size
+      document.querySelectorAll('.brush-btn')[1].classList.add('active'); 
       document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
       el.classList.add('active');
     }
@@ -740,8 +895,6 @@
       let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
 
       ctx.save();
-      
-      // Restrict drawing ONLY inside the shape outline using Clip Path
       applyShapeClip();
 
       if (isEraser) {
@@ -762,8 +915,6 @@
       ctx.moveTo(x, y);
 
       ctx.restore();
-
-      // Redraw black outline on top so edges stay crisp
       redrawOutlineBorders();
     }
 
