@@ -206,8 +206,8 @@
     }
 
     .option-btn {
-      padding: 20px;
-      font-size: 36px;
+      padding: 18px 10px;
+      font-size: 22px;
       font-weight: bold;
       border: none;
       border-radius: 18px;
@@ -215,6 +215,14 @@
       color: #0984e3;
       box-shadow: 0 6px 15px rgba(0,0,0,0.06);
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .option-btn .shape-symbol {
+      font-size: 32px;
     }
 
     .home-button {
@@ -384,41 +392,52 @@
           { symbol: '⭐', name: 'Star' }
         ];
         let target = shapeList[Math.floor(Math.random() * shapeList.length)];
-        currentAnswer = target.symbol;
-        document.getElementById("questionText").innerText = `Find: ${target.symbol}`;
-        options = shapeList.map(s => s.symbol);
+        currentAnswer = target.name;
+        document.getElementById("questionText").innerText = `Find: ${target.name}`;
+        options = shapeList;
       } else if (currentOp === 'clock') {
         currentAnswer = `${num1}:00`;
         document.getElementById("questionText").innerText = `Clock shows ${num1} o'clock = ?`;
         options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
       } else if (currentOp === 'tables') {
-        let tableBase = Math.floor(Math.random() * 9) + 2; // Tables from 2 to 10
+        let tableBase = Math.floor(Math.random() * 9) + 2;
         let multiplier = Math.floor(Math.random() * 10) + 1;
         currentAnswer = tableBase * multiplier;
         document.getElementById("questionText").innerText = `Table of ${tableBase}: ${tableBase} × ${multiplier} = ?`;
       }
 
-      if (options.length === 0) {
-        options = [currentAnswer];
-        while (options.length < 4) {
-          let wrong = (typeof currentAnswer === 'number') ? currentAnswer + (Math.floor(Math.random() * 7) - 3) : Math.floor(Math.random() * 20);
-          if (wrong >= 0 && !options.includes(wrong)) {
-            options.push(wrong);
-          }
-        }
-        options.sort(() => Math.random() - 0.5);
-      }
-
       let container = document.getElementById("optionsContainer");
       container.innerHTML = "";
 
-      options.forEach(opt => {
-        let btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        container.appendChild(btn);
-      });
+      if (currentOp === 'shapes') {
+        options.sort(() => Math.random() - 0.5);
+        options.forEach(item => {
+          let btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.innerHTML = `<span class="shape-symbol">${item.symbol}</span><span>${item.name}</span>`;
+          btn.onclick = () => checkAnswer(item.name, btn);
+          container.appendChild(btn);
+        });
+      } else {
+        if (options.length === 0) {
+          options = [currentAnswer];
+          while (options.length < 4) {
+            let wrong = (typeof currentAnswer === 'number') ? currentAnswer + (Math.floor(Math.random() * 7) - 3) : Math.floor(Math.random() * 20);
+            if (wrong >= 0 && !options.includes(wrong)) {
+              options.push(wrong);
+            }
+          }
+          options.sort(() => Math.random() - 0.5);
+        }
+
+        options.forEach(opt => {
+          let btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.innerText = opt;
+          btn.onclick = () => checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+      }
     }
 
     function checkAnswer(selected, buttonEl) {
