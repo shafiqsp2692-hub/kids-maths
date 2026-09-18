@@ -8,9 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
@@ -138,13 +136,9 @@
       transition: transform 0.15s ease;
     }
 
-    .card-btn:active {
-      transform: scale(0.94);
-    }
+    .card-btn:active { transform: scale(0.94); }
 
-    .card-btn .icon {
-      font-size: 36px;
-    }
+    .card-btn .icon { font-size: 36px; }
 
     .card-btn span:nth-child(2) {
       font-size: 16px;
@@ -249,7 +243,7 @@
     /* COLORING PAGE */
     .coloring-page {
       min-height: 100vh;
-      padding: 20px;
+      padding: 20px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -280,6 +274,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-width: 380px;
+      width: 100%;
     }
 
     #colorCanvas {
@@ -287,28 +283,57 @@
       border-radius: 16px;
       cursor: crosshair;
       touch-action: none;
+      border: 2px dashed #ddd;
     }
 
-    .palette {
+    .brush-selector {
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
-      flex-wrap: wrap;
+      gap: 12px;
+      margin: 12px 0 5px;
+      align-items: center;
+    }
+
+    .brush-btn {
+      border: 2px solid #ddd;
+      background: #f8f9fa;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
       justify-content: center;
     }
 
+    .brush-btn.active {
+      border-color: #ff4757;
+      background: #ffeae8;
+    }
+
+    .brush-dot {
+      background: #2d3436;
+      border-radius: 50%;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
     .color-swatch {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: 3px solid white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
       cursor: pointer;
+      margin: 0 auto;
       transition: transform 0.1s;
     }
 
     .color-swatch.active {
-      transform: scale(1.25);
+      transform: scale(1.2);
       border-color: #2d3436;
     }
 
@@ -319,7 +344,7 @@
     }
 
     .action-btn {
-      padding: 8px 16px;
+      padding: 8px 18px;
       border: none;
       border-radius: 12px;
       font-weight: bold;
@@ -436,17 +461,38 @@
     <div class="canvas-card">
       <canvas id="colorCanvas" width="300" height="300"></canvas>
       
+      <!-- BRUSH SIZES -->
+      <div class="brush-selector">
+        <span style="font-size: 14px; font-weight: bold; color: #555;">Brush:</span>
+        <button class="brush-btn" style="width: 30px; height: 30px;" onclick="selectBrush(10, this)">
+          <div class="brush-dot" style="width: 8px; height: 8px;"></div>
+        </button>
+        <button class="brush-btn active" style="width: 36px; height: 36px;" onclick="selectBrush(18, this)">
+          <div class="brush-dot" style="width: 14px; height: 14px;"></div>
+        </button>
+        <button class="brush-btn" style="width: 42px; height: 42px;" onclick="selectBrush(28, this)">
+          <div class="brush-dot" style="width: 22px; height: 22px;"></div>
+        </button>
+      </div>
+
+      <!-- 12 COLORS PALETTE -->
       <div class="palette">
         <div class="color-swatch active" style="background: #ff4757;" onclick="selectColor('#ff4757', this)"></div>
+        <div class="color-swatch" style="background: #ff7f50;" onclick="selectColor('#ff7f50', this)"></div>
+        <div class="color-swatch" style="background: #ffa502;" onclick="selectColor('#ffa502', this)"></div>
         <div class="color-swatch" style="background: #2ed573;" onclick="selectColor('#2ed573', this)"></div>
         <div class="color-swatch" style="background: #1e90ff;" onclick="selectColor('#1e90ff', this)"></div>
-        <div class="color-swatch" style="background: #ffa502;" onclick="selectColor('#ffa502', this)"></div>
+        <div class="color-swatch" style="background: #3742fa;" onclick="selectColor('#3742fa', this)"></div>
         <div class="color-swatch" style="background: #9b59b6;" onclick="selectColor('#9b59b6', this)"></div>
-        <div class="color-swatch" style="background: #ffffff;" onclick="selectColor('#ffffff', this)"></div>
+        <div class="color-swatch" style="background: #ff6b81;" onclick="selectColor('#ff6b81', this)"></div>
+        <div class="color-swatch" style="background: #8b572a;" onclick="selectColor('#8b572a', this)"></div>
+        <div class="color-swatch" style="background: #00cec9;" onclick="selectColor('#00cec9', this)"></div>
+        <div class="color-swatch" style="background: #2d3436;" onclick="selectColor('#2d3436', this)"></div>
+        <div class="color-swatch" style="background: #ffffff; border: 2px solid #ccc;" onclick="selectColor('#ffffff', this)"></div>
       </div>
 
       <div class="color-controls">
-        <button class="action-btn" onclick="clearCanvas()">🗑️ Clear</button>
+        <button class="action-btn" onclick="clearCanvas()">🗑️ Clear All</button>
       </div>
     </div>
   </div>
@@ -457,7 +503,6 @@
     let speechText = '';
     let score = 0;
 
-    // Audio Context Setup
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playAudioTone(freq, type, duration) {
@@ -625,6 +670,7 @@
     /* COLORING CANVAS CODE */
     let canvas, ctx;
     let currentColor = '#ff4757';
+    let currentBrushSize = 18;
     let isDrawing = false;
     let currentShape = 'apple';
 
@@ -650,6 +696,12 @@
       el.classList.add('active');
     }
 
+    function selectBrush(size, el) {
+      currentBrushSize = size;
+      document.querySelectorAll('.brush-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
     function startDrawing(e) {
       isDrawing = true;
       draw(e);
@@ -668,7 +720,7 @@
       let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
       let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
 
-      ctx.lineWidth = 18;
+      ctx.lineWidth = currentBrushSize;
       ctx.lineCap = "round";
       ctx.strokeStyle = currentColor;
 
@@ -677,7 +729,6 @@
       ctx.beginPath();
       ctx.moveTo(x, y);
 
-      // Re-draw outline over drawing
       redrawCurrentOutline();
     }
 
@@ -701,7 +752,6 @@
         ctx.arc(120, 160, 50, 0, Math.PI * 2);
         ctx.arc(180, 160, 50, 0, Math.PI * 2);
         ctx.stroke();
-        // Leaf
         ctx.beginPath();
         ctx.ellipse(150, 95, 12, 25, Math.PI / 4, 0, Math.PI * 2);
         ctx.stroke();
