@@ -8,6 +8,27 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <style>
+    :root {
+      --bg-gradient: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
+      --page-bg: #edf2f7;
+      --card-bg: #ffffff;
+      --text-color: #2d3436;
+    }
+
+    body.theme-neon {
+      --bg-gradient: linear-gradient(-45deg, #fd79a8, #e84393, #6c5ce7, #a29bfe);
+      --page-bg: #2d3436;
+      --card-bg: #636e72;
+      --text-color: #ffffff;
+    }
+
+    body.theme-mint {
+      --bg-gradient: linear-gradient(-45deg, #00b894, #55efc4, #81ecec, #00cec9);
+      --page-bg: #e6faf5;
+      --card-bg: #ffffff;
+      --text-color: #2d3436;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -18,7 +39,9 @@
       width: 100%;
       min-height: 100vh;
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: #f0f8ff;
+      background: var(--page-bg);
+      color: var(--text-color);
+      transition: all 0.3s ease;
     }
 
     /* HOME PAGE */
@@ -26,7 +49,7 @@
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
+      background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientBG 10s ease infinite;
       display: flex;
@@ -107,12 +130,10 @@
       min-height: 100vh;
       padding: 25px 15px 40px;
       text-align: center;
-      background: #f4f7fe;
     }
 
     .menu-title {
       font-size: 28px;
-      color: #2d3436;
       margin: 15px 0 25px;
     }
 
@@ -128,7 +149,8 @@
       border: none;
       border-radius: 20px;
       padding: 20px 10px;
-      background: white;
+      background: var(--card-bg);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -149,7 +171,6 @@
     .card-btn span:nth-child(2) {
       font-size: 16px;
       font-weight: bold;
-      color: #2d3436;
     }
 
     /* QUIZ PAGE */
@@ -159,7 +180,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #edf2f7;
     }
 
     .quiz-header {
@@ -171,20 +191,42 @@
       margin-bottom: 20px;
     }
 
+    .score-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
     .score-display {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       color: #2d3436;
       background: #feca57;
-      padding: 8px 18px;
+      padding: 8px 14px;
       border-radius: 20px;
+    }
+
+    .streak-badge {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background: #ff7675;
+      padding: 8px 12px;
+      border-radius: 20px;
+      display: none;
+      animation: pulse 0.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
     }
 
     .question-card {
       position: relative;
       width: 100%;
       max-width: 450px;
-      background: white;
+      background: var(--card-bg);
       padding: 35px 20px 25px;
       border-radius: 24px;
       text-align: center;
@@ -195,13 +237,12 @@
     .question-card h2 {
       font-size: 36px;
       margin: 10px 0;
-      color: #2d3436;
     }
 
     .sound-btn {
       border: none;
       background: #e0e8f9;
-      font-size: 20px;
+      font-size: 18px;
       padding: 8px 14px;
       border-radius: 50px;
       cursor: pointer;
@@ -226,7 +267,7 @@
       font-weight: bold;
       border: none;
       border-radius: 18px;
-      background: white;
+      background: var(--card-bg);
       color: #0984e3;
       box-shadow: 0 6px 15px rgba(0,0,0,0.06);
       cursor: pointer;
@@ -235,15 +276,24 @@
       justify-content: center;
     }
 
-    .home-button {
-      padding: 8px 16px;
-      font-size: 15px;
+    .home-button, .theme-btn {
+      padding: 8px 14px;
+      font-size: 14px;
       border: none;
       border-radius: 12px;
-      background: white;
+      background: var(--card-bg);
+      color: var(--text-color);
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       cursor: pointer;
       font-weight: bold;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
     .hidden { display: none !important; }
@@ -267,7 +317,10 @@
 
   <!-- MAIN MENU PAGE -->
   <div id="menuPage" class="menu-page hidden">
-    <button class="home-button" onclick="goHome()">🏠 Home</button>
+    <div class="top-bar">
+      <button class="home-button" onclick="goHome()">🏠 Home</button>
+      <button class="theme-btn" onclick="toggleTheme()">🎨 Theme</button>
+    </div>
     <h1 class="menu-title">🧮 Choose Mode</h1>
 
     <div class="menu-grid">
@@ -327,7 +380,10 @@
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
-      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
+      <div class="score-container">
+        <div id="streakBadge" class="streak-badge">🔥 0 Streak</div>
+        <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
+      </div>
     </div>
 
     <div class="question-card">
@@ -343,6 +399,15 @@
     let currentAnswer = '';
     let speechText = '';
     let score = 0;
+    let streak = 0;
+
+    const themes = ['', 'theme-neon', 'theme-mint'];
+    let currentThemeIdx = 0;
+
+    function toggleTheme() {
+      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+      document.body.className = themes[currentThemeIdx];
+    }
 
     // Web Audio API Sound Generator
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -364,13 +429,13 @@
     }
 
     function playCorrectSound() {
-      playAudioTone(523.25, 'triangle', 0.15); // C5
-      setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100); // E5
-      setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200); // G5
+      playAudioTone(523.25, 'triangle', 0.15);
+      setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100);
+      setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200);
     }
 
     function playWrongSound() {
-      playAudioTone(220, 'sawtooth', 0.2); // A3
+      playAudioTone(220, 'sawtooth', 0.2);
       setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
     }
 
@@ -401,10 +466,22 @@
     function startQuiz(operation) {
       currentOp = operation;
       score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+      streak = 0;
+      updateScoreUI();
       document.getElementById("menuPage").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
+    }
+
+    function updateScoreUI() {
+      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+      let badge = document.getElementById("streakBadge");
+      if (streak >= 3) {
+        badge.style.display = "inline-block";
+        badge.innerText = `🔥 ${streak} Streak!`;
+      } else {
+        badge.style.display = "none";
+      }
     }
 
     function generateQuestion() {
@@ -498,7 +575,6 @@
         container.appendChild(btn);
       });
 
-      // Question loud speak
       speakQuestion();
     }
 
@@ -506,11 +582,14 @@
       if (selected == currentAnswer) {
         playCorrectSound();
         score += 10;
-        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+        streak += 1;
+        updateScoreUI();
         buttonEl.style.background = "#55efc4";
         confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
       } else {
         playWrongSound();
+        streak = 0;
+        updateScoreUI();
         buttonEl.style.background = "#ff7675";
         buttonEl.style.color = "white";
       }
