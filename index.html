@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Maths & Coloring</title>
+  <title>Kids Addition Game</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
@@ -100,55 +100,10 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* MAIN MENU PAGE */
-    .menu-page {
-      min-height: 100vh;
-      padding: 25px 15px 40px;
-      text-align: center;
-      background: #f4f7fe;
-    }
-
-    .menu-title {
-      font-size: 28px;
-      color: #2d3436;
-      margin: 15px 0 25px;
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .card-btn {
-      border: none;
-      border-radius: 20px;
-      padding: 20px 10px;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-      transition: transform 0.15s ease;
-    }
-
-    .card-btn:active { transform: scale(0.94); }
-    .card-btn .icon { font-size: 36px; }
-
-    .card-btn span:nth-child(2) {
-      font-size: 16px;
-      font-weight: bold;
-      color: #2d3436;
-    }
-
-    /* ADDITION SUB MENU */
+    /* ADDITION MENU PAGE */
     .addition-menu-page {
       min-height: 100vh;
-      padding: 15px;
+      padding: 25px 15px 40px;
       background: linear-gradient(to bottom, #7ed6df, #e056fd, #ffbe76);
       display: flex;
       flex-direction: column;
@@ -164,14 +119,13 @@
       font-weight: 900;
       border: 3px solid #ffffff;
       box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-      margin: 10px 0 20px;
-      letter-spacing: 1px;
+      margin: 15px 0 25px;
     }
 
     .addition-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 15px;
       max-width: 720px;
       width: 100%;
     }
@@ -218,7 +172,7 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* QUIZ & CHALKBOARD COUNTING PAGE */
+    /* QUIZ PAGE */
     .quiz-page {
       min-height: 100vh;
       padding: 20px;
@@ -265,9 +219,10 @@
     }
 
     .question-title {
-      font-size: 32px;
+      font-size: 36px;
       color: white;
-      margin-bottom: 15px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .count-items-container {
@@ -370,107 +325,6 @@
       font-weight: bold;
     }
 
-    /* COLORING PAGE */
-    .coloring-page {
-      min-height: 100vh;
-      padding: 20px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #fff0f6;
-    }
-
-    .shape-selector { display: flex; gap: 10px; margin-bottom: 15px; }
-
-    .shape-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 20px;
-      background: white;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    .canvas-card {
-      background: white;
-      border-radius: 24px;
-      padding: 15px;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 380px;
-      width: 100%;
-    }
-
-    #colorCanvas {
-      background: #ffffff;
-      border-radius: 16px;
-      cursor: crosshair;
-      touch-action: none;
-      border: 2px dashed #ddd;
-    }
-
-    .tools-bar {
-      display: flex;
-      gap: 12px;
-      margin: 12px 0 5px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .brush-btn, .eraser-btn {
-      border: 2px solid #ddd;
-      background: #f8f9fa;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-
-    .brush-btn.active, .eraser-btn.active {
-      border-color: #ff4757;
-      background: #ffeae8;
-    }
-
-    .brush-dot { background: #2d3436; border-radius: 50%; }
-
-    .palette {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-      width: 100%;
-    }
-
-    .color-swatch {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-      cursor: pointer;
-      margin: 0 auto;
-    }
-
-    .color-swatch.active { transform: scale(1.2); border-color: #2d3436; }
-
-    .color-controls { display: flex; gap: 10px; margin-top: 15px; }
-
-    .action-btn {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #ff7675;
-      color: white;
-    }
-
     .hidden { display: none !important; }
   </style>
 </head>
@@ -480,8 +334,8 @@
   <div id="homePage" class="home-page">
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
-      <h1 class="game-title">Kids <span>Maths</span></h1>
-      <p class="game-subtitle">Learn Maths & Have Fun! 🎉</p>
+      <h1 class="game-title">Addition <span>Fun</span></h1>
+      <p class="game-subtitle">Learn Addition & Have Fun! 🎉</p>
 
       <button class="play-button" onclick="playGame()">
         <span class="play-icon">▶</span>
@@ -490,71 +344,13 @@
     </div>
   </div>
 
-  <!-- MAIN MENU PAGE (ALL MODES RESTORED) -->
-  <div id="menuPage" class="menu-page hidden">
-    <button class="home-button" onclick="goHome()">🏠 Home</button>
-    <h1 class="menu-title">🧮 Choose Mode</h1>
-
-    <div class="menu-grid">
-      <button class="card-btn" onclick="openAdditionSubMenu()">
-        <span class="icon">➕</span>
-        <span>Addition</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('-')">
-        <span class="icon">➖</span>
-        <span>Subtraction</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('*')">
-        <span class="icon">✖️</span>
-        <span>Multiplication</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('/')">
-        <span class="icon">➗</span>
-        <span>Division</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('count')">
-        <span class="icon">🦒</span>
-        <span>Counting</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('bigsmall')">
-        <span class="icon">⚖️</span>
-        <span>Big vs Small</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('missing')">
-        <span class="icon">❓</span>
-        <span>Missing Num</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('shapes')">
-        <span class="icon">📐</span>
-        <span>Shapes</span>
-      </button>
-
-      <button class="card-btn" onclick="startQuiz('clock')">
-        <span class="icon">🕒</span>
-        <span>Time / Clock</span>
-      </button>
-
-      <button class="card-btn" onclick="openColoring()">
-        <span class="icon">🎨</span>
-        <span>Coloring Pad</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- ADDITION SUB MENU -->
-  <div id="additionSubMenu" class="addition-menu-page hidden">
+  <!-- ADDITION MENU PAGE -->
+  <div id="additionMenu" class="addition-menu-page hidden">
     <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
-      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+      <button class="home-button" onclick="goHome()">🏠 Home</button>
     </div>
 
-    <div class="banner-title">Addition</div>
+    <div class="banner-title">Addition Modes</div>
 
     <div class="addition-grid">
       <div class="add-card" onclick="startQuiz('count')">
@@ -562,29 +358,9 @@
         <div class="add-card-label">Counting</div>
       </div>
 
-      <div class="add-card" onclick="startQuiz('bigsmall')">
-        <div class="add-card-inner">3 [ &gt; ] 2</div>
-        <div class="add-card-label">Compare</div>
-      </div>
-
       <div class="add-card" onclick="startQuiz('+')">
         <div class="add-card-inner">2 + 2 = 4<br>🍬🍬 🍬🍬</div>
         <div class="add-card-label">Adding Fun</div>
-      </div>
-
-      <div class="add-card" onclick="startQuiz('+')">
-        <div class="add-card-inner">🟡🟡🟡<br>🔴🔴 = 5</div>
-        <div class="add-card-label">Ten Frame addition</div>
-      </div>
-
-      <div class="add-card" onclick="startQuiz('missing')">
-        <div class="add-card-inner">6 + 4 = [10]</div>
-        <div class="add-card-label">Adding Puzzle</div>
-      </div>
-
-      <div class="add-card" onclick="startQuiz('+')">
-        <div class="add-card-inner">4 + 5 = 9<br>[ 7 ] [ 4 ]</div>
-        <div class="add-card-label">Addition Practice</div>
       </div>
 
       <div class="add-card" onclick="startQuiz('2digit')">
@@ -593,7 +369,7 @@
       </div>
 
       <div class="add-card" onclick="startQuiz('word')">
-        <div class="add-card-inner">2 + 1 = 3 🦋</div>
+        <div class="add-card-inner">2 🍎 + 1 🍎 = 3</div>
         <div class="add-card-label">Word Problem</div>
       </div>
     </div>
@@ -618,59 +394,9 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
-  <!-- POPUP BANNER FOR SUCCESS -->
+  <!-- SUCCESS POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">2 Giraffes</span> 🎉
-  </div>
-
-  <!-- COLORING GAME PAGE -->
-  <div id="coloringPage" class="coloring-page hidden">
-    <div class="quiz-header">
-      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
-      <div style="font-weight: bold; font-size: 20px;">🎨 Coloring Fun</div>
-    </div>
-
-    <div class="shape-selector">
-      <button class="shape-btn" onclick="drawOutline('apple')">🍎 Apple</button>
-      <button class="shape-btn" onclick="drawOutline('star')">⭐ Star</button>
-      <button class="shape-btn" onclick="drawOutline('car')">🚗 Car</button>
-    </div>
-
-    <div class="canvas-card">
-      <canvas id="colorCanvas" width="300" height="300"></canvas>
-      
-      <div class="tools-bar">
-        <button class="brush-btn tool-item" style="width: 32px; height: 32px;" onclick="selectBrush(12, this)">
-          <div class="brush-dot" style="width: 8px; height: 8px;"></div>
-        </button>
-        <button class="brush-btn tool-item active" style="width: 38px; height: 38px;" onclick="selectBrush(22, this)">
-          <div class="brush-dot" style="width: 14px; height: 14px;"></div>
-        </button>
-        <button class="brush-btn tool-item" style="width: 44px; height: 44px;" onclick="selectBrush(34, this)">
-          <div class="brush-dot" style="width: 22px; height: 22px;"></div>
-        </button>
-        <button class="eraser-btn tool-item" style="width: 42px; height: 42px;" onclick="selectEraser(this)">🧹</button>
-      </div>
-
-      <div class="palette">
-        <div class="color-swatch active" style="background: #ff4757;" onclick="selectColor('#ff4757', this)"></div>
-        <div class="color-swatch" style="background: #ff7f50;" onclick="selectColor('#ff7f50', this)"></div>
-        <div class="color-swatch" style="background: #ffa502;" onclick="selectColor('#ffa502', this)"></div>
-        <div class="color-swatch" style="background: #2ed573;" onclick="selectColor('#2ed573', this)"></div>
-        <div class="color-swatch" style="background: #1e90ff;" onclick="selectColor('#1e90ff', this)"></div>
-        <div class="color-swatch" style="background: #3742fa;" onclick="selectColor('#3742fa', this)"></div>
-        <div class="color-swatch" style="background: #9b59b6;" onclick="selectColor('#9b59b6', this)"></div>
-        <div class="color-swatch" style="background: #ff6b81;" onclick="selectColor('#ff6b81', this)"></div>
-        <div class="color-swatch" style="background: #8b572a;" onclick="selectColor('#8b572a', this)"></div>
-        <div class="color-swatch" style="background: #00cec9;" onclick="selectColor('#00cec9', this)"></div>
-        <div class="color-swatch" style="background: #2d3436;" onclick="selectColor('#2d3436', this)"></div>
-        <div class="color-swatch" style="background: #ffffff; border: 2px solid #ccc;" onclick="selectColor('#ffffff', this)"></div>
-      </div>
-
-      <div class="color-controls">
-        <button class="action-btn" onclick="clearCanvas()">🗑️ Clear All</button>
-      </div>
-    </div>
   </div>
 
   <script>
@@ -708,35 +434,25 @@
 
     function playGame() {
       document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("menuPage").classList.remove("hidden");
+      document.getElementById("additionMenu").classList.remove("hidden");
     }
 
     function goHome() {
-      document.getElementById("menuPage").classList.add("hidden");
-      document.getElementById("additionSubMenu").classList.add("hidden");
+      document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.add("hidden");
-      document.getElementById("coloringPage").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
     }
 
     function goMenu() {
       document.getElementById("quizPage").classList.add("hidden");
-      document.getElementById("additionSubMenu").classList.add("hidden");
-      document.getElementById("coloringPage").classList.add("hidden");
-      document.getElementById("menuPage").classList.remove("hidden");
-    }
-
-    function openAdditionSubMenu() {
-      document.getElementById("menuPage").classList.add("hidden");
-      document.getElementById("additionSubMenu").classList.remove("hidden");
+      document.getElementById("additionMenu").classList.remove("hidden");
     }
 
     function startQuiz(op) {
       currentOp = op;
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      document.getElementById("menuPage").classList.add("hidden");
-      document.getElementById("additionSubMenu").classList.add("hidden");
+      document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
     }
@@ -748,7 +464,6 @@
 
       let num1 = Math.floor(Math.random() * 10) + 1;
       let num2 = Math.floor(Math.random() * 10) + 1;
-      let options = [];
 
       if (currentOp === 'count') {
         let count = Math.floor(Math.random() * 4) + 1;
@@ -772,45 +487,6 @@
         currentAnswer = num1 + num2;
         document.getElementById("questionTitle").innerText = `${num1} + ${num2}`;
       } 
-      else if (currentOp === '-') {
-        if (num1 < num2) [num1, num2] = [num2, num1];
-        currentAnswer = num1 - num2;
-        document.getElementById("questionTitle").innerText = `${num1} - ${num2}`;
-      } 
-      else if (currentOp === '*') {
-        currentAnswer = num1 * num2;
-        document.getElementById("questionTitle").innerText = `${num1} × ${num2}`;
-      } 
-      else if (currentOp === '/') {
-        currentAnswer = num1;
-        document.getElementById("questionTitle").innerText = `${num1 * num2} ÷ ${num2}`;
-      }
-      else if (currentOp === 'bigsmall') {
-        currentAnswer = Math.max(num1, num2);
-        document.getElementById("questionTitle").innerText = `Which is bigger? ${num1} or ${num2}`;
-        options = [num1, num2];
-      }
-      else if (currentOp === 'missing') {
-        currentAnswer = num1 + 1;
-        document.getElementById("questionTitle").innerText = `${num1}, __, ${num1 + 2}`;
-      }
-      else if (currentOp === 'shapes') {
-        const shapeList = [
-          { symbol: '🔴', name: 'Circle' },
-          { symbol: '🟦', name: 'Square' },
-          { symbol: '🔺', name: 'Triangle' },
-          { symbol: '⭐', name: 'Star' }
-        ];
-        let target = shapeList[Math.floor(Math.random() * shapeList.length)];
-        currentAnswer = target.symbol;
-        document.getElementById("questionTitle").innerText = `Find: ${target.name}`;
-        options = shapeList.map(s => s.symbol);
-      }
-      else if (currentOp === 'clock') {
-        currentAnswer = `${num1}:00`;
-        document.getElementById("questionTitle").innerText = `Clock: ${num1} o'clock`;
-        options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
-      }
       else if (currentOp === '2digit') {
         num1 = Math.floor(Math.random() * 40) + 10;
         num2 = Math.floor(Math.random() * 40) + 10;
@@ -819,24 +495,20 @@
       }
       else if (currentOp === 'word') {
         currentAnswer = num1 + num2;
-        document.getElementById("questionTitle").innerText = `${num1} 🍎 + ${num2} 🍎 = ?`;
+        document.getElementById("questionTitle").innerText = `${num1} 🍎 + ${num2} 🍎`;
       }
+
+      let options = [currentAnswer];
+      while (options.length < 3) {
+        let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
+        if (wrong >= 1 && !options.includes(wrong)) {
+          options.push(wrong);
+        }
+      }
+      options.sort(() => Math.random() - 0.5);
 
       let container = document.getElementById("optionsContainer");
       container.innerHTML = "";
-
-      if (options.length === 0) {
-        options = [currentAnswer];
-        while (options.length < 3) {
-          let wrong = (typeof currentAnswer === 'number') ? currentAnswer + (Math.floor(Math.random() * 7) - 3) : Math.floor(Math.random() * 20);
-          if (wrong >= 0 && !options.includes(wrong)) {
-            options.push(wrong);
-          }
-        }
-        options.sort(() => Math.random() - 0.5);
-      } else {
-        options.sort(() => Math.random() - 0.5);
-      }
 
       options.forEach(opt => {
         let btn = document.createElement("button");
@@ -870,102 +542,6 @@
         playWrongSound();
         buttonEl.style.background = "#d63031";
       }
-    }
-
-    /* COLORING CANVAS */
-    let canvas, ctx;
-    let currentColor = '#ff4757';
-    let currentBrushSize = 22;
-    let isEraser = false, isDrawing = false;
-    let currentShape = 'apple';
-
-    function openColoring() {
-      document.getElementById("menuPage").classList.add("hidden");
-      document.getElementById("coloringPage").classList.remove("hidden");
-      canvas = document.getElementById("colorCanvas");
-      ctx = canvas.getContext("2d");
-      
-      canvas.addEventListener("mousedown", startDrawing);
-      canvas.addEventListener("mousemove", draw);
-      canvas.addEventListener("mouseup", stopDrawing);
-      canvas.addEventListener("touchstart", startDrawing);
-      canvas.addEventListener("touchmove", draw);
-      canvas.addEventListener("touchend", stopDrawing);
-
-      drawOutline('apple');
-    }
-
-    function selectColor(color, el) {
-      isEraser = false;
-      currentColor = color;
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      el.classList.add('active');
-    }
-
-    function selectBrush(size, el) {
-      isEraser = false;
-      currentBrushSize = size;
-      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-    }
-
-    function selectEraser(el) {
-      isEraser = true;
-      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-    }
-
-    function startDrawing(e) { isDrawing = true; draw(e); }
-    function stopDrawing() { isDrawing = false; ctx.beginPath(); }
-
-    function draw(e) {
-      if (!isDrawing) return;
-      e.preventDefault();
-      let rect = canvas.getBoundingClientRect();
-      let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-      let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(150, 150, 85, 0, Math.PI * 2);
-      ctx.clip();
-
-      if (isEraser) {
-        ctx.globalCompositeOperation = "destination-out";
-        ctx.lineWidth = currentBrushSize * 1.5;
-      } else {
-        ctx.globalCompositeOperation = "source-over";
-        ctx.lineWidth = currentBrushSize;
-        ctx.strokeStyle = currentColor;
-      }
-
-      ctx.lineCap = "round";
-      ctx.lineTo(x, y);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.restore();
-      redrawOutlineBorders();
-    }
-
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      redrawOutlineBorders();
-    }
-
-    function drawOutline(shape) {
-      currentShape = shape;
-      clearCanvas();
-    }
-
-    function redrawOutlineBorders() {
-      ctx.save();
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = "#2d3436";
-      ctx.beginPath();
-      ctx.arc(150, 150, 85, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
     }
   </script>
 </body>
