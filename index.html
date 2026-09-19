@@ -207,13 +207,15 @@
       background: #104e33;
       border: 10px solid #8c7ae6;
       border-radius: 24px;
-      padding: 20px 15px;
+      padding: 30px 15px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.3);
       margin-bottom: 25px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      min-height: 200px;
     }
 
     .equation-top-row {
@@ -224,21 +226,11 @@
       font-size: 42px;
       color: white;
       font-weight: bold;
-      margin-bottom: 15px;
       width: 100%;
     }
 
     .num-1 { color: #ff9f43; }
     .num-2 { color: #54a0ff; }
-
-    .word-story-box {
-      color: #feca57;
-      font-size: 22px;
-      font-weight: bold;
-      line-height: 1.5;
-      margin-bottom: 15px;
-      padding: 0 10px;
-    }
 
     .target-box {
       width: 65px;
@@ -256,7 +248,8 @@
     .visual-split-container {
       display: flex;
       width: 100%;
-      height: 160px;
+      height: 140px;
+      margin-top: 15px;
       border-top: 2px solid rgba(255, 255, 255, 0.3);
     }
 
@@ -280,7 +273,6 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 15px;
       font-size: 38px;
       max-width: 420px;
     }
@@ -396,7 +388,7 @@
         <div class="add-card-label">2 Digits +</div>
       </div>
 
-      <div class="add-card" onclick="startQuiz('word')">
+      <div class="add-card" onclick="startQuiz('easy')">
         <div class="add-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
         <div class="add-card-label">Easy Addition</div>
       </div>
@@ -411,9 +403,6 @@
     </div>
 
     <div class="chalkboard-card">
-      <!-- WORD PROBLEM STORY TEXT -->
-      <div id="wordStoryBox" class="word-story-box hidden"></div>
-
       <!-- EQUATION DISPLAY -->
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
@@ -503,13 +492,10 @@
       document.getElementById("countItemsContainer").innerHTML = "";
       document.getElementById("leftVisualBox").innerHTML = "";
       document.getElementById("rightVisualBox").innerHTML = "";
-      document.getElementById("wordStoryBox").innerHTML = "";
 
       const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
-      const names = ['Rahul', 'Aarav', 'Priya', 'Ananya', 'Rohan', 'Sara', 'Kabir', 'Riya'];
 
       if (currentOp === 'count') {
-        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.add("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.remove("hidden");
@@ -525,7 +511,6 @@
         document.getElementById("countItemsContainer").innerHTML = displayHTML;
       } 
       else if (currentOp === '+') {
-        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.remove("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
@@ -543,7 +528,6 @@
         for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
       } 
       else if (currentOp === '2digit') {
-        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
@@ -555,8 +539,7 @@
         document.getElementById("num1Text").innerText = num1;
         document.getElementById("num2Text").innerText = num2;
       }
-      else if (currentOp === 'word') {
-        document.getElementById("wordStoryBox").classList.remove("hidden");
+      else if (currentOp === 'easy') {
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
@@ -564,15 +547,6 @@
         let num1 = Math.floor(Math.random() * 10) + 1;
         let num2 = Math.floor(Math.random() * 10) + 1;
         currentAnswer = num1 + num2;
-
-        let name1 = names[Math.floor(Math.random() * names.length)];
-        let name2 = names[Math.floor(Math.random() * names.length)];
-        while (name1 === name2) {
-          name2 = names[Math.floor(Math.random() * names.length)];
-        }
-
-        document.getElementById("wordStoryBox").innerHTML = 
-          `${name1} has <b>${num1}</b>.<br>${name2} gives <b>${num2}</b> more!`;
 
         document.getElementById("num1Text").innerText = num1;
         document.getElementById("num2Text").innerText = num2;
