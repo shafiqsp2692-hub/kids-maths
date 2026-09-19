@@ -398,7 +398,7 @@
 
       <div class="add-card" onclick="startQuiz('word')">
         <div class="add-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
-        <div class="add-card-label">Word Problem</div>
+        <div class="add-card-label">Easy Addition</div>
       </div>
     </div>
   </div>
@@ -507,13 +507,6 @@
 
       const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
       const names = ['Rahul', 'Aarav', 'Priya', 'Ananya', 'Rohan', 'Sara', 'Kabir', 'Riya'];
-      const itemNames = [
-        { icon: '🍎', name: 'Apples' },
-        { icon: '🍬', name: 'Candies' },
-        { icon: '🎈', name: 'Balloons' },
-        { icon: '🚗', name: 'Cars' },
-        { icon: '🧁', name: 'Cupcakes' }
-      ];
 
       if (currentOp === 'count') {
         document.getElementById("wordStoryBox").classList.add("hidden");
@@ -578,10 +571,8 @@
           name2 = names[Math.floor(Math.random() * names.length)];
         }
 
-        let itemObj = itemNames[Math.floor(Math.random() * itemNames.length)];
-
         document.getElementById("wordStoryBox").innerHTML = 
-          `${name1} has <b>${num1}</b> ${itemObj.icon}<br>${name2} gives <b>${num2}</b> ${itemObj.icon} more!`;
+          `${name1} has <b>${num1}</b>.<br>${name2} gives <b>${num2}</b> more!`;
 
         document.getElementById("num1Text").innerText = num1;
         document.getElementById("num2Text").innerText = num2;
