@@ -330,7 +330,6 @@
 </head>
 <body>
 
-  <!-- HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
@@ -344,7 +343,6 @@
     </div>
   </div>
 
-  <!-- ADDITION MENU PAGE -->
   <div id="additionMenu" class="addition-menu-page hidden">
     <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
       <button class="home-button" onclick="goHome()">🏠 Home</button>
@@ -354,7 +352,7 @@
 
     <div class="addition-grid">
       <div class="add-card" onclick="startQuiz('count')">
-        <div class="add-card-inner">🦒🦒 ➔ [ 2 ]</div>
+        <div class="add-card-inner">🦒🧁 ➔ [ 2 ]</div>
         <div class="add-card-label">Counting</div>
       </div>
 
@@ -375,7 +373,6 @@
     </div>
   </div>
 
-  <!-- QUIZ / COUNTING PAGE -->
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
@@ -394,7 +391,6 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
-  <!-- SUCCESS POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">2 Giraffes</span> 🎉
   </div>
@@ -466,14 +462,23 @@
       let num2 = Math.floor(Math.random() * 10) + 1;
 
       if (currentOp === 'count') {
-        let count = Math.floor(Math.random() * 4) + 1;
+        let count = Math.floor(Math.random() * 5) + 1;
         currentAnswer = count;
+        
+        // Expanded List of Items
         const items = [
           { icon: '🦒', name: 'Giraffes' },
           { icon: '🧁', name: 'Cupcakes' },
+          { icon: '🚗', name: 'Cars' },
           { icon: '🍎', name: 'Apples' },
-          { icon: '🍬', name: 'Candies' }
+          { icon: '🍬', name: 'Candies' },
+          { icon: '🎈', name: 'Balloons' },
+          { icon: '🐶', name: 'Puppies' },
+          { icon: '🚀', name: 'Rockets' },
+          { icon: '⚽', name: 'Balls' },
+          { icon: '🦆', name: 'Ducks' }
         ];
+        
         let selectedItem = items[Math.floor(Math.random() * items.length)];
         currentItemName = selectedItem.name;
 
