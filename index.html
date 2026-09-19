@@ -231,6 +231,15 @@
     .num-1 { color: #ff9f43; }
     .num-2 { color: #54a0ff; }
 
+    .word-story-box {
+      color: #feca57;
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      padding: 0 10px;
+    }
+
     .target-box {
       width: 65px;
       height: 65px;
@@ -244,7 +253,6 @@
       color: #feca57;
     }
 
-    /* VISUAL ADDITION BOXES (IMAGE LIKE) */
     .visual-split-container {
       display: flex;
       width: 100%;
@@ -389,7 +397,7 @@
       </div>
 
       <div class="add-card" onclick="startQuiz('word')">
-        <div class="add-card-inner">2 🍎 + 1 🍎 = 3</div>
+        <div class="add-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
         <div class="add-card-label">Word Problem</div>
       </div>
     </div>
@@ -403,6 +411,10 @@
     </div>
 
     <div class="chalkboard-card">
+      <!-- WORD PROBLEM STORY TEXT -->
+      <div id="wordStoryBox" class="word-story-box hidden"></div>
+
+      <!-- EQUATION DISPLAY -->
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
         <span>+</span>
@@ -414,7 +426,7 @@
       <!-- COUNTING MODE DISPLAY -->
       <div id="countItemsContainer" class="count-items-container hidden"></div>
 
-      <!-- VISUAL ADDITION BOXES (LIKE IMAGE) -->
+      <!-- VISUAL ADDITION BOXES -->
       <div id="visualSplitContainer" class="visual-split-container">
         <div id="leftVisualBox" class="visual-box left"></div>
         <div id="rightVisualBox" class="visual-box"></div>
@@ -432,7 +444,6 @@
   <script>
     let currentOp = '+';
     let currentAnswer = 2;
-    let currentItemName = 'Items';
     let score = 0;
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -492,10 +503,20 @@
       document.getElementById("countItemsContainer").innerHTML = "";
       document.getElementById("leftVisualBox").innerHTML = "";
       document.getElementById("rightVisualBox").innerHTML = "";
+      document.getElementById("wordStoryBox").innerHTML = "";
 
       const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
+      const names = ['Rahul', 'Aarav', 'Priya', 'Ananya', 'Rohan', 'Sara', 'Kabir', 'Riya'];
+      const itemNames = [
+        { icon: '🍎', name: 'Apples' },
+        { icon: '🍬', name: 'Candies' },
+        { icon: '🎈', name: 'Balloons' },
+        { icon: '🚗', name: 'Cars' },
+        { icon: '🧁', name: 'Cupcakes' }
+      ];
 
       if (currentOp === 'count') {
+        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.add("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.remove("hidden");
@@ -511,6 +532,7 @@
         document.getElementById("countItemsContainer").innerHTML = displayHTML;
       } 
       else if (currentOp === '+') {
+        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.remove("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
@@ -528,6 +550,7 @@
         for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
       } 
       else if (currentOp === '2digit') {
+        document.getElementById("wordStoryBox").classList.add("hidden");
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
@@ -540,21 +563,33 @@
         document.getElementById("num2Text").innerText = num2;
       }
       else if (currentOp === 'word') {
+        document.getElementById("wordStoryBox").classList.remove("hidden");
         document.getElementById("equationRow").classList.remove("hidden");
         document.getElementById("visualSplitContainer").classList.add("hidden");
         document.getElementById("countItemsContainer").classList.add("hidden");
 
-        let num1 = Math.floor(Math.random() * 5) + 1;
-        let num2 = Math.floor(Math.random() * 5) + 1;
+        let num1 = Math.floor(Math.random() * 10) + 1;
+        let num2 = Math.floor(Math.random() * 10) + 1;
         currentAnswer = num1 + num2;
 
-        document.getElementById("num1Text").innerText = `${num1} 🍎`;
-        document.getElementById("num2Text").innerText = `${num2} 🍎`;
+        let name1 = names[Math.floor(Math.random() * names.length)];
+        let name2 = names[Math.floor(Math.random() * names.length)];
+        while (name1 === name2) {
+          name2 = names[Math.floor(Math.random() * names.length)];
+        }
+
+        let itemObj = itemNames[Math.floor(Math.random() * itemNames.length)];
+
+        document.getElementById("wordStoryBox").innerHTML = 
+          `${name1} has <b>${num1}</b> ${itemObj.icon}<br>${name2} gives <b>${num2}</b> ${itemObj.icon} more!`;
+
+        document.getElementById("num1Text").innerText = num1;
+        document.getElementById("num2Text").innerText = num2;
       }
 
       let options = [currentAnswer];
       while (options.length < 3) {
-        let wrong = currentAnswer + (Math.floor(Math.random() * 5) - 2);
+        let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
         if (wrong >= 1 && !options.includes(wrong)) {
           options.push(wrong);
         }
