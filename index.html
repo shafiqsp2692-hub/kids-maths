@@ -100,7 +100,7 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* MENU PAGE */
+    /* MAIN MENU PAGE */
     .menu-page {
       min-height: 100vh;
       padding: 25px 15px 40px;
@@ -165,6 +165,7 @@
       border: 3px solid #ffffff;
       box-shadow: 0 6px 0 rgba(0,0,0,0.2);
       margin: 10px 0 20px;
+      letter-spacing: 1px;
     }
 
     .addition-grid {
@@ -217,7 +218,7 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* QUIZ & COUNTING BOARD (CHALKBOARD STYLE) */
+    /* QUIZ & CHALKBOARD COUNTING PAGE */
     .quiz-page {
       min-height: 100vh;
       padding: 20px;
@@ -245,7 +246,6 @@
       border-radius: 20px;
     }
 
-    /* CHALKBOARD SCREEN LIKE IN THE VIDEO */
     .chalkboard-card {
       position: relative;
       width: 100%;
@@ -264,13 +264,19 @@
       justify-content: center;
     }
 
+    .question-title {
+      font-size: 32px;
+      color: white;
+      margin-bottom: 15px;
+    }
+
     .count-items-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
-      margin-bottom: 20px;
-      font-size: 50px;
+      margin-bottom: 15px;
+      font-size: 48px;
     }
 
     .equation-row {
@@ -278,7 +284,7 @@
       align-items: center;
       justify-content: center;
       gap: 15px;
-      font-size: 40px;
+      font-size: 38px;
       color: white;
       font-weight: bold;
     }
@@ -301,13 +307,14 @@
       max-width: 500px;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .option-btn {
-      width: 70px;
-      height: 70px;
-      font-size: 36px;
+      width: 75px;
+      height: 75px;
+      font-size: 34px;
       font-weight: bold;
       border: none;
       border-radius: 18px;
@@ -323,13 +330,13 @@
 
     .option-btn:nth-child(2) { background: #2ed573; box-shadow: 0 6px 0 #26af5f; }
     .option-btn:nth-child(3) { background: #1e90ff; box-shadow: 0 6px 0 #0f68c9; }
+    .option-btn:nth-child(4) { background: #ffa502; box-shadow: 0 6px 0 #d35400; }
 
     .option-btn:active {
       transform: translateY(4px);
       box-shadow: 0 2px 0 #888;
     }
 
-    /* POPUP BANNER LIKE IN VIDEO ("2 Giraffes") */
     .popup-banner {
       position: fixed;
       top: 50%;
@@ -350,9 +357,7 @@
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .popup-banner.show {
-      transform: translate(-50%, -50%) scale(1);
-    }
+    .popup-banner.show { transform: translate(-50%, -50%) scale(1); }
 
     .home-button {
       padding: 8px 16px;
@@ -454,11 +459,24 @@
 
     .color-swatch.active { transform: scale(1.2); border-color: #2d3436; }
 
+    .color-controls { display: flex; gap: 10px; margin-top: 15px; }
+
+    .action-btn {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #ff7675;
+      color: white;
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
+  <!-- HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
@@ -472,6 +490,7 @@
     </div>
   </div>
 
+  <!-- MAIN MENU PAGE (ALL MODES RESTORED) -->
   <div id="menuPage" class="menu-page hidden">
     <button class="home-button" onclick="goHome()">🏠 Home</button>
     <h1 class="menu-title">🧮 Choose Mode</h1>
@@ -482,9 +501,44 @@
         <span>Addition</span>
       </button>
 
+      <button class="card-btn" onclick="startQuiz('-')">
+        <span class="icon">➖</span>
+        <span>Subtraction</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('*')">
+        <span class="icon">✖️</span>
+        <span>Multiplication</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('/')">
+        <span class="icon">➗</span>
+        <span>Division</span>
+      </button>
+
       <button class="card-btn" onclick="startQuiz('count')">
         <span class="icon">🦒</span>
         <span>Counting</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('bigsmall')">
+        <span class="icon">⚖️</span>
+        <span>Big vs Small</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('missing')">
+        <span class="icon">❓</span>
+        <span>Missing Num</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('shapes')">
+        <span class="icon">📐</span>
+        <span>Shapes</span>
+      </button>
+
+      <button class="card-btn" onclick="startQuiz('clock')">
+        <span class="icon">🕒</span>
+        <span>Time / Clock</span>
       </button>
 
       <button class="card-btn" onclick="openColoring()">
@@ -494,6 +548,7 @@
     </div>
   </div>
 
+  <!-- ADDITION SUB MENU -->
   <div id="additionSubMenu" class="addition-menu-page hidden">
     <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
@@ -506,13 +561,45 @@
         <div class="add-card-inner">🦒🦒 ➔ [ 2 ]</div>
         <div class="add-card-label">Counting</div>
       </div>
+
+      <div class="add-card" onclick="startQuiz('bigsmall')">
+        <div class="add-card-inner">3 [ &gt; ] 2</div>
+        <div class="add-card-label">Compare</div>
+      </div>
+
       <div class="add-card" onclick="startQuiz('+')">
-        <div class="add-card-inner">2 + 2 = 4</div>
+        <div class="add-card-inner">2 + 2 = 4<br>🍬🍬 🍬🍬</div>
         <div class="add-card-label">Adding Fun</div>
+      </div>
+
+      <div class="add-card" onclick="startQuiz('+')">
+        <div class="add-card-inner">🟡🟡🟡<br>🔴🔴 = 5</div>
+        <div class="add-card-label">Ten Frame addition</div>
+      </div>
+
+      <div class="add-card" onclick="startQuiz('missing')">
+        <div class="add-card-inner">6 + 4 = [10]</div>
+        <div class="add-card-label">Adding Puzzle</div>
+      </div>
+
+      <div class="add-card" onclick="startQuiz('+')">
+        <div class="add-card-inner">4 + 5 = 9<br>[ 7 ] [ 4 ]</div>
+        <div class="add-card-label">Addition Practice</div>
+      </div>
+
+      <div class="add-card" onclick="startQuiz('2digit')">
+        <div class="add-card-inner">22 + 12 = 34</div>
+        <div class="add-card-label">2 Digits +</div>
+      </div>
+
+      <div class="add-card" onclick="startQuiz('word')">
+        <div class="add-card-inner">2 + 1 = 3 🦋</div>
+        <div class="add-card-label">Word Problem</div>
       </div>
     </div>
   </div>
 
+  <!-- QUIZ / COUNTING PAGE -->
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
@@ -520,7 +607,8 @@
     </div>
 
     <div class="chalkboard-card">
-      <div id="countItemsContainer" class="count-items-container">🦒 🦒</div>
+      <div id="questionTitle" class="question-title"></div>
+      <div id="countItemsContainer" class="count-items-container"></div>
       <div class="equation-row">
         <span>=</span>
         <div id="targetBox" class="target-box">?</div>
@@ -530,10 +618,12 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
+  <!-- POPUP BANNER FOR SUCCESS -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">2 Giraffes</span> 🎉
   </div>
 
+  <!-- COLORING GAME PAGE -->
   <div id="coloringPage" class="coloring-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
@@ -550,23 +640,41 @@
       <canvas id="colorCanvas" width="300" height="300"></canvas>
       
       <div class="tools-bar">
+        <button class="brush-btn tool-item" style="width: 32px; height: 32px;" onclick="selectBrush(12, this)">
+          <div class="brush-dot" style="width: 8px; height: 8px;"></div>
+        </button>
         <button class="brush-btn tool-item active" style="width: 38px; height: 38px;" onclick="selectBrush(22, this)">
           <div class="brush-dot" style="width: 14px; height: 14px;"></div>
+        </button>
+        <button class="brush-btn tool-item" style="width: 44px; height: 44px;" onclick="selectBrush(34, this)">
+          <div class="brush-dot" style="width: 22px; height: 22px;"></div>
         </button>
         <button class="eraser-btn tool-item" style="width: 42px; height: 42px;" onclick="selectEraser(this)">🧹</button>
       </div>
 
       <div class="palette">
         <div class="color-swatch active" style="background: #ff4757;" onclick="selectColor('#ff4757', this)"></div>
+        <div class="color-swatch" style="background: #ff7f50;" onclick="selectColor('#ff7f50', this)"></div>
         <div class="color-swatch" style="background: #ffa502;" onclick="selectColor('#ffa502', this)"></div>
         <div class="color-swatch" style="background: #2ed573;" onclick="selectColor('#2ed573', this)"></div>
         <div class="color-swatch" style="background: #1e90ff;" onclick="selectColor('#1e90ff', this)"></div>
+        <div class="color-swatch" style="background: #3742fa;" onclick="selectColor('#3742fa', this)"></div>
+        <div class="color-swatch" style="background: #9b59b6;" onclick="selectColor('#9b59b6', this)"></div>
+        <div class="color-swatch" style="background: #ff6b81;" onclick="selectColor('#ff6b81', this)"></div>
+        <div class="color-swatch" style="background: #8b572a;" onclick="selectColor('#8b572a', this)"></div>
+        <div class="color-swatch" style="background: #00cec9;" onclick="selectColor('#00cec9', this)"></div>
+        <div class="color-swatch" style="background: #2d3436;" onclick="selectColor('#2d3436', this)"></div>
+        <div class="color-swatch" style="background: #ffffff; border: 2px solid #ccc;" onclick="selectColor('#ffffff', this)"></div>
+      </div>
+
+      <div class="color-controls">
+        <button class="action-btn" onclick="clearCanvas()">🗑️ Clear All</button>
       </div>
     </div>
   </div>
 
   <script>
-    let currentOp = 'count';
+    let currentOp = '+';
     let currentAnswer = 2;
     let currentItemName = 'Giraffes';
     let score = 0;
@@ -591,6 +699,11 @@
       playAudioTone(523.25, 'triangle', 0.15);
       setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100);
       setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200);
+    }
+
+    function playWrongSound() {
+      playAudioTone(220, 'sawtooth', 0.2);
+      setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
     }
 
     function playGame() {
@@ -620,6 +733,8 @@
 
     function startQuiz(op) {
       currentOp = op;
+      score = 0;
+      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
       document.getElementById("menuPage").classList.add("hidden");
       document.getElementById("additionSubMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
@@ -628,34 +743,100 @@
 
     function generateQuestion() {
       document.getElementById("targetBox").innerText = "?";
-      let count = Math.floor(Math.random() * 4) + 1;
-      currentAnswer = count;
+      document.getElementById("questionTitle").innerText = "";
+      document.getElementById("countItemsContainer").innerHTML = "";
 
-      const items = [
-        { icon: '🦒', name: 'Giraffes' },
-        { icon: '🧁', name: 'Cupcakes' },
-        { icon: '🍎', name: 'Apples' },
-        { icon: '🍬', name: 'Candies' }
-      ];
+      let num1 = Math.floor(Math.random() * 10) + 1;
+      let num2 = Math.floor(Math.random() * 10) + 1;
+      let options = [];
 
-      let selectedItem = items[Math.floor(Math.random() * items.length)];
-      currentItemName = selectedItem.name;
+      if (currentOp === 'count') {
+        let count = Math.floor(Math.random() * 4) + 1;
+        currentAnswer = count;
+        const items = [
+          { icon: '🦒', name: 'Giraffes' },
+          { icon: '🧁', name: 'Cupcakes' },
+          { icon: '🍎', name: 'Apples' },
+          { icon: '🍬', name: 'Candies' }
+        ];
+        let selectedItem = items[Math.floor(Math.random() * items.length)];
+        currentItemName = selectedItem.name;
 
-      let displayHTML = '';
-      for (let i = 0; i < count; i++) {
-        displayHTML += selectedItem.icon + ' ';
+        let displayHTML = '';
+        for (let i = 0; i < count; i++) {
+          displayHTML += selectedItem.icon + ' ';
+        }
+        document.getElementById("countItemsContainer").innerHTML = displayHTML;
+      } 
+      else if (currentOp === '+') {
+        currentAnswer = num1 + num2;
+        document.getElementById("questionTitle").innerText = `${num1} + ${num2}`;
+      } 
+      else if (currentOp === '-') {
+        if (num1 < num2) [num1, num2] = [num2, num1];
+        currentAnswer = num1 - num2;
+        document.getElementById("questionTitle").innerText = `${num1} - ${num2}`;
+      } 
+      else if (currentOp === '*') {
+        currentAnswer = num1 * num2;
+        document.getElementById("questionTitle").innerText = `${num1} × ${num2}`;
+      } 
+      else if (currentOp === '/') {
+        currentAnswer = num1;
+        document.getElementById("questionTitle").innerText = `${num1 * num2} ÷ ${num2}`;
       }
-      document.getElementById("countItemsContainer").innerHTML = displayHTML;
-
-      let options = [count];
-      while (options.length < 3) {
-        let wrong = Math.floor(Math.random() * 5) + 1;
-        if (!options.includes(wrong)) options.push(wrong);
+      else if (currentOp === 'bigsmall') {
+        currentAnswer = Math.max(num1, num2);
+        document.getElementById("questionTitle").innerText = `Which is bigger? ${num1} or ${num2}`;
+        options = [num1, num2];
       }
-      options.sort(() => Math.random() - 0.5);
+      else if (currentOp === 'missing') {
+        currentAnswer = num1 + 1;
+        document.getElementById("questionTitle").innerText = `${num1}, __, ${num1 + 2}`;
+      }
+      else if (currentOp === 'shapes') {
+        const shapeList = [
+          { symbol: '🔴', name: 'Circle' },
+          { symbol: '🟦', name: 'Square' },
+          { symbol: '🔺', name: 'Triangle' },
+          { symbol: '⭐', name: 'Star' }
+        ];
+        let target = shapeList[Math.floor(Math.random() * shapeList.length)];
+        currentAnswer = target.symbol;
+        document.getElementById("questionTitle").innerText = `Find: ${target.name}`;
+        options = shapeList.map(s => s.symbol);
+      }
+      else if (currentOp === 'clock') {
+        currentAnswer = `${num1}:00`;
+        document.getElementById("questionTitle").innerText = `Clock: ${num1} o'clock`;
+        options = [`${num1}:00`, `${(num1%12)+1}:00`, `${(num1+2)%12 + 1}:00`, `${(num1+3)%12 + 1}:00`];
+      }
+      else if (currentOp === '2digit') {
+        num1 = Math.floor(Math.random() * 40) + 10;
+        num2 = Math.floor(Math.random() * 40) + 10;
+        currentAnswer = num1 + num2;
+        document.getElementById("questionTitle").innerText = `${num1} + ${num2}`;
+      }
+      else if (currentOp === 'word') {
+        currentAnswer = num1 + num2;
+        document.getElementById("questionTitle").innerText = `${num1} 🍎 + ${num2} 🍎 = ?`;
+      }
 
       let container = document.getElementById("optionsContainer");
       container.innerHTML = "";
+
+      if (options.length === 0) {
+        options = [currentAnswer];
+        while (options.length < 3) {
+          let wrong = (typeof currentAnswer === 'number') ? currentAnswer + (Math.floor(Math.random() * 7) - 3) : Math.floor(Math.random() * 20);
+          if (wrong >= 0 && !options.includes(wrong)) {
+            options.push(wrong);
+          }
+        }
+        options.sort(() => Math.random() - 0.5);
+      } else {
+        options.sort(() => Math.random() - 0.5);
+      }
 
       options.forEach(opt => {
         let btn = document.createElement("button");
@@ -673,19 +854,21 @@
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         document.getElementById("targetBox").innerText = currentAnswer;
 
-        // Show Video Like Success Banner
-        let banner = document.getElementById("popupBanner");
-        document.getElementById("popupText").innerText = `${currentAnswer} ${currentItemName}`;
-        banner.classList.add("show");
+        if (currentOp === 'count') {
+          let banner = document.getElementById("popupBanner");
+          document.getElementById("popupText").innerText = `${currentAnswer} ${currentItemName}`;
+          banner.classList.add("show");
+          setTimeout(() => banner.classList.remove("show"), 1400);
+        }
 
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
 
         setTimeout(() => {
-          banner.classList.remove("show");
           generateQuestion();
-        }, 1500);
+        }, 1200);
       } else {
-        buttonEl.style.transform = "shake";
+        playWrongSound();
+        buttonEl.style.background = "#d63031";
       }
     }
 
@@ -701,18 +884,37 @@
       document.getElementById("coloringPage").classList.remove("hidden");
       canvas = document.getElementById("colorCanvas");
       ctx = canvas.getContext("2d");
+      
       canvas.addEventListener("mousedown", startDrawing);
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mouseup", stopDrawing);
       canvas.addEventListener("touchstart", startDrawing);
       canvas.addEventListener("touchmove", draw);
       canvas.addEventListener("touchend", stopDrawing);
+
       drawOutline('apple');
     }
 
-    function selectColor(color, el) { isEraser = false; currentColor = color; }
-    function selectBrush(size, el) { isEraser = false; currentBrushSize = size; }
-    function selectEraser(el) { isEraser = true; }
+    function selectColor(color, el) {
+      isEraser = false;
+      currentColor = color;
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function selectBrush(size, el) {
+      isEraser = false;
+      currentBrushSize = size;
+      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function selectEraser(el) {
+      isEraser = true;
+      document.querySelectorAll('.tool-item').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
     function startDrawing(e) { isDrawing = true; draw(e); }
     function stopDrawing() { isDrawing = false; ctx.beginPath(); }
 
@@ -725,7 +927,7 @@
 
       ctx.save();
       ctx.beginPath();
-      ctx.arc(150, 150, 80, 0, Math.PI * 2);
+      ctx.arc(150, 150, 85, 0, Math.PI * 2);
       ctx.clip();
 
       if (isEraser) {
@@ -746,10 +948,14 @@
       redrawOutlineBorders();
     }
 
-    function drawOutline(shape) {
-      currentShape = shape;
+    function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       redrawOutlineBorders();
+    }
+
+    function drawOutline(shape) {
+      currentShape = shape;
+      clearCanvas();
     }
 
     function redrawOutlineBorders() {
@@ -757,7 +963,7 @@
       ctx.lineWidth = 6;
       ctx.strokeStyle = "#2d3436";
       ctx.beginPath();
-      ctx.arc(150, 150, 80, 0, Math.PI * 2);
+      ctx.arc(150, 150, 85, 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
     }
