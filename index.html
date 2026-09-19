@@ -229,9 +229,10 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 10px;
       margin-bottom: 15px;
-      font-size: 48px;
+      font-size: 38px; /* Slightly adjusted to fit up to 10 items easily */
+      max-width: 420px;
     }
 
     .equation-row {
@@ -352,8 +353,8 @@
 
     <div class="addition-grid">
       <div class="add-card" onclick="startQuiz('count')">
-        <div class="add-card-inner">🦒🧁 ➔ [ 2 ]</div>
-        <div class="add-card-label">Counting</div>
+        <div class="add-card-inner">🦒🧁🚗 ➔ [ 10 ]</div>
+        <div class="add-card-label">Counting (Up to 10)</div>
       </div>
 
       <div class="add-card" onclick="startQuiz('+')">
@@ -392,7 +393,7 @@
   </div>
 
   <div id="popupBanner" class="popup-banner">
-    <span id="popupText">2 Giraffes</span> 🎉
+    <span id="popupText">10 Cars</span> 🎉
   </div>
 
   <script>
@@ -462,10 +463,10 @@
       let num2 = Math.floor(Math.random() * 10) + 1;
 
       if (currentOp === 'count') {
-        let count = Math.floor(Math.random() * 5) + 1;
+        // Updated limit: Now generates between 1 and 10 items
+        let count = Math.floor(Math.random() * 10) + 1;
         currentAnswer = count;
         
-        // Expanded List of Items
         const items = [
           { icon: '🦒', name: 'Giraffes' },
           { icon: '🧁', name: 'Cupcakes' },
