@@ -231,7 +231,7 @@
       justify-content: center;
       gap: 10px;
       margin-bottom: 15px;
-      font-size: 38px; /* Slightly adjusted to fit up to 10 items easily */
+      font-size: 38px;
       max-width: 420px;
     }
 
@@ -331,6 +331,7 @@
 </head>
 <body>
 
+  <!-- HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
@@ -344,6 +345,7 @@
     </div>
   </div>
 
+  <!-- ADDITION MENU PAGE -->
   <div id="additionMenu" class="addition-menu-page hidden">
     <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
       <button class="home-button" onclick="goHome()">🏠 Home</button>
@@ -353,8 +355,8 @@
 
     <div class="addition-grid">
       <div class="add-card" onclick="startQuiz('count')">
-        <div class="add-card-inner">🦒🧁🚗 ➔ [ 10 ]</div>
-        <div class="add-card-label">Counting (Up to 10)</div>
+        <div class="add-card-inner">🦒🧁🚗 ➔ [ ? ]</div>
+        <div class="add-card-label">Counting</div>
       </div>
 
       <div class="add-card" onclick="startQuiz('+')">
@@ -374,6 +376,7 @@
     </div>
   </div>
 
+  <!-- QUIZ / COUNTING PAGE -->
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
       <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
@@ -392,6 +395,7 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
+  <!-- SUCCESS POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">10 Cars</span> 🎉
   </div>
@@ -463,7 +467,6 @@
       let num2 = Math.floor(Math.random() * 10) + 1;
 
       if (currentOp === 'count') {
-        // Updated limit: Now generates between 1 and 10 items
         let count = Math.floor(Math.random() * 10) + 1;
         currentAnswer = count;
         
