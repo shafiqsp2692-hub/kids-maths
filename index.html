@@ -203,26 +203,68 @@
     .chalkboard-card {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      background: #1e3799;
+      max-width: 520px;
+      background: #104e33;
       border: 10px solid #8c7ae6;
       border-radius: 24px;
-      padding: 25px 15px;
+      padding: 20px 15px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.3);
       margin-bottom: 25px;
-      min-height: 220px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    .question-title {
-      font-size: 36px;
+    .equation-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 42px;
       color: white;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    .num-1 { color: #ff9f43; }
+    .num-2 { color: #54a0ff; }
+
+    .target-box {
+      width: 65px;
+      height: 65px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 3px dashed white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: #feca57;
+    }
+
+    /* VISUAL ADDITION BOXES (IMAGE LIKE) */
+    .visual-split-container {
+      display: flex;
+      width: 100%;
+      height: 160px;
+      border-top: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .visual-box {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      font-size: 38px;
+    }
+
+    .visual-box.left {
+      border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .count-items-container {
@@ -233,29 +275,6 @@
       margin-bottom: 15px;
       font-size: 38px;
       max-width: 420px;
-    }
-
-    .equation-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      font-size: 38px;
-      color: white;
-      font-weight: bold;
-    }
-
-    .target-box {
-      width: 70px;
-      height: 70px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 3px dashed white;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      color: #feca57;
     }
 
     .options-grid {
@@ -360,7 +379,7 @@
       </div>
 
       <div class="add-card" onclick="startQuiz('+')">
-        <div class="add-card-inner">2 + 2 = 4<br>🍬🍬 🍬🍬</div>
+        <div class="add-card-inner">🌂🌂 + 🌂<br>= 3</div>
         <div class="add-card-label">Adding Fun</div>
       </div>
 
@@ -384,11 +403,21 @@
     </div>
 
     <div class="chalkboard-card">
-      <div id="questionTitle" class="question-title"></div>
-      <div id="countItemsContainer" class="count-items-container"></div>
-      <div class="equation-row">
+      <div id="equationRow" class="equation-top-row">
+        <span id="num1Text" class="num-1">1</span>
+        <span>+</span>
+        <span id="num2Text" class="num-2">2</span>
         <span>=</span>
         <div id="targetBox" class="target-box">?</div>
+      </div>
+
+      <!-- COUNTING MODE DISPLAY -->
+      <div id="countItemsContainer" class="count-items-container hidden"></div>
+
+      <!-- VISUAL ADDITION BOXES (LIKE IMAGE) -->
+      <div id="visualSplitContainer" class="visual-split-container">
+        <div id="leftVisualBox" class="visual-box left"></div>
+        <div id="rightVisualBox" class="visual-box"></div>
       </div>
     </div>
 
@@ -397,13 +426,13 @@
 
   <!-- SUCCESS POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
-    <span id="popupText">10 Cars</span> 🎉
+    <span id="popupText">Great Job!</span> 🎉
   </div>
 
   <script>
     let currentOp = '+';
     let currentAnswer = 2;
-    let currentItemName = 'Giraffes';
+    let currentItemName = 'Items';
     let score = 0;
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -460,56 +489,72 @@
 
     function generateQuestion() {
       document.getElementById("targetBox").innerText = "?";
-      document.getElementById("questionTitle").innerText = "";
       document.getElementById("countItemsContainer").innerHTML = "";
+      document.getElementById("leftVisualBox").innerHTML = "";
+      document.getElementById("rightVisualBox").innerHTML = "";
 
-      let num1 = Math.floor(Math.random() * 10) + 1;
-      let num2 = Math.floor(Math.random() * 10) + 1;
+      const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
       if (currentOp === 'count') {
+        document.getElementById("equationRow").classList.add("hidden");
+        document.getElementById("visualSplitContainer").classList.add("hidden");
+        document.getElementById("countItemsContainer").classList.remove("hidden");
+
         let count = Math.floor(Math.random() * 10) + 1;
         currentAnswer = count;
-        
-        const items = [
-          { icon: '🦒', name: 'Giraffes' },
-          { icon: '🧁', name: 'Cupcakes' },
-          { icon: '🚗', name: 'Cars' },
-          { icon: '🍎', name: 'Apples' },
-          { icon: '🍬', name: 'Candies' },
-          { icon: '🎈', name: 'Balloons' },
-          { icon: '🐶', name: 'Puppies' },
-          { icon: '🚀', name: 'Rockets' },
-          { icon: '⚽', name: 'Balls' },
-          { icon: '🦆', name: 'Ducks' }
-        ];
-        
-        let selectedItem = items[Math.floor(Math.random() * items.length)];
-        currentItemName = selectedItem.name;
+        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
 
         let displayHTML = '';
         for (let i = 0; i < count; i++) {
-          displayHTML += selectedItem.icon + ' ';
+          displayHTML += icon + ' ';
         }
         document.getElementById("countItemsContainer").innerHTML = displayHTML;
       } 
       else if (currentOp === '+') {
+        document.getElementById("equationRow").classList.remove("hidden");
+        document.getElementById("visualSplitContainer").classList.remove("hidden");
+        document.getElementById("countItemsContainer").classList.add("hidden");
+
+        let num1 = Math.floor(Math.random() * 5) + 1;
+        let num2 = Math.floor(Math.random() * 5) + 1;
         currentAnswer = num1 + num2;
-        document.getElementById("questionTitle").innerText = `${num1} + ${num2}`;
+
+        document.getElementById("num1Text").innerText = num1;
+        document.getElementById("num2Text").innerText = num2;
+
+        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+
+        for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
+        for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
       } 
       else if (currentOp === '2digit') {
-        num1 = Math.floor(Math.random() * 40) + 10;
-        num2 = Math.floor(Math.random() * 40) + 10;
+        document.getElementById("equationRow").classList.remove("hidden");
+        document.getElementById("visualSplitContainer").classList.add("hidden");
+        document.getElementById("countItemsContainer").classList.add("hidden");
+
+        let num1 = Math.floor(Math.random() * 40) + 10;
+        let num2 = Math.floor(Math.random() * 40) + 10;
         currentAnswer = num1 + num2;
-        document.getElementById("questionTitle").innerText = `${num1} + ${num2}`;
+
+        document.getElementById("num1Text").innerText = num1;
+        document.getElementById("num2Text").innerText = num2;
       }
       else if (currentOp === 'word') {
+        document.getElementById("equationRow").classList.remove("hidden");
+        document.getElementById("visualSplitContainer").classList.add("hidden");
+        document.getElementById("countItemsContainer").classList.add("hidden");
+
+        let num1 = Math.floor(Math.random() * 5) + 1;
+        let num2 = Math.floor(Math.random() * 5) + 1;
         currentAnswer = num1 + num2;
-        document.getElementById("questionTitle").innerText = `${num1} 🍎 + ${num2} 🍎`;
+
+        document.getElementById("num1Text").innerText = `${num1} 🍎`;
+        document.getElementById("num2Text").innerText = `${num2} 🍎`;
       }
 
       let options = [currentAnswer];
       while (options.length < 3) {
-        let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
+        let wrong = currentAnswer + (Math.floor(Math.random() * 5) - 2);
         if (wrong >= 1 && !options.includes(wrong)) {
           options.push(wrong);
         }
@@ -535,12 +580,10 @@
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         document.getElementById("targetBox").innerText = currentAnswer;
 
-        if (currentOp === 'count') {
-          let banner = document.getElementById("popupBanner");
-          document.getElementById("popupText").innerText = `${currentAnswer} ${currentItemName}`;
-          banner.classList.add("show");
-          setTimeout(() => banner.classList.remove("show"), 1400);
-        }
+        let banner = document.getElementById("popupBanner");
+        document.getElementById("popupText").innerText = `Correct! ${currentAnswer}`;
+        banner.classList.add("show");
+        setTimeout(() => banner.classList.remove("show"), 1400);
 
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
 
