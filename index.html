@@ -637,6 +637,7 @@
     let currentMode = '+';
     let currentAnswer = '';
     let score = 0;
+    let isAnsweringLocked = false; // Prevents double click during transitions
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -727,6 +728,7 @@
 
     /* QUESTION GENERATION */
     function generateQuestion() {
+      isAnsweringLocked = false;
       document.getElementById("targetBox").innerText = "?";
       document.getElementById("countItemsContainer").innerHTML = "";
       document.getElementById("leftVisualBox").innerHTML = "";
@@ -1015,7 +1017,10 @@
     }
 
     function checkAnswer(selected, buttonEl) {
+      if (isAnsweringLocked) return;
+
       if (selected == currentAnswer) {
+        isAnsweringLocked = true;
         playCorrectSound();
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
@@ -1028,11 +1033,12 @@
         let banner = document.getElementById("popupBanner");
         document.getElementById("popupText").innerText = `Correct!`;
         banner.classList.add("show");
-        setTimeout(() => banner.classList.remove("show"), 1400);
-
+        
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
 
+        // Auto Next Question load after 1.2s
         setTimeout(() => {
+          banner.classList.remove("show");
           generateQuestion();
         }, 1200);
       } else {
