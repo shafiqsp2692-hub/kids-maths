@@ -384,7 +384,6 @@
       max-width: 420px;
     }
 
-    /* MISSING NUMBERS ROW STYLE */
     .missing-row-container {
       display: flex;
       align-items: center;
@@ -406,7 +405,6 @@
       color: #74b9ff;
     }
 
-    /* SHAPE CANVAS / TIME CLOCK STYLES */
     .clock-canvas {
       background: white;
       border-radius: 50%;
@@ -491,7 +489,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) -->
+  <!-- SCREEN 2: MAIN CATEGORY MENU -->
   <div id="categoryMenu" class="main-category-page hidden">
     <div class="header-bar">
       <button class="home-btn" onclick="goHome()">🏠 Home</button>
@@ -500,31 +498,26 @@
     <h1 class="app-main-title">Kids Maths</h1>
 
     <div class="category-grid">
-      <!-- ADDITION CARD -->
       <div class="cat-card" onclick="openSubMenu('addition')">
         <div class="cat-demo-eq">2 + 3 = 5</div>
         <div class="cat-pill add">Addition</div>
       </div>
 
-      <!-- SUBTRACTIONS CARD -->
       <div class="cat-card" onclick="startDirectQuiz('sub')">
         <div class="cat-demo-eq">8 - 3 = 5</div>
         <div class="cat-pill sub">Subtractions</div>
       </div>
 
-      <!-- MULTIPLICATION CARD -->
       <div class="cat-card" onclick="startDirectQuiz('mul')">
         <div class="cat-demo-eq">4 × 6 = 24</div>
         <div class="cat-pill mul">Multiplication</div>
       </div>
 
-      <!-- DIVISION CARD -->
       <div class="cat-card" onclick="startDirectQuiz('div')">
         <div class="cat-demo-eq">12 ÷ 3 = 4</div>
         <div class="cat-pill div">Division</div>
       </div>
 
-      <!-- KIDS FUN CARD -->
       <div class="kids-fun-card" onclick="openSubMenu('kidsfun')">
         <div class="kids-fun-icons">🧩 ⏰ 🔺 🔢</div>
         <div class="cat-pill fun">Kids Fun</div>
@@ -602,7 +595,6 @@
     </div>
 
     <div class="chalkboard-card">
-      <!-- EQUATION / TEXT DISPLAY -->
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
         <span id="opSymbol" class="operator">+</span>
@@ -611,23 +603,19 @@
         <div id="targetBox" class="target-box">?</div>
       </div>
 
-      <!-- COUNTING MODE DISPLAY -->
       <div id="countItemsContainer" class="count-items-container hidden"></div>
 
-      <!-- VISUAL ADDITION BOXES -->
       <div id="visualSplitContainer" class="visual-split-container hidden">
         <div id="leftVisualBox" class="visual-box left"></div>
         <div id="rightVisualBox" class="visual-box"></div>
       </div>
 
-      <!-- SHAPE / CLOCK / MISSING CONTAINER -->
       <div id="customDisplay" class="hidden"></div>
     </div>
 
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
-  <!-- POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">Great Job!</span> 🎉
   </div>
@@ -637,8 +625,9 @@
     let currentMode = '+';
     let currentAnswer = '';
     let score = 0;
-    let isAnsweringLocked = false; // Prevents double click during transitions
+    let isAnsweringLocked = false;
 
+    // WEB AUDIO API FOR SOUND EFFECTS
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playAudioTone(freq, type, duration) {
@@ -668,6 +657,7 @@
 
     /* NAVIGATION */
     function goToCategoryMenu() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
       document.getElementById("homePage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.remove("hidden");
     }
@@ -743,7 +733,6 @@
 
       const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
-      // 1. ADDITION CATEGORY
       if (currentCategory === 'addition') {
         if (currentMode === 'count') {
           document.getElementById("equationRow").classList.add("hidden");
@@ -793,7 +782,6 @@
         }
       }
 
-      // 2. OTHER MAIN OPERATIONS
       if (currentCategory === 'sub') {
         let num1 = Math.floor(Math.random() * 9) + 2;
         let num2 = Math.floor(Math.random() * num1) + 1;
@@ -825,7 +813,6 @@
         return;
       }
 
-      // 3. KIDS FUN CATEGORY
       if (currentCategory === 'kidsfun') {
         let mode = currentMode;
         if (mode === 'mix') {
@@ -925,7 +912,6 @@
       }
     }
 
-    /* DRAW ANALOG CLOCK WITH NUMBERS */
     function drawClock(canvas, hour, minute) {
       let ctx = canvas.getContext("2d");
       let radius = canvas.width / 2;
@@ -934,13 +920,11 @@
       ctx.translate(radius, radius);
       radius = radius * 0.88;
 
-      // Clock face background
       ctx.beginPath();
       ctx.arc(0, 0, radius, 0, 2 * Math.PI);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      // Clock Numbers (1 to 12)
       ctx.font = "bold 14px 'Comic Sans MS', sans-serif";
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
@@ -957,13 +941,11 @@
         ctx.rotate(-ang);
       }
 
-      // Center dot
       ctx.beginPath();
       ctx.arc(0, 0, 6, 0, 2 * Math.PI);
       ctx.fillStyle = '#2c3e50';
       ctx.fill();
 
-      // Hour Hand
       let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
       ctx.beginPath();
       ctx.lineWidth = 5;
@@ -975,7 +957,6 @@
       ctx.stroke();
       ctx.rotate(-hourPos);
 
-      // Minute Hand
       let minPos = (minute * Math.PI / 30);
       ctx.beginPath();
       ctx.lineWidth = 3.5;
@@ -990,7 +971,6 @@
       ctx.restore();
     }
 
-    /* SETUP OPTIONS */
     function setupNumberOptions() {
       let options = [Number(currentAnswer)];
       while (options.length < 3) {
@@ -1021,7 +1001,7 @@
 
       if (selected == currentAnswer) {
         isAnsweringLocked = true;
-        playCorrectSound();
+        playCorrectSound(); // 🎉 Play correct chime
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         
@@ -1036,13 +1016,12 @@
         
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
 
-        // Auto Next Question load after 1.2s
         setTimeout(() => {
           banner.classList.remove("show");
           generateQuestion();
         }, 1200);
       } else {
-        playWrongSound();
+        playWrongSound(); // ❌ Play error buzzer
         buttonEl.style.background = "#d63031";
       }
     }
