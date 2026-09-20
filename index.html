@@ -312,7 +312,7 @@
       background: #104e33;
       border: 10px solid #8c7ae6;
       border-radius: 24px;
-      padding: 30px 15px;
+      padding: 20px 15px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(0,0,0,0.3);
       margin-bottom: 25px;
@@ -320,7 +320,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
+      min-height: 230px;
     }
 
     .equation-top-row {
@@ -397,8 +397,12 @@
 
     .missing-num-pill {
       background: rgba(255,255,255,0.15);
-      padding: 8px 16px;
-      border-radius: 12px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
       color: #74b9ff;
     }
 
@@ -420,10 +424,10 @@
     }
 
     .option-btn {
-      min-width: 80px;
-      height: 75px;
+      min-width: 90px;
+      height: 70px;
       padding: 0 15px;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
       border: none;
       border-radius: 18px;
@@ -569,12 +573,12 @@
 
     <div class="mode-grid">
       <div class="mode-card" onclick="startQuiz('kidsfun', 'missing')">
-        <div class="mode-card-inner">2, 4, [ ? ], 8</div>
+        <div class="mode-card-inner">1, 2, [ ? ], 4</div>
         <div class="mode-card-label">Missing Number</div>
       </div>
 
       <div class="mode-card" onclick="startQuiz('kidsfun', 'clock')">
-        <div class="mode-card-inner">🕒 ➔ 3:00</div>
+        <div class="mode-card-inner">🕒 ➔ 10:30</div>
         <div class="mode-card-label">Time Clock</div>
       </div>
 
@@ -831,12 +835,9 @@
           document.getElementById("equationRow").classList.add("hidden");
           document.getElementById("customDisplay").classList.remove("hidden");
 
-          // Sequence from 1 to 30 (either step 1 or step 2)
-          let step = Math.random() > 0.5 ? 1 : 2;
-          let maxStart = 30 - (step * 3);
-          let start = Math.floor(Math.random() * maxStart) + 1;
+          let start = Math.floor(Math.random() * 27) + 1;
+          let seq = [start, start + 1, start + 2, start + 3];
           
-          let seq = [start, start + step, start + (step * 2), start + (step * 3)];
           let missingIdx = Math.floor(Math.random() * 4);
           currentAnswer = seq[missingIdx];
 
@@ -866,20 +867,26 @@
           document.getElementById("customDisplay").classList.remove("hidden");
 
           let hour = Math.floor(Math.random() * 12) + 1;
-          currentAnswer = `${hour}:00`;
+          let minutesList = [0, 15, 30, 45];
+          let minute = minutesList[Math.floor(Math.random() * minutesList.length)];
+          
+          let formattedMin = minute === 0 ? "00" : minute.toString();
+          currentAnswer = `${hour}:${formattedMin}`;
 
           let canvas = document.createElement("canvas");
-          canvas.width = 140;
-          canvas.height = 140;
+          canvas.width = 170;
+          canvas.height = 170;
           canvas.className = "clock-canvas";
-          drawClock(canvas, hour, 0);
+          drawClock(canvas, hour, minute);
 
           document.getElementById("customDisplay").appendChild(canvas);
 
           let timeOptions = [currentAnswer];
           while(timeOptions.length < 3) {
             let h = Math.floor(Math.random() * 12) + 1;
-            let opt = `${h}:00`;
+            let m = minutesList[Math.floor(Math.random() * minutesList.length)];
+            let fMin = m === 0 ? "00" : m.toString();
+            let opt = `${h}:${fMin}`;
             if(!timeOptions.includes(opt)) timeOptions.push(opt);
           }
           timeOptions.sort(() => Math.random() - 0.5);
@@ -916,48 +923,69 @@
       }
     }
 
-    /* DRAW ANALOG CLOCK */
+    /* DRAW ANALOG CLOCK WITH NUMBERS */
     function drawClock(canvas, hour, minute) {
       let ctx = canvas.getContext("2d");
       let radius = canvas.width / 2;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
       ctx.translate(radius, radius);
-      radius = radius * 0.9;
+      radius = radius * 0.88;
 
-      // Clock face
+      // Clock face background
       ctx.beginPath();
       ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = '#ffffff';
       ctx.fill();
+
+      // Clock Numbers (1 to 12)
+      ctx.font = "bold 14px 'Comic Sans MS', sans-serif";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#2d3436";
+
+      for (let num = 1; num <= 12; num++) {
+        let ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -radius * 0.78);
+        ctx.rotate(-ang);
+        ctx.fillText(num.toString(), 0, 0);
+        ctx.rotate(ang);
+        ctx.translate(0, radius * 0.78);
+        ctx.rotate(-ang);
+      }
 
       // Center dot
       ctx.beginPath();
-      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = '#333';
+      ctx.arc(0, 0, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#2c3e50';
       ctx.fill();
 
       // Hour Hand
       let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
       ctx.beginPath();
-      ctx.lineWidth = 6;
+      ctx.lineWidth = 5;
       ctx.lineCap = "round";
       ctx.strokeStyle = "#ee5253";
       ctx.moveTo(0, 0);
       ctx.rotate(hourPos);
-      ctx.lineTo(0, -radius * 0.5);
+      ctx.lineTo(0, -radius * 0.48);
       ctx.stroke();
       ctx.rotate(-hourPos);
 
       // Minute Hand
       let minPos = (minute * Math.PI / 30);
       ctx.beginPath();
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 3.5;
       ctx.lineCap = "round";
       ctx.strokeStyle = "#0984e3";
       ctx.moveTo(0, 0);
       ctx.rotate(minPos);
-      ctx.lineTo(0, -radius * 0.75);
+      ctx.lineTo(0, -radius * 0.70);
       ctx.stroke();
       ctx.rotate(-minPos);
+
+      ctx.restore();
     }
 
     /* SETUP OPTIONS */
