@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Addition Game</title>
+  <title>Kids Maths Learning App</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
@@ -17,9 +17,10 @@
       min-height: 100vh;
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
       background: #f0f8ff;
+      user-select: none;
     }
 
-    /* HOME PAGE */
+    /* SCREEN 1: HOME PAGE */
     .home-page {
       position: relative;
       width: 100vw;
@@ -100,7 +101,115 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* ADDITION MENU PAGE */
+    /* SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) */
+    .main-category-page {
+      min-height: 100vh;
+      padding: 20px 15px 40px;
+      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-bar {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .home-btn {
+      padding: 8px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 15px;
+      background: #ffffff;
+      color: #0984e3;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .app-main-title {
+      font-size: 44px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
+      margin: 5px 0 25px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .cat-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      border: 3px solid rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      transition: transform 0.15s;
+    }
+
+    .cat-card:active { transform: scale(0.95); }
+
+    .cat-demo-eq {
+      font-size: 26px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      margin-bottom: 8px;
+    }
+
+    .cat-pill {
+      padding: 6px 18px;
+      border-radius: 20px;
+      color: white;
+      font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      border: 2px solid #ffffff;
+    }
+
+    .cat-pill.add { background: #ff7675; }
+    .cat-pill.sub { background: #ff7675; }
+    .cat-pill.mul { background: #00b894; }
+    .cat-pill.div { background: #0984e3; }
+
+    .kids-fun-card {
+      grid-column: span 2;
+      background: rgba(255, 255, 255, 0.3);
+      border: 3px solid #ffffff;
+      border-radius: 24px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      margin-top: 5px;
+    }
+
+    .kids-fun-card:active { transform: scale(0.96); }
+
+    .kids-fun-icons {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
+
+    /* SCREEN 3: ADDITION MODES MENU */
     .addition-menu-page {
       min-height: 100vh;
       padding: 25px 15px 40px;
@@ -124,14 +233,10 @@
 
     .addition-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
-      max-width: 720px;
+      max-width: 500px;
       width: 100%;
-    }
-
-    @media (max-width: 650px) {
-      .addition-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     .add-card {
@@ -153,7 +258,7 @@
       background: #006266;
       border-radius: 14px;
       width: 100%;
-      height: 90px;
+      height: 85px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -167,12 +272,12 @@
     .add-card-label {
       color: white;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 14px;
       margin-top: 6px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* QUIZ PAGE */
+    /* SCREEN 4: QUIZ PAGE */
     .quiz-page {
       min-height: 100vh;
       padding: 20px;
@@ -231,6 +336,7 @@
 
     .num-1 { color: #ff9f43; }
     .num-2 { color: #54a0ff; }
+    .operator { color: #feca57; }
 
     .target-box {
       width: 65px;
@@ -248,7 +354,7 @@
     .visual-split-container {
       display: flex;
       width: 100%;
-      height: 140px;
+      height: 130px;
       margin-top: 15px;
       border-top: 2px solid rgba(255, 255, 255, 0.3);
     }
@@ -261,7 +367,7 @@
       justify-content: center;
       gap: 10px;
       padding: 10px;
-      font-size: 38px;
+      font-size: 36px;
     }
 
     .visual-box.left {
@@ -334,40 +440,70 @@
 
     .popup-banner.show { transform: translate(-50%, -50%) scale(1); }
 
-    .home-button {
-      padding: 8px 16px;
-      font-size: 15px;
-      border: none;
-      border-radius: 12px;
-      background: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      cursor: pointer;
-      font-weight: bold;
-    }
-
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- HOME PAGE -->
+  <!-- SCREEN 1: HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="hero-content">
       <div class="brand-badge">🎮 FUN LEARNING</div>
-      <h1 class="game-title">Addition <span>Fun</span></h1>
-      <p class="game-subtitle">Learn Addition & Have Fun! 🎉</p>
+      <h1 class="game-title">Kids <span>Maths</span></h1>
+      <p class="game-subtitle">Learn Maths & Have Fun! 🎉</p>
 
-      <button class="play-button" onclick="playGame()">
+      <button class="play-button" onclick="goToCategoryMenu()">
         <span class="play-icon">▶</span>
         <span>PLAY NOW</span>
       </button>
     </div>
   </div>
 
-  <!-- ADDITION MENU PAGE -->
+  <!-- SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) -->
+  <div id="categoryMenu" class="main-category-page hidden">
+    <div class="header-bar">
+      <button class="home-btn" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <h1 class="app-main-title">Kids Maths</h1>
+
+    <div class="category-grid">
+      <!-- ADDITION CARD -->
+      <div class="cat-card" onclick="openAdditionMenu()">
+        <div class="cat-demo-eq">2 + 3 = 5</div>
+        <div class="cat-pill add">Addition</div>
+      </div>
+
+      <!-- SUBTRACTIONS CARD -->
+      <div class="cat-card" onclick="startDirectQuiz('sub')">
+        <div class="cat-demo-eq">8 - 3 = 5</div>
+        <div class="cat-pill sub">Subtractions</div>
+      </div>
+
+      <!-- MULTIPLICATION CARD -->
+      <div class="cat-card" onclick="startDirectQuiz('mul')">
+        <div class="cat-demo-eq">4 × 6 = 24</div>
+        <div class="cat-pill mul">Multiplication</div>
+      </div>
+
+      <!-- DIVISION CARD -->
+      <div class="cat-card" onclick="startDirectQuiz('div')">
+        <div class="cat-demo-eq">12 ÷ 3 = 4</div>
+        <div class="cat-pill div">Division</div>
+      </div>
+
+      <!-- KIDS FUN CARD -->
+      <div class="kids-fun-card" onclick="startDirectQuiz('fun')">
+        <div class="kids-fun-icons">⭐ ➕ ➖ ✖️ ➗</div>
+        <div class="cat-pill fun">Kids Fun</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: ADDITION MODES MENU -->
   <div id="additionMenu" class="addition-menu-page hidden">
-    <div style="width: 100%; max-width: 720px; display: flex; justify-content: start;">
-      <button class="home-button" onclick="goHome()">🏠 Home</button>
+    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
     </div>
 
     <div class="banner-title">Addition Modes</div>
@@ -395,10 +531,10 @@
     </div>
   </div>
 
-  <!-- QUIZ / COUNTING PAGE -->
+  <!-- SCREEN 4: QUIZ PAGE -->
   <div id="quizPage" class="quiz-page hidden">
     <div class="quiz-header">
-      <button class="home-button" onclick="goMenu()">⬅️ Menu</button>
+      <button class="home-btn" id="backFromQuizBtn" onclick="backFromQuiz()">⬅️ Back</button>
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
@@ -406,7 +542,7 @@
       <!-- EQUATION DISPLAY -->
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
-        <span>+</span>
+        <span id="opSymbol" class="operator">+</span>
         <span id="num2Text" class="num-2">2</span>
         <span>=</span>
         <div id="targetBox" class="target-box">?</div>
@@ -425,12 +561,13 @@
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
-  <!-- SUCCESS POPUP BANNER -->
+  <!-- POPUP BANNER -->
   <div id="popupBanner" class="popup-banner">
     <span id="popupText">Great Job!</span> 🎉
   </div>
 
   <script>
+    let currentCategory = 'addition'; 
     let currentOp = '+';
     let currentAnswer = 2;
     let score = 0;
@@ -462,23 +599,41 @@
       setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
     }
 
-    function playGame() {
+    /* NAVIGATION FUNCTIONS */
+    function goToCategoryMenu() {
       document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("additionMenu").classList.remove("hidden");
+      document.getElementById("categoryMenu").classList.remove("hidden");
     }
 
     function goHome() {
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
     }
 
-    function goMenu() {
-      document.getElementById("quizPage").classList.add("hidden");
+    function openAdditionMenu() {
+      currentCategory = 'addition';
+      document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("additionMenu").classList.remove("hidden");
     }
 
+    function goCategoryMenu() {
+      document.getElementById("additionMenu").classList.add("hidden");
+      document.getElementById("quizPage").classList.add("hidden");
+      document.getElementById("categoryMenu").classList.remove("hidden");
+    }
+
+    function backFromQuiz() {
+      document.getElementById("quizPage").classList.add("hidden");
+      if (currentCategory === 'addition') {
+        document.getElementById("additionMenu").classList.remove("hidden");
+      } else {
+        document.getElementById("categoryMenu").classList.remove("hidden");
+      }
+    }
+
+    /* QUIZ STARTERS */
     function startQuiz(op) {
+      currentCategory = 'addition';
       currentOp = op;
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
@@ -487,6 +642,22 @@
       generateQuestion();
     }
 
+    function startDirectQuiz(cat) {
+      currentCategory = cat;
+      score = 0;
+      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+      document.getElementById("categoryMenu").classList.add("hidden");
+      document.getElementById("quizPage").classList.remove("hidden");
+      
+      if (cat === 'sub') currentOp = '-';
+      else if (cat === 'mul') currentOp = '×';
+      else if (cat === 'div') currentOp = '÷';
+      else if (cat === 'fun') currentOp = 'fun';
+
+      generateQuestion();
+    }
+
+    /* GENERATE MATH QUESTION */
     function generateQuestion() {
       document.getElementById("targetBox").innerText = "?";
       document.getElementById("countItemsContainer").innerHTML = "";
@@ -495,67 +666,100 @@
 
       const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
-      if (currentOp === 'count') {
-        document.getElementById("equationRow").classList.add("hidden");
-        document.getElementById("visualSplitContainer").classList.add("hidden");
-        document.getElementById("countItemsContainer").classList.remove("hidden");
+      // Reset visibilities
+      document.getElementById("equationRow").classList.remove("hidden");
+      document.getElementById("visualSplitContainer").classList.add("hidden");
+      document.getElementById("countItemsContainer").classList.add("hidden");
 
-        let count = Math.floor(Math.random() * 10) + 1;
-        currentAnswer = count;
-        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+      let num1 = 1, num2 = 1, symbol = '+';
 
-        let displayHTML = '';
-        for (let i = 0; i < count; i++) {
-          displayHTML += icon + ' ';
+      if (currentCategory === 'addition') {
+        if (currentOp === 'count') {
+          document.getElementById("equationRow").classList.add("hidden");
+          document.getElementById("countItemsContainer").classList.remove("hidden");
+          let count = Math.floor(Math.random() * 10) + 1;
+          currentAnswer = count;
+          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+          let displayHTML = '';
+          for (let i = 0; i < count; i++) displayHTML += icon + ' ';
+          document.getElementById("countItemsContainer").innerHTML = displayHTML;
+          setupOptions();
+          return;
+        } 
+        else if (currentOp === '+') {
+          document.getElementById("visualSplitContainer").classList.remove("hidden");
+          num1 = Math.floor(Math.random() * 5) + 1;
+          num2 = Math.floor(Math.random() * 5) + 1;
+          symbol = '+';
+          currentAnswer = num1 + num2;
+          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+          for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
+          for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
         }
-        document.getElementById("countItemsContainer").innerHTML = displayHTML;
-      } 
-      else if (currentOp === '+') {
-        document.getElementById("equationRow").classList.remove("hidden");
-        document.getElementById("visualSplitContainer").classList.remove("hidden");
-        document.getElementById("countItemsContainer").classList.add("hidden");
-
-        let num1 = Math.floor(Math.random() * 5) + 1;
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = num1 + num2;
-
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("num2Text").innerText = num2;
-
-        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-
-        for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
-        for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
-      } 
-      else if (currentOp === '2digit') {
-        document.getElementById("equationRow").classList.remove("hidden");
-        document.getElementById("visualSplitContainer").classList.add("hidden");
-        document.getElementById("countItemsContainer").classList.add("hidden");
-
-        let num1 = Math.floor(Math.random() * 40) + 10;
-        let num2 = Math.floor(Math.random() * 40) + 10;
-        currentAnswer = num1 + num2;
-
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("num2Text").innerText = num2;
+        else if (currentOp === '2digit') {
+          num1 = Math.floor(Math.random() * 40) + 10;
+          num2 = Math.floor(Math.random() * 40) + 10;
+          symbol = '+';
+          currentAnswer = num1 + num2;
+        }
+        else if (currentOp === 'easy') {
+          num1 = Math.floor(Math.random() * 10) + 1;
+          num2 = Math.floor(Math.random() * 10) + 1;
+          symbol = '+';
+          currentAnswer = num1 + num2;
+        }
       }
-      else if (currentOp === 'easy') {
-        document.getElementById("equationRow").classList.remove("hidden");
-        document.getElementById("visualSplitContainer").classList.add("hidden");
-        document.getElementById("countItemsContainer").classList.add("hidden");
-
-        let num1 = Math.floor(Math.random() * 10) + 1;
-        let num2 = Math.floor(Math.random() * 10) + 1;
-        currentAnswer = num1 + num2;
-
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("num2Text").innerText = num2;
+      else if (currentCategory === 'sub') {
+        num1 = Math.floor(Math.random() * 9) + 2;
+        num2 = Math.floor(Math.random() * num1) + 1;
+        symbol = '-';
+        currentAnswer = num1 - num2;
+      }
+      else if (currentCategory === 'mul') {
+        num1 = Math.floor(Math.random() * 8) + 1;
+        num2 = Math.floor(Math.random() * 5) + 1;
+        symbol = '×';
+        currentAnswer = num1 * num2;
+      }
+      else if (currentCategory === 'div') {
+        num2 = Math.floor(Math.random() * 5) + 1;
+        currentAnswer = Math.floor(Math.random() * 5) + 1;
+        num1 = currentAnswer * num2;
+        symbol = '÷';
+      }
+      else if (currentCategory === 'fun') {
+        let ops = ['+', '-', '×'];
+        let chosen = ops[Math.floor(Math.random() * ops.length)];
+        if (chosen === '+') {
+          num1 = Math.floor(Math.random() * 10) + 1;
+          num2 = Math.floor(Math.random() * 10) + 1;
+          symbol = '+';
+          currentAnswer = num1 + num2;
+        } else if (chosen === '-') {
+          num1 = Math.floor(Math.random() * 10) + 2;
+          num2 = Math.floor(Math.random() * num1) + 1;
+          symbol = '-';
+          currentAnswer = num1 - num2;
+        } else {
+          num1 = Math.floor(Math.random() * 5) + 1;
+          num2 = Math.floor(Math.random() * 5) + 1;
+          symbol = '×';
+          currentAnswer = num1 * num2;
+        }
       }
 
+      document.getElementById("num1Text").innerText = num1;
+      document.getElementById("num2Text").innerText = num2;
+      document.getElementById("opSymbol").innerText = symbol;
+
+      setupOptions();
+    }
+
+    function setupOptions() {
       let options = [currentAnswer];
       while (options.length < 3) {
         let wrong = currentAnswer + (Math.floor(Math.random() * 7) - 3);
-        if (wrong >= 1 && !options.includes(wrong)) {
+        if (wrong >= 0 && !options.includes(wrong)) {
           options.push(wrong);
         }
       }
