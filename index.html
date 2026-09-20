@@ -101,7 +101,7 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) */
+    /* SCREEN 2: MAIN CATEGORY MENU */
     .main-category-page {
       min-height: 100vh;
       padding: 20px 15px 40px;
@@ -627,47 +627,62 @@
     let score = 0;
     let isAnsweringLocked = false;
 
-    // WEB AUDIO API FOR SOUND EFFECTS
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // WEB AUDIO API - IMPROVED FOR MOBILE & DESKTOP BROWSER AUTOPLAY RESTRICTIONS
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
 
     function playAudioTone(freq, type, duration) {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.log("Audio Error: ", e);
+      }
     }
 
     function playCorrectSound() {
-      playAudioTone(523.25, 'triangle', 0.15);
-      setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100);
-      setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200);
+      playAudioTone(523.25, 'sine', 0.12);
+      setTimeout(() => playAudioTone(659.25, 'sine', 0.12), 100);
+      setTimeout(() => playAudioTone(783.99, 'sine', 0.25), 200);
     }
 
     function playWrongSound() {
-      playAudioTone(220, 'sawtooth', 0.2);
-      setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
+      playAudioTone(200, 'sawtooth', 0.2);
+      setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
     }
 
     /* NAVIGATION */
     function goToCategoryMenu() {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
+      initAudio();
       document.getElementById("homePage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.remove("hidden");
     }
 
     function goHome() {
+      initAudio();
       document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
     }
 
     function openSubMenu(cat) {
+      initAudio();
       currentCategory = cat;
       document.getElementById("categoryMenu").classList.add("hidden");
       if (cat === 'addition') {
@@ -678,6 +693,7 @@
     }
 
     function goCategoryMenu() {
+      initAudio();
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.add("hidden");
@@ -685,6 +701,7 @@
     }
 
     function backFromQuiz() {
+      initAudio();
       document.getElementById("quizPage").classList.add("hidden");
       if (currentCategory === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
@@ -696,6 +713,7 @@
     }
 
     function startQuiz(cat, mode) {
+      initAudio();
       currentCategory = cat;
       currentMode = mode;
       score = 0;
@@ -707,6 +725,7 @@
     }
 
     function startDirectQuiz(cat) {
+      initAudio();
       currentCategory = cat;
       currentMode = cat;
       score = 0;
@@ -998,10 +1017,11 @@
 
     function checkAnswer(selected, buttonEl) {
       if (isAnsweringLocked) return;
+      initAudio();
 
       if (selected == currentAnswer) {
         isAnsweringLocked = true;
-        playCorrectSound(); // 🎉 Play correct chime
+        playCorrectSound();
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         
@@ -1021,7 +1041,7 @@
           generateQuestion();
         }, 1200);
       } else {
-        playWrongSound(); // ❌ Play error buzzer
+        playWrongSound();
         buttonEl.style.background = "#d63031";
       }
     }
