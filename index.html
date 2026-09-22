@@ -671,11 +671,11 @@
     // TEXT TO SPEECH (IN-BUILT VOICE SYNTHESIS)
     function speakText(text) {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel(); // Pehle ki speech ko stop karein
+        window.speechSynthesis.cancel(); // Cancel ongoing speech
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
-        utterance.rate = 0.9;  // Thoda slow bacchon ke liye
-        utterance.pitch = 1.2; // Cheerful voice pitch
+        utterance.rate = 0.9;  // Kid-friendly speech rate
+        utterance.pitch = 1.2; // High/Cheerful pitch
         window.speechSynthesis.speak(utterance);
       }
     }
@@ -915,8 +915,9 @@
 
           document.getElementById("customDisplay").appendChild(canvas);
 
+          // 4 OPTIONS FOR CLOCK MODE
           let timeOptions = [currentAnswer];
-          while(timeOptions.length < 3) {
+          while(timeOptions.length < 4) {
             let h = Math.floor(Math.random() * 12) + 1;
             let m = minutesList[Math.floor(Math.random() * minutesList.length)];
             let fMin = m === 0 ? "00" : m.toString();
@@ -947,8 +948,9 @@
           div.innerText = selected.icon;
           document.getElementById("customDisplay").appendChild(div);
 
+          // 4 OPTIONS FOR SHAPES MODE
           let shapeOptions = [currentAnswer];
-          while(shapeOptions.length < 3) {
+          while(shapeOptions.length < 4) {
             let s = shapes[Math.floor(Math.random() * shapes.length)].name;
             if(!shapeOptions.includes(s)) shapeOptions.push(s);
           }
@@ -1018,11 +1020,12 @@
       ctx.restore();
     }
 
+    // UPDATED: GENERATES EXACTLY 4 OPTIONS
     function setupNumberOptions() {
       let options = [Number(currentAnswer)];
-      while (options.length < 3) {
-        let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 7) - 3);
-        if (wrong >= 1 && wrong <= 30 && !options.includes(wrong)) {
+      while (options.length < 4) {
+        let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 9) - 4);
+        if (wrong >= 1 && wrong <= 80 && !options.includes(wrong)) {
           options.push(wrong);
         }
       }
