@@ -627,7 +627,7 @@
     let score = 0;
     let isAnsweringLocked = false;
 
-    // WEB AUDIO API - IMPROVED FOR MOBILE & DESKTOP BROWSER AUTOPLAY RESTRICTIONS
+    // WEB AUDIO API - SYNTHETIC SOUND EFFECTS
     let audioCtx = null;
 
     function initAudio() {
@@ -668,15 +668,29 @@
       setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
     }
 
+    // TEXT TO SPEECH (IN-BUILT VOICE SYNTHESIS)
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Pehle ki speech ko stop karein
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;  // Thoda slow bacchon ke liye
+        utterance.pitch = 1.2; // Cheerful voice pitch
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
     /* NAVIGATION */
     function goToCategoryMenu() {
       initAudio();
       document.getElementById("homePage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.remove("hidden");
+      speakText("Choose a category");
     }
 
     function goHome() {
       initAudio();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("homePage").classList.remove("hidden");
     }
@@ -687,13 +701,16 @@
       document.getElementById("categoryMenu").classList.add("hidden");
       if (cat === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
+        speakText("Select Addition Mode");
       } else if (cat === 'kidsfun') {
         document.getElementById("kidsFunMenu").classList.remove("hidden");
+        speakText("Select Fun Mode");
       }
     }
 
     function goCategoryMenu() {
       initAudio();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.add("hidden");
@@ -702,6 +719,7 @@
 
     function backFromQuiz() {
       initAudio();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       document.getElementById("quizPage").classList.add("hidden");
       if (currentCategory === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
@@ -763,6 +781,7 @@
           for (let i = 0; i < count; i++) displayHTML += icon + ' ';
           document.getElementById("countItemsContainer").innerHTML = displayHTML;
           setupNumberOptions();
+          speakText("Count the items");
           return;
         } 
         else if (currentMode === '+') {
@@ -777,6 +796,7 @@
           for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
           for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
           setupNumberOptions();
+          speakText(`${num1} plus ${num2}`);
           return;
         }
         else if (currentMode === '2digit') {
@@ -787,6 +807,7 @@
           document.getElementById("opSymbol").innerText = "+";
           document.getElementById("num2Text").innerText = num2;
           setupNumberOptions();
+          speakText(`${num1} plus ${num2}`);
           return;
         }
         else if (currentMode === 'easy') {
@@ -797,6 +818,7 @@
           document.getElementById("opSymbol").innerText = "+";
           document.getElementById("num2Text").innerText = num2;
           setupNumberOptions();
+          speakText(`${num1} plus ${num2}`);
           return;
         }
       }
@@ -809,6 +831,7 @@
         document.getElementById("opSymbol").innerText = "-";
         document.getElementById("num2Text").innerText = num2;
         setupNumberOptions();
+        speakText(`${num1} minus ${num2}`);
         return;
       }
       if (currentCategory === 'mul') {
@@ -819,6 +842,7 @@
         document.getElementById("opSymbol").innerText = "×";
         document.getElementById("num2Text").innerText = num2;
         setupNumberOptions();
+        speakText(`${num1} multiplied by ${num2}`);
         return;
       }
       if (currentCategory === 'div') {
@@ -829,6 +853,7 @@
         document.getElementById("opSymbol").innerText = "÷";
         document.getElementById("num2Text").innerText = num2;
         setupNumberOptions();
+        speakText(`${num1} divided by ${num2}`);
         return;
       }
 
@@ -869,6 +894,7 @@
 
           document.getElementById("customDisplay").appendChild(rowDiv);
           setupNumberOptions();
+          speakText("Find the missing number");
         }
         else if (mode === 'clock') {
           document.getElementById("equationRow").classList.add("hidden");
@@ -899,6 +925,7 @@
           }
           timeOptions.sort(() => Math.random() - 0.5);
           renderOptions(timeOptions);
+          speakText("What time is it?");
         }
         else if (mode === 'shapes') {
           document.getElementById("equationRow").classList.add("hidden");
@@ -927,6 +954,7 @@
           }
           shapeOptions.sort(() => Math.random() - 0.5);
           renderOptions(shapeOptions);
+          speakText("Name this shape");
         }
       }
     }
@@ -1022,6 +1050,8 @@
       if (selected == currentAnswer) {
         isAnsweringLocked = true;
         playCorrectSound();
+        speakText("Great job! Correct!");
+        
         score += 10;
         document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
         
@@ -1042,6 +1072,7 @@
         }, 1200);
       } else {
         playWrongSound();
+        speakText("Try again!");
         buttonEl.style.background = "#d63031";
       }
     }
