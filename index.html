@@ -626,6 +626,7 @@
     let currentAnswer = '';
     let score = 0;
     let isAnsweringLocked = false;
+    let femaleVoice = null;
 
     // WEB AUDIO API - SYNTHETIC SOUND EFFECTS
     let audioCtx = null;
@@ -637,6 +638,23 @@
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      loadFemaleVoice();
+    }
+
+    // LOAD FEMALE VOICE AUTOMATICALLY
+    function loadFemaleVoice() {
+      if ('speechSynthesis' in window) {
+        let voices = window.speechSynthesis.getVoices();
+        // Browser me female voice search karna
+        femaleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Victoria')));
+        if (!femaleVoice && voices.length > 0) {
+          femaleVoice = voices.find(v => v.lang.includes('en'));
+        }
+      }
+    }
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadFemaleVoice;
     }
 
     function playAudioTone(freq, type, duration) {
@@ -668,14 +686,18 @@
       setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
     }
 
-    // TEXT TO SPEECH (IN-BUILT VOICE SYNTHESIS)
+    // TEXT TO SPEECH (FEMALE VOICE)
     function speakText(text) {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel(); // Cancel ongoing speech
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
-        utterance.rate = 0.9;  // Kid-friendly speech rate
-        utterance.pitch = 1.2; // High/Cheerful pitch
+        utterance.rate = 0.95; // Speech speed
+        utterance.pitch = 1.4; // High Pitch = Sweet Female/Childish Voice
+        
+        if (!femaleVoice) loadFemaleVoice();
+        if (femaleVoice) utterance.voice = femaleVoice;
+
         window.speechSynthesis.speak(utterance);
       }
     }
@@ -915,7 +937,6 @@
 
           document.getElementById("customDisplay").appendChild(canvas);
 
-          // 4 OPTIONS FOR CLOCK MODE
           let timeOptions = [currentAnswer];
           while(timeOptions.length < 4) {
             let h = Math.floor(Math.random() * 12) + 1;
@@ -948,7 +969,6 @@
           div.innerText = selected.icon;
           document.getElementById("customDisplay").appendChild(div);
 
-          // 4 OPTIONS FOR SHAPES MODE
           let shapeOptions = [currentAnswer];
           while(shapeOptions.length < 4) {
             let s = shapes[Math.floor(Math.random() * shapes.length)].name;
@@ -1020,7 +1040,6 @@
       ctx.restore();
     }
 
-    // UPDATED: GENERATES EXACTLY 4 OPTIONS
     function setupNumberOptions() {
       let options = [Number(currentAnswer)];
       while (options.length < 4) {
