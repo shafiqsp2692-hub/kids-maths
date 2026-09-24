@@ -626,7 +626,7 @@
     let currentAnswer = '';
     let score = 0;
     let isAnsweringLocked = false;
-    let femaleVoice = null;
+    let maleVoice = null;
 
     // WEB AUDIO API - SYNTHETIC SOUND EFFECTS
     let audioCtx = null;
@@ -638,23 +638,23 @@
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
-      loadFemaleVoice();
+      loadMaleVoice();
     }
 
-    // LOAD FEMALE VOICE AUTOMATICALLY
-    function loadFemaleVoice() {
+    // LOAD MALE VOICE AUTOMATICALLY
+    function loadMaleVoice() {
       if ('speechSynthesis' in window) {
         let voices = window.speechSynthesis.getVoices();
-        // Browser me female voice search karna
-        femaleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Victoria')));
-        if (!femaleVoice && voices.length > 0) {
-          femaleVoice = voices.find(v => v.lang.includes('en'));
+        // Browser me male voice search karna
+        maleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Male') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George')));
+        if (!maleVoice && voices.length > 0) {
+          maleVoice = voices.find(v => v.lang.includes('en'));
         }
       }
     }
 
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = loadFemaleVoice;
+      window.speechSynthesis.onvoiceschanged = loadMaleVoice;
     }
 
     function playAudioTone(freq, type, duration) {
@@ -686,17 +686,17 @@
       setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
     }
 
-    // TEXT TO SPEECH (FEMALE VOICE)
+    // TEXT TO SPEECH (MALE VOICE)
     function speakText(text) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
         utterance.rate = 0.95; // Speech speed
-        utterance.pitch = 1.4; // High Pitch = Sweet Female/Childish Voice
+        utterance.pitch = 0.9;  // Low Pitch = Deep Male Voice
         
-        if (!femaleVoice) loadFemaleVoice();
-        if (femaleVoice) utterance.voice = femaleVoice;
+        if (!maleVoice) loadMaleVoice();
+        if (maleVoice) utterance.voice = maleVoice;
 
         window.speechSynthesis.speak(utterance);
       }
