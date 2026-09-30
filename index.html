@@ -375,6 +375,43 @@
       border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
 
+    /* SUBTRACTION VISUAL STYLES (LEETI / STRIKETHROUGH) */
+    .subtraction-visual-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid rgba(255, 255, 255, 0.3);
+      width: 100%;
+    }
+
+    .item-wrapper {
+      position: relative;
+      display: inline-block;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .item-wrapper.crossed-item {
+      opacity: 0.5;
+    }
+
+    .item-wrapper.crossed-item::after {
+      content: '';
+      position: absolute;
+      left: -10%;
+      top: 50%;
+      width: 120%;
+      height: 4px;
+      background-color: #ff3838;
+      transform: rotate(-25deg);
+      border-radius: 2px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
     .count-items-container {
       display: flex;
       flex-wrap: wrap;
@@ -610,6 +647,8 @@
         <div id="rightVisualBox" class="visual-box"></div>
       </div>
 
+      <div id="subtractionVisualBox" class="subtraction-visual-container hidden"></div>
+
       <div id="customDisplay" class="hidden"></div>
     </div>
 
@@ -645,7 +684,6 @@
     function loadMaleVoice() {
       if ('speechSynthesis' in window) {
         let voices = window.speechSynthesis.getVoices();
-        // Browser me male voice search karna
         maleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Male') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George')));
         if (!maleVoice && voices.length > 0) {
           maleVoice = voices.find(v => v.lang.includes('en'));
@@ -692,8 +730,8 @@
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
-        utterance.rate = 0.95; // Speech speed
-        utterance.pitch = 0.9;  // Low Pitch = Deep Male Voice
+        utterance.rate = 0.95;
+        utterance.pitch = 0.9;
         
         if (!maleVoice) loadMaleVoice();
         if (maleVoice) utterance.voice = maleVoice;
@@ -782,15 +820,17 @@
       document.getElementById("countItemsContainer").innerHTML = "";
       document.getElementById("leftVisualBox").innerHTML = "";
       document.getElementById("rightVisualBox").innerHTML = "";
+      document.getElementById("subtractionVisualBox").innerHTML = "";
       document.getElementById("customDisplay").innerHTML = "";
 
       document.getElementById("equationRow").classList.remove("hidden");
       document.getElementById("visualSplitContainer").classList.add("hidden");
+      document.getElementById("subtractionVisualBox").classList.add("hidden");
       document.getElementById("countItemsContainer").classList.add("hidden");
       document.getElementById("customDisplay").classList.add("hidden");
       document.getElementById("equalsSign").classList.remove("hidden");
 
-      const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
+      const visualItems = ['🚗', '👟', '🌂', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
       if (currentCategory === 'addition') {
         if (currentMode === 'count') {
@@ -846,16 +886,33 @@
       }
 
       if (currentCategory === 'sub') {
-        let num1 = Math.floor(Math.random() * 9) + 2;
-        let num2 = Math.floor(Math.random() * num1) + 1;
+        let num1 = Math.floor(Math.random() * 8) + 2;
+        let num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
         currentAnswer = num1 - num2;
         document.getElementById("num1Text").innerText = num1;
         document.getElementById("opSymbol").innerText = "-";
         document.getElementById("num2Text").innerText = num2;
+
+        // Visual Subtraction with Line (Cross-out)
+        document.getElementById("subtractionVisualBox").classList.remove("hidden");
+        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+        let subHTML = '';
+        
+        for (let i = 0; i < num1; i++) {
+          if (i >= (num1 - num2)) {
+            // Cut / Leeti lagane ke liye crossed-item class
+            subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
+          } else {
+            subHTML += `<span class="item-wrapper">${icon}</span>`;
+          }
+        }
+        document.getElementById("subtractionVisualBox").innerHTML = subHTML;
+
         setupNumberOptions();
         speakText(`${num1} minus ${num2}`);
         return;
       }
+
       if (currentCategory === 'mul') {
         let num1 = Math.floor(Math.random() * 8) + 1;
         let num2 = Math.floor(Math.random() * 5) + 1;
@@ -867,6 +924,7 @@
         speakText(`${num1} multiplied by ${num2}`);
         return;
       }
+
       if (currentCategory === 'div') {
         let num2 = Math.floor(Math.random() * 5) + 1;
         currentAnswer = Math.floor(Math.random() * 5) + 1;
@@ -1044,7 +1102,7 @@
       let options = [Number(currentAnswer)];
       while (options.length < 4) {
         let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 9) - 4);
-        if (wrong >= 1 && wrong <= 80 && !options.includes(wrong)) {
+        if (wrong >= 0 && wrong <= 80 && !options.includes(wrong)) {
           options.push(wrong);
         }
       }
