@@ -540,7 +540,7 @@
         <div class="cat-pill add">Addition</div>
       </div>
 
-      <div class="cat-card" onclick="startDirectQuiz('sub')">
+      <div class="cat-card" onclick="openSubMenu('subtraction')">
         <div class="cat-demo-eq">8 - 3 = 5</div>
         <div class="cat-pill sub">Subtractions</div>
       </div>
@@ -593,7 +593,28 @@
     </div>
   </div>
 
-  <!-- SCREEN 3B: KIDS FUN MODES MENU -->
+  <!-- SCREEN 3B: SUBTRACTION MODES MENU -->
+  <div id="subtractionMenu" class="sub-menu-page hidden">
+    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    </div>
+
+    <div class="banner-title">Subtraction Modes</div>
+
+    <div class="mode-grid">
+      <div class="mode-card" onclick="startQuiz('subtraction', 'visual')">
+        <div class="mode-card-inner">🍎 <s>🍎</s><br>2 - 1 = 1</div>
+        <div class="mode-card-label">With Pictures</div>
+      </div>
+
+      <div class="mode-card" onclick="startQuiz('subtraction', 'simple')">
+        <div class="mode-card-inner">2 - 1 = ?<br>8 - 3 = 5</div>
+        <div class="mode-card-label">Simple Subtraction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3C: KIDS FUN MODES MENU -->
   <div id="kidsFunMenu" class="sub-menu-page hidden">
     <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
@@ -762,6 +783,9 @@
       if (cat === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
         speakText("Select Addition Mode");
+      } else if (cat === 'subtraction') {
+        document.getElementById("subtractionMenu").classList.remove("hidden");
+        speakText("Select Subtraction Mode");
       } else if (cat === 'kidsfun') {
         document.getElementById("kidsFunMenu").classList.remove("hidden");
         speakText("Select Fun Mode");
@@ -772,6 +796,7 @@
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       document.getElementById("additionMenu").classList.add("hidden");
+      document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.remove("hidden");
@@ -783,6 +808,8 @@
       document.getElementById("quizPage").classList.add("hidden");
       if (currentCategory === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
+      } else if (currentCategory === 'subtraction') {
+        document.getElementById("subtractionMenu").classList.remove("hidden");
       } else if (currentCategory === 'kidsfun') {
         document.getElementById("kidsFunMenu").classList.remove("hidden");
       } else {
@@ -797,6 +824,7 @@
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
       document.getElementById("additionMenu").classList.add("hidden");
+      document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
@@ -885,7 +913,7 @@
         }
       }
 
-      if (currentCategory === 'sub') {
+      if (currentCategory === 'subtraction') {
         let num1 = Math.floor(Math.random() * 8) + 2;
         let num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
         currentAnswer = num1 - num2;
@@ -893,20 +921,22 @@
         document.getElementById("opSymbol").innerText = "-";
         document.getElementById("num2Text").innerText = num2;
 
-        // Visual Subtraction with Line (Cross-out)
-        document.getElementById("subtractionVisualBox").classList.remove("hidden");
-        let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-        let subHTML = '';
-        
-        for (let i = 0; i < num1; i++) {
-          if (i >= (num1 - num2)) {
-            // Cut / Leeti lagane ke liye crossed-item class
-            subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
-          } else {
-            subHTML += `<span class="item-wrapper">${icon}</span>`;
+        if (currentMode === 'visual') {
+          // Visual Subtraction with Line (Cross-out)
+          document.getElementById("subtractionVisualBox").classList.remove("hidden");
+          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
+          let subHTML = '';
+          
+          for (let i = 0; i < num1; i++) {
+            if (i >= (num1 - num2)) {
+              subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
+            } else {
+              subHTML += `<span class="item-wrapper">${icon}</span>`;
+            }
           }
+          document.getElementById("subtractionVisualBox").innerHTML = subHTML;
         }
-        document.getElementById("subtractionVisualBox").innerHTML = subHTML;
+        // If currentMode === 'simple', visual box hidden rahega
 
         setupNumberOptions();
         speakText(`${num1} minus ${num2}`);
