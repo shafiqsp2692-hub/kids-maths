@@ -375,7 +375,7 @@
       border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* SUBTRACTION VISUAL STYLES (LEETI / STRIKETHROUGH) */
+    /* SUBTRACTION VISUAL STYLES */
     .subtraction-visual-container {
       display: flex;
       flex-wrap: wrap;
@@ -485,6 +485,95 @@
       box-shadow: 0 2px 0 #888;
     }
 
+    /* MATCH NUMBERS WITH WORDS STYLES */
+    .match-board {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .match-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2d3436;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .match-container {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 320px;
+      z-index: 2;
+    }
+
+    .match-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 15px;
+      width: 120px;
+    }
+
+    .match-item {
+      position: relative;
+      background: #f1f2f6;
+      border: 3px solid #2f3542;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #2f3542;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .match-item.selected {
+      background: #feca57;
+      border-color: #ff9f43;
+      transform: scale(1.05);
+    }
+
+    .match-item.matched {
+      background: #55efc4;
+      border-color: #00b894;
+      cursor: default;
+    }
+
+    .dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #2f3542;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .dot.left { right: -18px; }
+    .dot.right { left: -18px; }
+
+    .match-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
     .popup-banner {
       position: fixed;
       top: 50%;
@@ -556,7 +645,7 @@
       </div>
 
       <div class="kids-fun-card" onclick="openSubMenu('kidsfun')">
-        <div class="kids-fun-icons">🧩 ⏰ 🔺 🔢</div>
+        <div class="kids-fun-icons">🧩 ⏰ ✏️ 🔢</div>
         <div class="cat-pill fun">Kids Fun</div>
       </div>
     </div>
@@ -623,6 +712,11 @@
     <div class="banner-title">Kids Fun</div>
 
     <div class="mode-grid">
+      <div class="mode-card" onclick="startQuiz('kidsfun', 'match')">
+        <div class="mode-card-inner">3 ── Three<br>7 ── Seven</div>
+        <div class="mode-card-label">Match Words</div>
+      </div>
+
       <div class="mode-card" onclick="startQuiz('kidsfun', 'missing')">
         <div class="mode-card-inner">1, 2, [ ? ], 4</div>
         <div class="mode-card-label">Missing Number</div>
@@ -637,11 +731,6 @@
         <div class="mode-card-inner">🔴 🔺 ⬛</div>
         <div class="mode-card-label">Shapes</div>
       </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'mix')">
-        <div class="mode-card-inner">⭐ Mix Fun</div>
-        <div class="mode-card-label">Mix Challenges</div>
-      </div>
     </div>
   </div>
 
@@ -652,7 +741,8 @@
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
-    <div class="chalkboard-card">
+    <!-- STANDARD CHALKBOARD CARD -->
+    <div id="standardChalkboard" class="chalkboard-card">
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
         <span id="opSymbol" class="operator">+</span>
@@ -673,6 +763,16 @@
       <div id="customDisplay" class="hidden"></div>
     </div>
 
+    <!-- MATCH WORDS BOARD -->
+    <div id="matchBoard" class="match-board hidden">
+      <div class="match-title">Match numbers with words.</div>
+      <div class="match-container">
+        <svg id="matchSvg" class="match-svg"></svg>
+        <div id="numColumn" class="match-column"></div>
+        <div id="wordColumn" class="match-column"></div>
+      </div>
+    </div>
+
     <div id="optionsContainer" class="options-grid"></div>
   </div>
 
@@ -688,6 +788,16 @@
     let isAnsweringLocked = false;
     let maleVoice = null;
 
+    // MATCH GAME VARIABLES
+    let selectedNumItem = null;
+    let matchedPairsCount = 0;
+    let totalMatchPairs = 5;
+
+    const numberWordsMap = {
+      1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
+      6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
+    };
+
     // WEB AUDIO API - SYNTHETIC SOUND EFFECTS
     let audioCtx = null;
 
@@ -701,7 +811,6 @@
       loadMaleVoice();
     }
 
-    // LOAD MALE VOICE AUTOMATICALLY
     function loadMaleVoice() {
       if ('speechSynthesis' in window) {
         let voices = window.speechSynthesis.getVoices();
@@ -745,7 +854,6 @@
       setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
     }
 
-    // TEXT TO SPEECH (MALE VOICE)
     function speakText(text) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
@@ -851,12 +959,15 @@
       document.getElementById("subtractionVisualBox").innerHTML = "";
       document.getElementById("customDisplay").innerHTML = "";
 
+      document.getElementById("standardChalkboard").classList.remove("hidden");
+      document.getElementById("matchBoard").classList.add("hidden");
+      document.getElementById("optionsContainer").classList.remove("hidden");
+
       document.getElementById("equationRow").classList.remove("hidden");
       document.getElementById("visualSplitContainer").classList.add("hidden");
       document.getElementById("subtractionVisualBox").classList.add("hidden");
       document.getElementById("countItemsContainer").classList.add("hidden");
       document.getElementById("customDisplay").classList.add("hidden");
-      document.getElementById("equalsSign").classList.remove("hidden");
 
       const visualItems = ['🚗', '👟', '🌂', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
@@ -922,11 +1033,9 @@
         document.getElementById("num2Text").innerText = num2;
 
         if (currentMode === 'visual') {
-          // Visual Subtraction with Line (Cross-out)
           document.getElementById("subtractionVisualBox").classList.remove("hidden");
           let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
           let subHTML = '';
-          
           for (let i = 0; i < num1; i++) {
             if (i >= (num1 - num2)) {
               subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
@@ -936,7 +1045,6 @@
           }
           document.getElementById("subtractionVisualBox").innerHTML = subHTML;
         }
-        // If currentMode === 'simple', visual box hidden rahega
 
         setupNumberOptions();
         speakText(`${num1} minus ${num2}`);
@@ -969,9 +1077,10 @@
 
       if (currentCategory === 'kidsfun') {
         let mode = currentMode;
-        if (mode === 'mix') {
-          const modes = ['missing', 'clock', 'shapes'];
-          mode = modes[Math.floor(Math.random() * modes.length)];
+
+        if (mode === 'match') {
+          setupMatchGame();
+          return;
         }
 
         if (mode === 'missing') {
@@ -1067,6 +1176,131 @@
           speakText("Name this shape");
         }
       }
+    }
+
+    /* MATCH NUMBERS WITH WORDS LOGIC */
+    function setupMatchGame() {
+      document.getElementById("standardChalkboard").classList.add("hidden");
+      document.getElementById("optionsContainer").classList.add("hidden");
+      document.getElementById("matchBoard").classList.remove("hidden");
+
+      const numCol = document.getElementById("numColumn");
+      const wordCol = document.getElementById("wordColumn");
+      const svg = document.getElementById("matchSvg");
+
+      numCol.innerHTML = "";
+      wordCol.innerHTML = "";
+      svg.innerHTML = "";
+
+      selectedNumItem = null;
+      matchedPairsCount = 0;
+
+      let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      numbers.sort(() => Math.random() - 0.5);
+      let selectedNums = numbers.slice(0, 5);
+
+      let words = selectedNums.map(n => ({ num: n, word: numberWordsMap[n] }));
+      let shuffledWords = [...words].sort(() => Math.random() - 0.5);
+
+      selectedNums.forEach(num => {
+        let div = document.createElement("div");
+        div.className = "match-item";
+        div.dataset.value = num;
+        div.innerText = num;
+        div.innerHTML += '<div class="dot left"></div>';
+        div.onclick = () => selectNumItem(div);
+        numCol.appendChild(div);
+      });
+
+      shuffledWords.forEach(item => {
+        let div = document.createElement("div");
+        div.className = "match-item";
+        div.dataset.value = item.num;
+        div.innerText = item.word;
+        div.innerHTML += '<div class="dot right"></div>';
+        div.onclick = () => selectWordItem(div);
+        wordCol.appendChild(div);
+      });
+
+      speakText("Match numbers with words");
+    }
+
+    function selectNumItem(el) {
+      if (el.classList.contains("matched")) return;
+      initAudio();
+
+      document.querySelectorAll("#numColumn .match-item").forEach(i => i.classList.remove("selected"));
+      el.classList.add("selected");
+      selectedNumItem = el;
+      speakText(el.dataset.value);
+    }
+
+    function selectWordItem(el) {
+      if (el.classList.contains("matched") || !selectedNumItem) return;
+      initAudio();
+
+      let numVal = selectedNumItem.dataset.value;
+      let wordVal = el.dataset.value;
+
+      if (numVal === wordVal) {
+        playCorrectSound();
+        selectedNumItem.classList.remove("selected");
+        selectedNumItem.classList.add("matched");
+        el.classList.add("matched");
+
+        drawMatchLine(selectedNumItem, el);
+        speakText(el.innerText);
+
+        selectedNumItem = null;
+        matchedPairsCount++;
+
+        if (matchedPairsCount === totalMatchPairs) {
+          score += 20;
+          document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+
+          let banner = document.getElementById("popupBanner");
+          document.getElementById("popupText").innerText = `Awesome!`;
+          banner.classList.add("show");
+          confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+
+          setTimeout(() => {
+            banner.classList.remove("show");
+            generateQuestion();
+          }, 1500);
+        }
+      } else {
+        playWrongSound();
+        speakText("Try again!");
+        selectedNumItem.classList.remove("selected");
+        selectedNumItem = null;
+      }
+    }
+
+    function drawMatchLine(el1, el2) {
+      const svg = document.getElementById("matchSvg");
+      const containerRect = document.querySelector(".match-container").getBoundingClientRect();
+
+      const dot1 = el1.querySelector(".dot");
+      const dot2 = el2.querySelector(".dot");
+
+      const rect1 = dot1.getBoundingClientRect();
+      const rect2 = dot2.getBoundingClientRect();
+
+      const x1 = rect1.left + rect1.width / 2 - containerRect.left;
+      const y1 = rect1.top + rect1.height / 2 - containerRect.top;
+      const x2 = rect2.left + rect2.width / 2 - containerRect.left;
+      const y2 = rect2.top + rect2.height / 2 - containerRect.top;
+
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", x1);
+      line.setAttribute("y1", y1);
+      line.setAttribute("x2", x2);
+      line.setAttribute("y2", y2);
+      line.setAttribute("stroke", "#00b894");
+      line.setAttribute("stroke-width", "4");
+      line.setAttribute("stroke-linecap", "round");
+
+      svg.appendChild(line);
     }
 
     function drawClock(canvas, hour, minute) {
