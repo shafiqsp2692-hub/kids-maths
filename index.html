@@ -254,6 +254,12 @@
 
     .mode-card:active { transform: scale(0.95); }
 
+    .mode-card.full-width {
+      grid-column: span 2;
+      background: #fdcb6e;
+      border-color: #e17055;
+    }
+
     .mode-card-inner {
       background: #006266;
       border-radius: 14px;
@@ -375,7 +381,6 @@
       border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* SUBTRACTION VISUAL STYLES */
     .subtraction-visual-container {
       display: flex;
       flex-wrap: wrap;
@@ -731,6 +736,12 @@
         <div class="mode-card-inner">🔴 🔺 ⬛</div>
         <div class="mode-card-label">Shapes</div>
       </div>
+
+      <!-- NEW BUTTON BLOCK: MIX FUN -->
+      <div class="mode-card full-width" onclick="startQuiz('kidsfun', 'mixfun')">
+        <div class="mode-card-inner" style="background: #2d3436; font-size: 26px;">🎲 🔀 🧩</div>
+        <div class="mode-card-label" style="font-size: 16px;">Mix Fun</div>
+      </div>
     </div>
   </div>
 
@@ -798,7 +809,7 @@
       6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
     };
 
-    // WEB AUDIO API - SYNTHETIC SOUND EFFECTS
+    // WEB AUDIO API
     let audioCtx = null;
 
     function initAudio() {
@@ -1077,6 +1088,12 @@
 
       if (currentCategory === 'kidsfun') {
         let mode = currentMode;
+
+        // MIX FUN LOGIC: Pick randomly among 4 modes
+        if (mode === 'mixfun') {
+          const funModes = ['match', 'missing', 'clock', 'shapes'];
+          mode = funModes[Math.floor(Math.random() * funModes.length)];
+        }
 
         if (mode === 'match') {
           setupMatchGame();
