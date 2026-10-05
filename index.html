@@ -257,7 +257,6 @@
     .cat-pill.sub { background: #ff7675; }
     .cat-pill.mul { background: #00b894; }
     .cat-pill.div { background: #0984e3; }
-    .cat-pill.eng { background: #e84393; }
 
     .full-width-card {
       grid-column: span 2;
@@ -302,10 +301,6 @@
       margin: 15px 0 25px;
     }
 
-    .banner-title.english-banner {
-      background: linear-gradient(to bottom, #fd79a8, #e84393);
-    }
-
     .mode-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -329,11 +324,6 @@
 
     .mode-card:active { transform: scale(0.95); }
 
-    .mode-card.eng-card {
-      background: #fd79a8;
-      border-color: #e84393;
-    }
-
     .mode-card.full-width {
       grid-column: span 2;
       background: #fdcb6e;
@@ -353,10 +343,6 @@
       font-weight: bold;
       font-size: 18px;
       text-align: center;
-    }
-
-    .eng-card .mode-card-inner {
-      background: #2d3436;
     }
 
     .mode-card-label {
@@ -783,8 +769,8 @@
         <div class="arrow-btn">❯</div>
       </div>
 
-      <!-- ENGLISH CARD -->
-      <div class="main-subject-card" onclick="openSubMenu('english')">
+      <!-- ENGLISH CARD (DIRECTLY OPENS ABC CHART) -->
+      <div class="main-subject-card" onclick="startQuiz('english', 'abcchart')">
         <div class="subject-left">
           <div class="subject-icon">📚</div>
           <div class="subject-name">English</div>
@@ -830,37 +816,10 @@
     </div>
   </div>
 
-  <!-- SCREEN 3A: ENGLISH MODES MENU -->
-  <div id="englishMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
-    </div>
-
-    <div class="banner-title english-banner">English Fun</div>
-
-    <div class="mode-grid">
-      <!-- ABC CHART CARD -->
-      <div class="mode-card eng-card full-width" onclick="startQuiz('english', 'abcchart')">
-        <div class="mode-card-inner" style="background: #e84393; font-size: 28px;">🔤 ABC CHART</div>
-        <div class="mode-card-label">Alphabet Chart with Voice</div>
-      </div>
-
-      <div class="mode-card eng-card" onclick="startQuiz('english', 'alphabets')">
-        <div class="mode-card-inner" style="font-size: 28px;">🅰️ 🅱️ 🔤</div>
-        <div class="mode-card-label">Identify Letters</div>
-      </div>
-
-      <div class="mode-card eng-card" onclick="startQuiz('english', 'spellings')">
-        <div class="mode-card-inner" style="font-size: 22px;">🍎 A_PLE</div>
-        <div class="mode-card-label">Missing Letter</div>
-      </div>
-    </div>
-  </div>
-
   <!-- SCREEN 3B: ADDITION MODES MENU -->
   <div id="additionMenu" class="sub-menu-page hidden">
     <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
+      <button class="home-btn" onclick="openMathsMenu()">⬅️️ Back</button>
     </div>
 
     <div class="banner-title">Addition Modes</div>
@@ -1140,10 +1099,7 @@
       currentCategory = cat;
       hideAllScreens();
 
-      if (cat === 'english') {
-        document.getElementById("englishMenu").classList.remove("hidden");
-        speakText("Select English Mode");
-      } else if (cat === 'addition') {
+      if (cat === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
         speakText("Select Addition Mode");
       } else if (cat === 'subtraction') {
@@ -1168,7 +1124,7 @@
       hideAllScreens();
 
       if (currentCategory === 'english') {
-        document.getElementById("englishMenu").classList.remove("hidden");
+        document.getElementById("categoryMenu").classList.remove("hidden");
       } else if (['addition', 'subtraction', 'kidsfun', 'mul', 'div'].includes(currentCategory)) {
         document.getElementById("mathsMenu").classList.remove("hidden");
       } else {
@@ -1180,7 +1136,6 @@
       document.getElementById("homePage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("mathsMenu").classList.add("hidden");
-      document.getElementById("englishMenu").classList.add("hidden");
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
@@ -1234,66 +1189,8 @@
 
       // ENGLISH CATEGORY
       if (currentCategory === 'english') {
-        if (currentMode === 'abcchart') {
-          setupABCChart();
-          return;
-        }
-
-        document.getElementById("equationRow").classList.add("hidden");
-        document.getElementById("customDisplay").classList.remove("hidden");
-
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-        if (currentMode === 'alphabets') {
-          let target = letters[Math.floor(Math.random() * letters.length)];
-          currentAnswer = target;
-
-          let div = document.createElement("div");
-          div.style.fontSize = "90px";
-          div.style.color = "#feca57";
-          div.style.fontWeight = "bold";
-          div.innerText = target;
-          document.getElementById("customDisplay").appendChild(div);
-
-          let options = [target];
-          while (options.length < 4) {
-            let l = letters[Math.floor(Math.random() * letters.length)];
-            if (!options.includes(l)) options.push(l);
-          }
-          options.sort(() => Math.random() - 0.5);
-          renderOptions(options);
-          speakText("Find letter " + target);
-          return;
-        } 
-        else if (currentMode === 'spellings') {
-          const words = [
-            { word: "APPLE", icon: "🍎", missing: 0 },
-            { word: "BALL", icon: "⚽", missing: 0 },
-            { word: "CAT", icon: "🐱", missing: 0 },
-            { word: "DOG", icon: "🐶", missing: 0 },
-            { word: "FISH", icon: "🐟", missing: 0 },
-            { word: "DUCK", icon: "🦆", missing: 0 }
-          ];
-
-          let selected = words[Math.floor(Math.random() * words.length)];
-          let wordArr = selected.word.split("");
-          currentAnswer = wordArr[selected.missing];
-          wordArr[selected.missing] = "_";
-
-          let div = document.createElement("div");
-          div.innerHTML = `<div style="font-size:65px;">${selected.icon}</div><div style="font-size:42px; color:#ffffff; font-weight:bold; letter-spacing:6px;">${wordArr.join("")}</div>`;
-          document.getElementById("customDisplay").appendChild(div);
-
-          let options = [currentAnswer];
-          while (options.length < 4) {
-            let l = letters[Math.floor(Math.random() * letters.length)];
-            if (!options.includes(l)) options.push(l);
-          }
-          options.sort(() => Math.random() - 0.5);
-          renderOptions(options);
-          speakText("Complete the word");
-          return;
-        }
+        setupABCChart();
+        return;
       }
 
       // ADDITION CATEGORY
