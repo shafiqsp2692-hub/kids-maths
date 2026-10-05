@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Maths Learning App</title>
+  <title>Kids Learning World</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
@@ -25,7 +25,7 @@
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
+      background: linear-gradient(-45deg, #ff7675, #6c5ce7, #00cec9, #fdcb6e);
       background-size: 400% 400%;
       animation: gradientBG 10s ease infinite;
       display: flex;
@@ -45,12 +45,13 @@
     .brand-badge {
       background: rgba(255, 255, 255, 0.3);
       color: #fff;
-      padding: 8px 20px;
+      padding: 8px 22px;
       border-radius: 20px;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 16px;
       display: inline-block;
       margin-bottom: 12px;
+      backdrop-filter: blur(5px);
     }
 
     .game-title {
@@ -132,7 +133,7 @@
     }
 
     .app-main-title {
-      font-size: 44px;
+      font-size: 42px;
       font-weight: 900;
       color: #ffffff;
       text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
@@ -142,15 +143,15 @@
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: 18px;
       max-width: 480px;
       width: 100%;
     }
 
     .cat-card {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(5px);
-      border: 3px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+      border: 3px solid rgba(255, 255, 255, 0.7);
       border-radius: 24px;
       padding: 15px 10px;
       display: flex;
@@ -185,10 +186,11 @@
     .cat-pill.sub { background: #ff7675; }
     .cat-pill.mul { background: #00b894; }
     .cat-pill.div { background: #0984e3; }
+    .cat-pill.eng { background: #e84393; }
 
-    .kids-fun-card {
+    .full-width-card {
       grid-column: span 2;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
       border: 3px solid #ffffff;
       border-radius: 24px;
       padding: 15px;
@@ -197,12 +199,11 @@
       align-items: center;
       cursor: pointer;
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      margin-top: 5px;
     }
 
-    .kids-fun-card:active { transform: scale(0.96); }
+    .full-width-card:active { transform: scale(0.96); }
 
-    .kids-fun-icons {
+    .card-icons {
       font-size: 28px;
       margin-bottom: 6px;
     }
@@ -224,11 +225,15 @@
       color: white;
       padding: 10px 45px;
       border-radius: 25px;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 900;
       border: 3px solid #ffffff;
       box-shadow: 0 6px 0 rgba(0,0,0,0.2);
       margin: 15px 0 25px;
+    }
+
+    .banner-title.english-banner {
+      background: linear-gradient(to bottom, #fd79a8, #e84393);
     }
 
     .mode-grid {
@@ -254,6 +259,11 @@
 
     .mode-card:active { transform: scale(0.95); }
 
+    .mode-card.eng-card {
+      background: #fd79a8;
+      border-color: #e84393;
+    }
+
     .mode-card.full-width {
       grid-column: span 2;
       background: #fdcb6e;
@@ -273,6 +283,10 @@
       font-weight: bold;
       font-size: 18px;
       text-align: center;
+    }
+
+    .eng-card .mode-card-inner {
+      background: #2d3436;
     }
 
     .mode-card-label {
@@ -377,9 +391,7 @@
       font-size: 36px;
     }
 
-    .visual-box.left {
-      border-right: 2px solid rgba(255, 255, 255, 0.3);
-    }
+    .visual-box.left { border-right: 2px solid rgba(255, 255, 255, 0.3); }
 
     .subtraction-visual-container {
       display: flex;
@@ -400,9 +412,7 @@
       line-height: 1;
     }
 
-    .item-wrapper.crossed-item {
-      opacity: 0.5;
-    }
+    .item-wrapper.crossed-item { opacity: 0.5; }
 
     .item-wrapper.crossed-item::after {
       content: '';
@@ -609,9 +619,9 @@
   <!-- SCREEN 1: HOME PAGE -->
   <div id="homePage" class="home-page">
     <div class="hero-content">
-      <div class="brand-badge">🎮 FUN LEARNING</div>
-      <h1 class="game-title">Kids <span>Maths</span></h1>
-      <p class="game-subtitle">Learn Maths & Have Fun! 🎉</p>
+      <div class="brand-badge">🎮 FUN LEARNING WORLD</div>
+      <h1 class="game-title">Kids <span>Master</span></h1>
+      <p class="game-subtitle">Maths & English Learning Fun! 🎉</p>
 
       <button class="play-button" onclick="goToCategoryMenu()">
         <span class="play-icon">▶</span>
@@ -626,9 +636,14 @@
       <button class="home-btn" onclick="goHome()">🏠 Home</button>
     </div>
 
-    <h1 class="app-main-title">Kids Maths</h1>
+    <h1 class="app-main-title">Learning Menu</h1>
 
     <div class="category-grid">
+      <div class="cat-card" onclick="openSubMenu('english')">
+        <div class="cat-demo-eq">A B C</div>
+        <div class="cat-pill eng">English</div>
+      </div>
+
       <div class="cat-card" onclick="openSubMenu('addition')">
         <div class="cat-demo-eq">2 + 3 = 5</div>
         <div class="cat-pill add">Addition</div>
@@ -636,7 +651,7 @@
 
       <div class="cat-card" onclick="openSubMenu('subtraction')">
         <div class="cat-demo-eq">8 - 3 = 5</div>
-        <div class="cat-pill sub">Subtractions</div>
+        <div class="cat-pill sub">Subtraction</div>
       </div>
 
       <div class="cat-card" onclick="startDirectQuiz('mul')">
@@ -649,14 +664,35 @@
         <div class="cat-pill div">Division</div>
       </div>
 
-      <div class="kids-fun-card" onclick="openSubMenu('kidsfun')">
-        <div class="kids-fun-icons">🧩 ⏰ ✏️ 🔢</div>
+      <div class="full-width-card" onclick="openSubMenu('kidsfun')">
+        <div class="card-icons">🧩 ⏰ ✏️ 🔢 🎲</div>
         <div class="cat-pill fun">Kids Fun</div>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 3A: ADDITION MODES MENU -->
+  <!-- SCREEN 3A: ENGLISH MODES MENU -->
+  <div id="englishMenu" class="sub-menu-page hidden">
+    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    </div>
+
+    <div class="banner-title english-banner">English Fun</div>
+
+    <div class="mode-grid">
+      <div class="mode-card eng-card" onclick="startQuiz('english', 'alphabets')">
+        <div class="mode-card-inner" style="font-size: 28px;">🅰️ 🅱️ 🔤</div>
+        <div class="mode-card-label">Identify Letters</div>
+      </div>
+
+      <div class="mode-card eng-card" onclick="startQuiz('english', 'spellings')">
+        <div class="mode-card-inner" style="font-size: 22px;">🍎 A_PLE</div>
+        <div class="mode-card-label">Missing Letter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3B: ADDITION MODES MENU -->
   <div id="additionMenu" class="sub-menu-page hidden">
     <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
@@ -687,7 +723,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 3B: SUBTRACTION MODES MENU -->
+  <!-- SCREEN 3C: SUBTRACTION MODES MENU -->
   <div id="subtractionMenu" class="sub-menu-page hidden">
     <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
@@ -708,7 +744,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 3C: KIDS FUN MODES MENU -->
+  <!-- SCREEN 3D: KIDS FUN MODES MENU -->
   <div id="kidsFunMenu" class="sub-menu-page hidden">
     <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
@@ -737,7 +773,6 @@
         <div class="mode-card-label">Shapes</div>
       </div>
 
-      <!-- NEW BUTTON BLOCK: MIX FUN -->
       <div class="mode-card full-width" onclick="startQuiz('kidsfun', 'mixfun')">
         <div class="mode-card-inner" style="background: #2d3436; font-size: 26px;">🎲 🔀 🧩</div>
         <div class="mode-card-label" style="font-size: 16px;">Mix Fun</div>
@@ -799,7 +834,6 @@
     let isAnsweringLocked = false;
     let maleVoice = null;
 
-    // MATCH GAME VARIABLES
     let selectedNumItem = null;
     let matchedPairsCount = 0;
     let totalMatchPairs = 5;
@@ -809,7 +843,6 @@
       6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
     };
 
-    // WEB AUDIO API
     let audioCtx = null;
 
     function initAudio() {
@@ -899,7 +932,10 @@
       initAudio();
       currentCategory = cat;
       document.getElementById("categoryMenu").classList.add("hidden");
-      if (cat === 'addition') {
+      if (cat === 'english') {
+        document.getElementById("englishMenu").classList.remove("hidden");
+        speakText("Select English Mode");
+      } else if (cat === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
         speakText("Select Addition Mode");
       } else if (cat === 'subtraction') {
@@ -914,6 +950,7 @@
     function goCategoryMenu() {
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      document.getElementById("englishMenu").classList.add("hidden");
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
@@ -925,7 +962,9 @@
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       document.getElementById("quizPage").classList.add("hidden");
-      if (currentCategory === 'addition') {
+      if (currentCategory === 'english') {
+        document.getElementById("englishMenu").classList.remove("hidden");
+      } else if (currentCategory === 'addition') {
         document.getElementById("additionMenu").classList.remove("hidden");
       } else if (currentCategory === 'subtraction') {
         document.getElementById("subtractionMenu").classList.remove("hidden");
@@ -942,6 +981,7 @@
       currentMode = mode;
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+      document.getElementById("englishMenu").classList.add("hidden");
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
@@ -982,6 +1022,66 @@
 
       const visualItems = ['🚗', '👟', '🌂', '🍎', '🧁', '🎈', '🦆', '🍬'];
 
+      // ENGLISH CATEGORY
+      if (currentCategory === 'english') {
+        document.getElementById("equationRow").classList.add("hidden");
+        document.getElementById("customDisplay").classList.remove("hidden");
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+        if (currentMode === 'alphabets') {
+          let target = letters[Math.floor(Math.random() * letters.length)];
+          currentAnswer = target;
+
+          let div = document.createElement("div");
+          div.style.fontSize = "90px";
+          div.style.color = "#feca57";
+          div.style.fontWeight = "bold";
+          div.innerText = target;
+          document.getElementById("customDisplay").appendChild(div);
+
+          let options = [target];
+          while (options.length < 4) {
+            let l = letters[Math.floor(Math.random() * letters.length)];
+            if (!options.includes(l)) options.push(l);
+          }
+          options.sort(() => Math.random() - 0.5);
+          renderOptions(options);
+          speakText("Find letter " + target);
+          return;
+        } 
+        else if (currentMode === 'spellings') {
+          const words = [
+            { word: "APPLE", icon: "🍎", missing: 0 },
+            { word: "BALL", icon: "⚽", missing: 0 },
+            { word: "CAT", icon: "🐱", missing: 0 },
+            { word: "DOG", icon: "🐶", missing: 0 },
+            { word: "FISH", icon: "🐟", missing: 0 },
+            { word: "DUCK", icon: "🦆", missing: 0 }
+          ];
+
+          let selected = words[Math.floor(Math.random() * words.length)];
+          let wordArr = selected.word.split("");
+          currentAnswer = wordArr[selected.missing];
+          wordArr[selected.missing] = "_";
+
+          let div = document.createElement("div");
+          div.innerHTML = `<div style="font-size:65px;">${selected.icon}</div><div style="font-size:42px; color:#ffffff; font-weight:bold; letter-spacing:6px;">${wordArr.join("")}</div>`;
+          document.getElementById("customDisplay").appendChild(div);
+
+          let options = [currentAnswer];
+          while (options.length < 4) {
+            let l = letters[Math.floor(Math.random() * letters.length)];
+            if (!options.includes(l)) options.push(l);
+          }
+          options.sort(() => Math.random() - 0.5);
+          renderOptions(options);
+          speakText("Complete the word");
+          return;
+        }
+      }
+
+      // ADDITION CATEGORY
       if (currentCategory === 'addition') {
         if (currentMode === 'count') {
           document.getElementById("equationRow").classList.add("hidden");
@@ -1035,6 +1135,7 @@
         }
       }
 
+      // SUBTRACTION CATEGORY
       if (currentCategory === 'subtraction') {
         let num1 = Math.floor(Math.random() * 8) + 2;
         let num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
@@ -1086,10 +1187,10 @@
         return;
       }
 
+      // KIDS FUN CATEGORY
       if (currentCategory === 'kidsfun') {
         let mode = currentMode;
 
-        // MIX FUN LOGIC: Pick randomly among 4 modes
         if (mode === 'mixfun') {
           const funModes = ['match', 'missing', 'clock', 'shapes'];
           mode = funModes[Math.floor(Math.random() * funModes.length)];
