@@ -16,7 +16,7 @@
       width: 100%;
       min-height: 100vh;
       font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: #f0f8ff;
+      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
       user-select: none;
     }
 
@@ -102,42 +102,113 @@
       box-shadow: 0 2px 0 #b22222;
     }
 
-    /* SCREEN 2: MAIN CATEGORY MENU */
-    .main-category-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
+    /* GENERAL HEADER BAR */
     .header-bar {
       width: 100%;
       max-width: 500px;
       display: flex;
       justify-content: flex-start;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .home-btn {
-      padding: 8px 18px;
-      font-size: 16px;
+      padding: 10px 22px;
+      font-size: 18px;
       border: none;
-      border-radius: 15px;
+      border-radius: 25px;
       background: #ffffff;
       color: #0984e3;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       cursor: pointer;
       font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* SCREEN 2: MAIN CATEGORY MENU (IMAGE 2 STYLE) */
+    .main-category-page {
+      min-height: 100vh;
+      padding: 20px 15px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .app-main-title {
-      font-size: 42px;
+      font-size: 48px;
       font-weight: 900;
       color: #ffffff;
       text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
-      margin: 5px 0 25px;
+      margin: 10px 0 35px;
+      text-align: center;
+    }
+
+    .main-cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    .main-subject-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      border-radius: 35px;
+      padding: 25px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .main-subject-card:active {
+      transform: scale(0.96);
+    }
+
+    .subject-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .subject-icon {
+      font-size: 55px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    }
+
+    .subject-name {
+      font-size: 42px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+    }
+
+    .arrow-btn {
+      width: 45px;
+      height: 45px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0984e3;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* SCREEN 2B: MATHS SUB-CATEGORIES MENU */
+    .maths-menu-page {
+      min-height: 100vh;
+      padding: 20px 15px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .category-grid {
@@ -149,11 +220,11 @@
     }
 
     .cat-card {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
       backdrop-filter: blur(8px);
-      border: 3px solid rgba(255, 255, 255, 0.7);
+      border: 3px solid rgba(255, 255, 255, 0.8);
       border-radius: 24px;
-      padding: 15px 10px;
+      padding: 18px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -169,7 +240,7 @@
       font-weight: 900;
       color: #ffffff;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .cat-pill {
@@ -190,7 +261,7 @@
 
     .full-width-card {
       grid-column: span 2;
-      background: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.4);
       border: 3px solid #ffffff;
       border-radius: 24px;
       padding: 15px;
@@ -210,11 +281,10 @@
 
     .cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
 
-    /* SCREEN 3: SUB-MENUS */
+    /* SCREEN 3: SUB-MENUS FOR MODES */
     .sub-menu-page {
       min-height: 100vh;
       padding: 25px 15px 40px;
-      background: linear-gradient(to bottom, #7ed6df, #e056fd, #ffbe76);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -630,20 +700,44 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: MAIN CATEGORY MENU -->
+  <!-- SCREEN 2: MAIN SUBJECT MENU (IMAGE 2 DESIGN) -->
   <div id="categoryMenu" class="main-category-page hidden">
     <div class="header-bar">
       <button class="home-btn" onclick="goHome()">🏠 Home</button>
     </div>
 
-    <h1 class="app-main-title">Learning Menu</h1>
+    <h1 class="app-main-title">Kids Learning</h1>
 
-    <div class="category-grid">
-      <div class="cat-card" onclick="openSubMenu('english')">
-        <div class="cat-demo-eq">A B C</div>
-        <div class="cat-pill eng">English</div>
+    <div class="main-cards-container">
+      <!-- MATHS CARD -->
+      <div class="main-subject-card" onclick="openMathsMenu()">
+        <div class="subject-left">
+          <div class="subject-icon">🧮</div>
+          <div class="subject-name">Maths</div>
+        </div>
+        <div class="arrow-btn">❯</div>
       </div>
 
+      <!-- ENGLISH CARD -->
+      <div class="main-subject-card" onclick="openSubMenu('english')">
+        <div class="subject-left">
+          <div class="subject-icon">📚</div>
+          <div class="subject-name">English</div>
+        </div>
+        <div class="arrow-btn">❯</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2B: MATHS CATEGORIES (IMAGE 1 MENU) -->
+  <div id="mathsMenu" class="maths-menu-page hidden">
+    <div class="header-bar">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
+    </div>
+
+    <h1 class="app-main-title" style="font-size: 38px; margin-bottom: 20px;">Maths Menu</h1>
+
+    <div class="category-grid">
       <div class="cat-card" onclick="openSubMenu('addition')">
         <div class="cat-demo-eq">2 + 3 = 5</div>
         <div class="cat-pill add">Addition</div>
@@ -673,8 +767,8 @@
 
   <!-- SCREEN 3A: ENGLISH MODES MENU -->
   <div id="englishMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    <div class="header-bar">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
     </div>
 
     <div class="banner-title english-banner">English Fun</div>
@@ -694,8 +788,8 @@
 
   <!-- SCREEN 3B: ADDITION MODES MENU -->
   <div id="additionMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    <div class="header-bar">
+      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
     </div>
 
     <div class="banner-title">Addition Modes</div>
@@ -725,8 +819,8 @@
 
   <!-- SCREEN 3C: SUBTRACTION MODES MENU -->
   <div id="subtractionMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    <div class="header-bar">
+      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
     </div>
 
     <div class="banner-title">Subtraction Modes</div>
@@ -746,8 +840,8 @@
 
   <!-- SCREEN 3D: KIDS FUN MODES MENU -->
   <div id="kidsFunMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
+    <div class="header-bar">
+      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
     </div>
 
     <div class="banner-title">Kids Fun</div>
@@ -913,25 +1007,33 @@
       }
     }
 
-    /* NAVIGATION */
+    /* NAVIGATION LOGIC */
     function goToCategoryMenu() {
       initAudio();
-      document.getElementById("homePage").classList.add("hidden");
+      hideAllScreens();
       document.getElementById("categoryMenu").classList.remove("hidden");
-      speakText("Choose a category");
+      speakText("Choose Maths or English");
     }
 
     function goHome() {
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      document.getElementById("categoryMenu").classList.add("hidden");
+      hideAllScreens();
       document.getElementById("homePage").classList.remove("hidden");
+    }
+
+    function openMathsMenu() {
+      initAudio();
+      hideAllScreens();
+      document.getElementById("mathsMenu").classList.remove("hidden");
+      speakText("Select Maths Game");
     }
 
     function openSubMenu(cat) {
       initAudio();
       currentCategory = cat;
-      document.getElementById("categoryMenu").classList.add("hidden");
+      hideAllScreens();
+
       if (cat === 'english') {
         document.getElementById("englishMenu").classList.remove("hidden");
         speakText("Select English Mode");
@@ -950,29 +1052,33 @@
     function goCategoryMenu() {
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      document.getElementById("englishMenu").classList.add("hidden");
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("subtractionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.add("hidden");
+      hideAllScreens();
       document.getElementById("categoryMenu").classList.remove("hidden");
     }
 
     function backFromQuiz() {
       initAudio();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      document.getElementById("quizPage").classList.add("hidden");
+      hideAllScreens();
+
       if (currentCategory === 'english') {
         document.getElementById("englishMenu").classList.remove("hidden");
-      } else if (currentCategory === 'addition') {
-        document.getElementById("additionMenu").classList.remove("hidden");
-      } else if (currentCategory === 'subtraction') {
-        document.getElementById("subtractionMenu").classList.remove("hidden");
-      } else if (currentCategory === 'kidsfun') {
-        document.getElementById("kidsFunMenu").classList.remove("hidden");
+      } else if (['addition', 'subtraction', 'kidsfun', 'mul', 'div'].includes(currentCategory)) {
+        document.getElementById("mathsMenu").classList.remove("hidden");
       } else {
         document.getElementById("categoryMenu").classList.remove("hidden");
       }
+    }
+
+    function hideAllScreens() {
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("categoryMenu").classList.add("hidden");
+      document.getElementById("mathsMenu").classList.add("hidden");
+      document.getElementById("englishMenu").classList.add("hidden");
+      document.getElementById("additionMenu").classList.add("hidden");
+      document.getElementById("subtractionMenu").classList.add("hidden");
+      document.getElementById("kidsFunMenu").classList.add("hidden");
+      document.getElementById("quizPage").classList.add("hidden");
     }
 
     function startQuiz(cat, mode) {
@@ -981,10 +1087,7 @@
       currentMode = mode;
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      document.getElementById("englishMenu").classList.add("hidden");
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("subtractionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
+      hideAllScreens();
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
     }
@@ -995,7 +1098,7 @@
       currentMode = cat;
       score = 0;
       document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      document.getElementById("categoryMenu").classList.add("hidden");
+      hideAllScreens();
       document.getElementById("quizPage").classList.remove("hidden");
       generateQuestion();
     }
