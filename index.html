@@ -1,1683 +1,1115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Learning World</title>
-  
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
-      user-select: none;
-    }
-
-    /* SCREEN 1: HOME PAGE */
-    .home-page {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(-45deg, #ff7675, #6c5ce7, #00cec9, #fdcb6e);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .brand-badge {
-      background: rgba(255, 255, 255, 0.3);
-      color: #fff;
-      padding: 8px 22px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 16px;
-      display: inline-block;
-      margin-bottom: 12px;
-      backdrop-filter: blur(5px);
-    }
-
-    .game-title {
-      font-size: 52px;
-      color: #ffffff;
-      margin: 0;
-      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .game-title span { color: #feca57; }
-
-    .game-subtitle {
-      color: #ffffff;
-      font-size: 18px;
-      margin: 10px 0 30px;
-    }
-
-    .play-button {
-      border: none;
-      border-radius: 50px;
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      font-size: 26px;
-      font-weight: 900;
-      padding: 16px 45px;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      cursor: pointer;
-      box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
-      transition: all 0.2s ease;
-    }
-
-    .play-icon {
-      width: 40px;
-      height: 40px;
-      background: white;
-      color: #ee5253;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .play-button:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 #b22222;
-    }
-
-    /* GENERAL HEADER BAR */
-    .header-bar {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 15px;
-    }
-
-    .home-btn {
-      padding: 10px 22px;
-      font-size: 18px;
-      border: none;
-      border-radius: 25px;
-      background: #ffffff;
-      color: #0984e3;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      cursor: pointer;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* SCREEN 2: MAIN CATEGORY MENU */
-    .main-category-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .app-main-title {
-      font-size: 48px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
-      margin: 10px 0 35px;
-      text-align: center;
-    }
-
-    .main-cards-container {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      max-width: 450px;
-      width: 100%;
-    }
-
-    .main-subject-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(10px);
-      border: 4px solid rgba(255, 255, 255, 0.9);
-      border-radius: 35px;
-      padding: 25px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .main-subject-card:active {
-      transform: scale(0.96);
-    }
-
-    .subject-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .subject-icon {
-      font-size: 55px;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-    }
-
-    .subject-name {
-      font-size: 42px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
-    }
-
-    .arrow-btn {
-      width: 45px;
-      height: 45px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0984e3;
-      font-size: 24px;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    /* SCREEN 2B: MATHS SUB-CATEGORIES MENU */
-    .maths-menu-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-      max-width: 480px;
-      width: 100%;
-    }
-
-    .cat-card {
-      background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(8px);
-      border: 3px solid rgba(255, 255, 255, 0.8);
-      border-radius: 24px;
-      padding: 18px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      transition: transform 0.15s;
-    }
-
-    .cat-card:active { transform: scale(0.95); }
-
-    .cat-demo-eq {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      margin-bottom: 10px;
-    }
-
-    .cat-pill {
-      padding: 6px 18px;
-      border-radius: 20px;
-      color: white;
-      font-weight: 900;
-      font-size: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-      border: 2px solid #ffffff;
-    }
-
-    .cat-pill.add { background: #ff7675; }
-    .cat-pill.sub { background: #ff7675; }
-    .cat-pill.mul { background: #00b894; }
-    .cat-pill.div { background: #0984e3; }
-
-    .full-width-card {
-      grid-column: span 2;
-      background: rgba(255, 255, 255, 0.4);
-      border: 3px solid #ffffff;
-      border-radius: 24px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .full-width-card:active { transform: scale(0.96); }
-
-    .card-icons {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
-
-    /* SCREEN 3: SUB-MENUS FOR MODES */
-    .sub-menu-page {
-      min-height: 100vh;
-      padding: 25px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .banner-title {
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      padding: 10px 45px;
-      border-radius: 25px;
-      font-size: 26px;
-      font-weight: 900;
-      border: 3px solid #ffffff;
-      box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-      margin: 15px 0 25px;
-    }
-
-    .mode-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .mode-card {
-      background: #ff7675;
-      border: 4px solid #d63031;
-      border-radius: 20px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: transform 0.15s;
-    }
-
-    .mode-card:active { transform: scale(0.95); }
-
-    .mode-card.full-width {
-      grid-column: span 2;
-      background: #fdcb6e;
-      border-color: #e17055;
-    }
-
-    .mode-card-inner {
-      background: #006266;
-      border-radius: 14px;
-      width: 100%;
-      height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-    }
-
-    .mode-card-label {
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 6px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-    }
-
-    /* ABC CHART GRID STYLES */
-    .abc-chart-board {
-      width: 100%;
-      max-width: 550px;
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 20px 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .abc-chart-title {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ff4757;
-      text-shadow: 1px 1px 0 #ffa502;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .abc-grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-height: 65vh;
-      overflow-y: auto;
-      padding: 5px;
-    }
-
-    .abc-card-item {
-      background: #f1f2f6;
-      border: 3px solid #70a1ff;
-      border-radius: 16px;
-      padding: 10px 5px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.15s, border-color 0.15s;
-    }
-
-    .abc-card-item:active {
-      transform: scale(0.92);
-      border-color: #ff6b81;
-      background: #ffeaa7;
-    }
-
-    .abc-card-letters {
-      font-size: 22px;
-      font-weight: bold;
-      color: #3742fa;
-    }
-
-    .abc-card-icon {
-      font-size: 38px;
-      margin: 4px 0;
-    }
-
-    .abc-card-word {
-      font-size: 13px;
-      font-weight: bold;
-      color: #2f3542;
-    }
-
-    /* SCREEN 4: QUIZ PAGE */
-    .quiz-page {
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #273c75;
-    }
-
-    .quiz-header {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .score-display {
-      font-size: 18px;
-      font-weight: bold;
-      color: #2d3436;
-      background: #feca57;
-      padding: 8px 18px;
-      border-radius: 20px;
-    }
-
-    .chalkboard-card {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      background: #104e33;
-      border: 10px solid #8c7ae6;
-      border-radius: 24px;
-      padding: 20px 15px;
-      text-align: center;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-      margin-bottom: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 230px;
-    }
-
-    .equation-top-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      color: white;
-      font-weight: bold;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    .num-1 { color: #ff9f43; }
-    .num-2 { color: #54a0ff; }
-    .operator { color: #feca57; }
-
-    .target-box {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 3px dashed white;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: #feca57;
-    }
-
-    .visual-split-container {
-      display: flex;
-      width: 100%;
-      height: 130px;
-      margin-top: 15px;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .visual-box {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      font-size: 36px;
-    }
-
-    .visual-box.left { border-right: 2px solid rgba(255, 255, 255, 0.3); }
-
-    .subtraction-visual-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-      width: 100%;
-    }
-
-    .item-wrapper {
-      position: relative;
-      display: inline-block;
-      font-size: 38px;
-      line-height: 1;
-    }
-
-    .item-wrapper.crossed-item { opacity: 0.5; }
-
-    .item-wrapper.crossed-item::after {
-      content: '';
-      position: absolute;
-      left: -10%;
-      top: 50%;
-      width: 120%;
-      height: 4px;
-      background-color: #ff3838;
-      transform: rotate(-25deg);
-      border-radius: 2px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.5);
-    }
-
-    .count-items-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      max-width: 420px;
-    }
-
-    .missing-row-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-size: 36px;
-      color: white;
-      font-weight: bold;
-    }
-
-    .missing-num-pill {
-      background: rgba(255,255,255,0.15);
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      color: #74b9ff;
-    }
-
-    .clock-canvas {
-      background: white;
-      border-radius: 50%;
-      border: 6px solid #feca57;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .options-grid {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .option-btn {
-      min-width: 90px;
-      height: 70px;
-      padding: 0 15px;
-      font-size: 24px;
-      font-weight: bold;
-      border: none;
-      border-radius: 18px;
-      background: #ff4757;
-      color: white;
-      box-shadow: 0 6px 0 #c0392b, 0 10px 15px rgba(0,0,0,0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.1s;
-    }
-
-    .option-btn:nth-child(2) { background: #2ed573; box-shadow: 0 6px 0 #26af5f; }
-    .option-btn:nth-child(3) { background: #1e90ff; box-shadow: 0 6px 0 #0f68c9; }
-    .option-btn:nth-child(4) { background: #ffa502; box-shadow: 0 6px 0 #d35400; }
-
-    .option-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #888;
-    }
-
-    /* MATCH NUMBERS WITH WORDS STYLES */
-    .match-board {
-      position: relative;
-      width: 100%;
-      max-width: 480px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 20px 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    .match-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2d3436;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .match-container {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      min-height: 320px;
-      z-index: 2;
-    }
-
-    .match-column {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 15px;
-      width: 120px;
-    }
-
-    .match-item {
-      position: relative;
-      background: #f1f2f6;
-      border: 3px solid #2f3542;
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #2f3542;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 52px;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    .match-item.selected {
-      background: #feca57;
-      border-color: #ff9f43;
-      transform: scale(1.05);
-    }
-
-    .match-item.matched {
-      background: #55efc4;
-      border-color: #00b894;
-      cursor: default;
-    }
-
-    .dot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: #2f3542;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .dot.left { right: -18px; }
-    .dot.right { left: -18px; }
-
-    .match-svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .popup-banner {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: linear-gradient(to right, #4834d4, #686de0);
-      border: 4px solid #ffffff;
-      border-radius: 30px;
-      padding: 15px 35px;
-      color: white;
-      font-size: 32px;
-      font-weight: 900;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .popup-banner.show { transform: translate(-50%, -50%) scale(1); }
-
-    .hidden { display: none !important; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Learning World - Math & English for Kids</title>
+    <!-- Google Fonts for Kids-Friendly Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-bg: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            --card-bg: #ffffff;
+            --font-head: 'Fredoka One', cursive;
+            --font-body: 'Quicksand', sans-serif;
+            --color-pink: #FF6B6B;
+            --color-yellow: #FFD93D;
+            --color-green: #6BCB77;
+            --color-blue: #4D96FF;
+            --color-purple: #9B51E0;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #app-container {
+            width: 95%;
+            max-width: 900px;
+            min-height: 600px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 4px solid #fff;
+            margin: 20px 0;
+        }
+
+        /* Header Navigation Controls */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: #fff;
+            border: 3px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #ddd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #ccc;
+        }
+
+        .nav-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #ccc;
+        }
+
+        .nav-btn.home-btn { border-color: var(--color-blue); color: var(--color-blue); box-shadow: 0 4px 0 var(--color-blue); }
+        .nav-btn.speak-btn { border-color: var(--color-purple); color: var(--color-purple); box-shadow: 0 4px 0 var(--color-purple); }
+
+        .score-board {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            background: var(--color-yellow);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #444;
+            box-shadow: 0 4px 0 #e6c200;
+        }
+
+        /* View Screens Container */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            color: #333;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0px #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: var(--font-head);
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* Grid Layout for Menus */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu-card {
+            background: #fff;
+            border-radius: 25px;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #eee;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+
+        .menu-card i {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+
+        .menu-card span {
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+        }
+
+        /* Card Colors */
+        .card-math { border-color: var(--color-blue); }
+        .card-math i, .card-math span { color: var(--color-blue); }
+        .card-english { border-color: var(--color-pink); }
+        .card-english i, .card-english span { color: var(--color-pink); }
+        .card-yellow { border-color: var(--color-yellow); }
+        .card-yellow i, .card-yellow span { color: #d4a300; }
+        .card-green { border-color: var(--color-green); }
+        .card-green i, .card-green span { color: var(--color-green); }
+        .card-purple { border-color: var(--color-purple); }
+        .card-purple i, .card-purple span { color: var(--color-purple); }
+
+        /* Quiz Work Area */
+        .quiz-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .problem-display {
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 25px;
+            width: 100%;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 3px dashed #ccc;
+            position: relative;
+        }
+
+        .problem-text {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            color: #333;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .visual-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+            font-size: 2.5rem;
+        }
+
+        .visual-item {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .visual-item.crossed {
+            opacity: 0.3;
+            position: relative;
+        }
+        .visual-item.crossed::after {
+            content: '❌';
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 4px solid var(--color-blue);
+            border-radius: 20px;
+            padding: 15px;
+            font-family: var(--font-head);
+            font-size: 2rem;
+            color: var(--color-blue);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 6px 0 var(--color-blue);
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 var(--color-blue);
+            background: #f0f7ff;
+        }
+
+        .option-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 var(--color-blue);
+        }
+
+        /* English ABC Grid */
+        .abc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-height: 420px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .abc-card {
+            background: #fff;
+            border: 3px solid var(--color-pink);
+            border-radius: 18px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--color-pink);
+            transition: transform 0.2s;
+        }
+
+        .abc-card:hover {
+            transform: scale(1.08);
+        }
+
+        .abc-letter {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            color: var(--color-pink);
+        }
+
+        .abc-icon {
+            font-size: 2.2rem;
+            margin: 4px 0;
+        }
+
+        .abc-word {
+            font-family: var(--font-body);
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Match Line Canvas Container */
+        .matching-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 2;
+        }
+
+        .match-item {
+            background: #fff;
+            border: 3px solid var(--color-purple);
+            border-radius: 15px;
+            padding: 12px 25px;
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            color: var(--color-purple);
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--color-purple);
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .match-item.selected {
+            background: var(--color-purple);
+            color: #fff;
+        }
+
+        .match-item.matched {
+            background: var(--color-green);
+            border-color: var(--color-green);
+            color: #fff;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        #match-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Analog Clock Styling */
+        #clock-canvas {
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 8px solid var(--color-yellow);
+        }
+
+        /* Feedback Popup */
+        .feedback-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 30px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .feedback-overlay i {
+            font-size: 6rem;
+            margin-bottom: 10px;
+        }
+
+        .feedback-overlay.correct i { color: var(--color-green); }
+        .feedback-overlay.wrong i { color: var(--color-pink); }
+
+        .feedback-overlay span {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .problem-text { font-size: 2rem; }
+            .option-btn { font-size: 1.5rem; padding: 10px; }
+            .menu-grid { grid-template-columns: 1fr 1fr; }
+            .visual-items { font-size: 1.8rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- SCREEN 1: HOME PAGE -->
-  <div id="homePage" class="home-page">
-    <div class="hero-content">
-      <div class="brand-badge">🎮 FUN LEARNING WORLD</div>
-      <h1 class="game-title">Kids <span>Master</span></h1>
-      <p class="game-subtitle">Maths & English Learning Fun! 🎉</p>
+    <div id="app-container">
+        <!-- Navigation Header -->
+        <header>
+            <button class="nav-btn home-btn" id="btn-home" onclick="goHome()">
+                <i class="fa-solid fa-house"></i> Home
+            </button>
+            <div class="score-board">
+                ⭐ Stars: <span id="star-count">0</span>
+            </div>
+            <button class="nav-btn speak-btn" id="btn-repeat" onclick="repeatAudio()">
+                <i class="fa-solid fa-volume-high"></i> Listen
+            </button>
+        </header>
 
-      <button class="play-button" onclick="goToCategoryMenu()">
-        <span class="play-icon">▶</span>
-        <span>PLAY NOW</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: MAIN SUBJECT MENU -->
-  <div id="categoryMenu" class="main-category-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goHome()">🏠 Home</button>
-    </div>
-
-    <h1 class="app-main-title">Kids Learning</h1>
-
-    <div class="main-cards-container">
-      <!-- MATHS CARD -->
-      <div class="main-subject-card" onclick="openMathsMenu()">
-        <div class="subject-left">
-          <div class="subject-icon">🧮</div>
-          <div class="subject-name">Maths</div>
+        <!-- Feedback Overlay -->
+        <div class="feedback-overlay" id="feedback-overlay">
+            <i class="fa-solid" id="feedback-icon"></i>
+            <span id="feedback-text">Awesome!</span>
         </div>
-        <div class="arrow-btn">❯</div>
-      </div>
 
-      <!-- ENGLISH CARD (DIRECTLY OPENS ABC CHART) -->
-      <div class="main-subject-card" onclick="startQuiz('english', 'abcchart')">
-        <div class="subject-left">
-          <div class="subject-icon">📚</div>
-          <div class="subject-name">English</div>
+        <!-- 1. HOME SCREEN -->
+        <div class="screen active" id="screen-home">
+            <h1>Fun Learning World!</h1>
+            <h2>Choose a Subject to Play</h2>
+            <div class="menu-grid">
+                <div class="menu-card card-math" onclick="showScreen('screen-math-menu')">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>Maths Fun</span>
+                </div>
+                <div class="menu-card card-english" onclick="showScreen('screen-english-menu')">
+                    <i class="fa-solid fa-font"></i>
+                    <span>English ABC</span>
+                </div>
+            </div>
         </div>
-        <div class="arrow-btn">❯</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- SCREEN 2B: MATHS CATEGORIES -->
-  <div id="mathsMenu" class="maths-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
-    </div>
+        <!-- 2. MATH SUB-MENU -->
+        <div class="screen" id="screen-math-menu">
+            <h1>Maths World</h1>
+            <h2>Select Activity Category</h2>
+            <div class="menu-grid">
+                <div class="menu-card card-math" onclick="openMathCategory('addition')">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Addition</span>
+                </div>
+                <div class="menu-card card-pink" style="border-color: var(--color-pink)" onclick="openMathCategory('subtraction')">
+                    <i class="fa-solid fa-minus" style="color: var(--color-pink)"></i>
+                    <span style="color: var(--color-pink)">Subtraction</span>
+                </div>
+                <div class="menu-card card-yellow" onclick="openMathCategory('multiplication')">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Multiplication</span>
+                </div>
+                <div class="menu-card card-green" onclick="openMathCategory('division')">
+                    <i class="fa-solid fa-divide"></i>
+                    <span>Division</span>
+                </div>
+                <div class="menu-card card-purple" onclick="showScreen('screen-kids-fun-menu')">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Kids Fun Modes</span>
+                </div>
+            </div>
+        </div>
 
-    <h1 class="app-main-title" style="font-size: 38px; margin-bottom: 20px;">Maths Menu</h1>
+        <!-- 3. ADDITION MODE SELECT -->
+        <div class="screen" id="screen-addition-menu">
+            <h1>Addition Activities</h1>
+            <div class="menu-grid">
+                <div class="menu-card card-math" onclick="startQuiz('add-objects')">
+                    <i class="fa-solid fa-apple-whole"></i>
+                    <span>Object Counting</span>
+                </div>
+                <div class="menu-card card-green" onclick="startQuiz('add-visual')">
+                    <i class="fa-solid fa-icons"></i>
+                    <span>Visual Addition</span>
+                </div>
+                <div class="menu-card card-yellow" onclick="startQuiz('add-easy')">
+                    <i class="fa-solid fa-1"></i>
+                    <span>Easy Addition</span>
+                </div>
+                <div class="menu-card card-purple" onclick="startQuiz('add-2digit')">
+                    <i class="fa-solid fa-arrow-up-9-1"></i>
+                    <span>2-Digit Addition</span>
+                </div>
+            </div>
+        </div>
 
-    <div class="category-grid">
-      <div class="cat-card" onclick="openSubMenu('addition')">
-        <div class="cat-demo-eq">2 + 3 = 5</div>
-        <div class="cat-pill add">Addition</div>
-      </div>
+        <!-- 4. SUBTRACTION MODE SELECT -->
+        <div class="screen" id="screen-subtraction-menu">
+            <h1>Subtraction Activities</h1>
+            <div class="menu-grid">
+                <div class="menu-card card-pink" style="border-color: var(--color-pink)" onclick="startQuiz('sub-visual')">
+                    <i class="fa-solid fa-eye" style="color: var(--color-pink)"></i>
+                    <span style="color: var(--color-pink)">Visual Cross-out</span>
+                </div>
+                <div class="menu-card card-yellow" onclick="startQuiz('sub-simple')">
+                    <i class="fa-solid fa-minus"></i>
+                    <span>Simple Subtraction</span>
+                </div>
+            </div>
+        </div>
 
-      <div class="cat-card" onclick="openSubMenu('subtraction')">
-        <div class="cat-demo-eq">8 - 3 = 5</div>
-        <div class="cat-pill sub">Subtraction</div>
-      </div>
+        <!-- 5. KIDS FUN MODES MENU -->
+        <div class="screen" id="screen-kids-fun-menu">
+            <h1>Kids Fun Activities</h1>
+            <div class="menu-grid">
+                <div class="menu-card card-purple" onclick="startMatchGame()">
+                    <i class="fa-solid fa-link"></i>
+                    <span>Match Numbers</span>
+                </div>
+                <div class="menu-card card-yellow" onclick="startQuiz('missing-number')">
+                    <i class="fa-solid fa-list-ol"></i>
+                    <span>Missing Number</span>
+                </div>
+                <div class="menu-card card-green" onclick="startQuiz('time-clock')">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Time Clock</span>
+                </div>
+                <div class="menu-card card-math" onclick="startQuiz('shapes')">
+                    <i class="fa-solid fa-shapes"></i>
+                    <span>Shapes</span>
+                </div>
+                <div class="menu-card card-english" onclick="startQuiz('mix-fun')">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <span>Mix Fun</span>
+                </div>
+            </div>
+        </div>
 
-      <div class="cat-card" onclick="startDirectQuiz('mul')">
-        <div class="cat-demo-eq">4 × 6 = 24</div>
-        <div class="cat-pill mul">Multiplication</div>
-      </div>
+        <!-- 6. ENGLISH SUB-MENU / ABC CHART -->
+        <div class="screen" id="screen-english-menu">
+            <h1>English Learning</h1>
+            <div class="abc-grid" id="abc-container">
+                <!-- Dynamically generated Alphabet Cards -->
+            </div>
+        </div>
 
-      <div class="cat-card" onclick="startDirectQuiz('div')">
-        <div class="cat-demo-eq">12 ÷ 3 = 4</div>
-        <div class="cat-pill div">Division</div>
-      </div>
+        <!-- 7. MAIN QUIZ / ACTIVITY INTERFACE -->
+        <div class="screen" id="screen-quiz">
+            <h2 id="quiz-title">Activity Title</h2>
+            <div class="quiz-container">
+                <div class="problem-display" id="problem-display">
+                    <!-- Dynamic Problem Content -->
+                </div>
+                <div class="options-grid" id="options-container">
+                    <!-- Dynamic Option Buttons -->
+                </div>
+            </div>
+        </div>
 
-      <div class="full-width-card" onclick="openSubMenu('kidsfun')">
-        <div class="card-icons">🧩 ⏰ ✏️ 🔢 🎲</div>
-        <div class="cat-pill fun">Kids Fun</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3B: ADDITION MODES MENU -->
-  <div id="additionMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️️ Back</button>
-    </div>
-
-    <div class="banner-title">Addition Modes</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('addition', 'count')">
-        <div class="mode-card-inner">🦒🧁🚗 ➔ [ ? ]</div>
-        <div class="mode-card-label">Counting</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '+')">
-        <div class="mode-card-inner">🌂🌂 + 🌂<br>= 3</div>
-        <div class="mode-card-label">Adding Fun</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '2digit')">
-        <div class="mode-card-inner">22 + 12 = 34</div>
-        <div class="mode-card-label">2 Digits +</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', 'easy')">
-        <div class="mode-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
-        <div class="mode-card-label">Easy Addition</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3C: SUBTRACTION MODES MENU -->
-  <div id="subtractionMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
-    </div>
-
-    <div class="banner-title">Subtraction Modes</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('subtraction', 'visual')">
-        <div class="mode-card-inner">🍎 <s>🍎</s><br>2 - 1 = 1</div>
-        <div class="mode-card-label">With Pictures</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('subtraction', 'simple')">
-        <div class="mode-card-inner">2 - 1 = ?<br>8 - 3 = 5</div>
-        <div class="mode-card-label">Simple Subtraction</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3D: KIDS FUN MODES MENU -->
-  <div id="kidsFunMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
-    </div>
-
-    <div class="banner-title">Kids Fun</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'match')">
-        <div class="mode-card-inner">3 ── Three<br>7 ── Seven</div>
-        <div class="mode-card-label">Match Words</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'missing')">
-        <div class="mode-card-inner">1, 2, [ ? ], 4</div>
-        <div class="mode-card-label">Missing Number</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'clock')">
-        <div class="mode-card-inner">🕒 ➔ 10:30</div>
-        <div class="mode-card-label">Time Clock</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'shapes')">
-        <div class="mode-card-inner">🔴 🔺 ⬛</div>
-        <div class="mode-card-label">Shapes</div>
-      </div>
-
-      <div class="mode-card full-width" onclick="startQuiz('kidsfun', 'mixfun')">
-        <div class="mode-card-inner" style="background: #2d3436; font-size: 26px;">🎲 🔀 🧩</div>
-        <div class="mode-card-label" style="font-size: 16px;">Mix Fun</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 4: QUIZ PAGE -->
-  <div id="quizPage" class="quiz-page hidden">
-    <div class="quiz-header">
-      <button class="home-btn" onclick="backFromQuiz()">⬅️ Back</button>
-      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
+        <!-- 8. MATCH NUMBERS INTERFACE -->
+        <div class="screen" id="screen-match">
+            <h2>Match Numbers with Words</h2>
+            <div class="matching-container" id="match-container">
+                <canvas id="match-canvas"></canvas>
+                <div class="match-column" id="left-match-col"></div>
+                <div class="match-column" id="right-match-col"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- STANDARD CHALKBOARD CARD -->
-    <div id="standardChalkboard" class="chalkboard-card">
-      <div id="equationRow" class="equation-top-row">
-        <span id="num1Text" class="num-1">1</span>
-        <span id="opSymbol" class="operator">+</span>
-        <span id="num2Text" class="num-2">2</span>
-        <span id="equalsSign">=</span>
-        <div id="targetBox" class="target-box">?</div>
-      </div>
-
-      <div id="countItemsContainer" class="count-items-container hidden"></div>
-
-      <div id="visualSplitContainer" class="visual-split-container hidden">
-        <div id="leftVisualBox" class="visual-box left"></div>
-        <div id="rightVisualBox" class="visual-box"></div>
-      </div>
-
-      <div id="subtractionVisualBox" class="subtraction-visual-container hidden"></div>
-
-      <div id="customDisplay" class="hidden"></div>
-    </div>
-
-    <!-- ABC ALPHABET CHART BOARD -->
-    <div id="abcChartBoard" class="abc-chart-board hidden">
-      <div class="abc-chart-title">ABC CHART FOR KIDS</div>
-      <div id="abcGridContainer" class="abc-grid-container"></div>
-    </div>
-
-    <!-- MATCH WORDS BOARD -->
-    <div id="matchBoard" class="match-board hidden">
-      <div class="match-title">Match numbers with words.</div>
-      <div class="match-container">
-        <svg id="matchSvg" class="match-svg"></svg>
-        <div id="numColumn" class="match-column"></div>
-        <div id="wordColumn" class="match-column"></div>
-      </div>
-    </div>
-
-    <div id="optionsContainer" class="options-grid"></div>
-  </div>
-
-  <div id="popupBanner" class="popup-banner">
-    <span id="popupText">Great Job!</span> 🎉
-  </div>
-
-  <script>
-    let currentCategory = 'addition'; 
-    let currentMode = '+';
-    let currentAnswer = '';
-    let score = 0;
-    let isAnsweringLocked = false;
-    let maleVoice = null;
-
-    let selectedNumItem = null;
-    let matchedPairsCount = 0;
-    let totalMatchPairs = 5;
-
-    const numberWordsMap = {
-      1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
-      6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
-    };
-
-    const alphabetData = [
-      { letter: "Aa", word: "Apple", icon: "🍎" },
-      { letter: "Bb", word: "Ball", icon: "⚽" },
-      { letter: "Cc", word: "Cat", icon: "🐱" },
-      { letter: "Dd", word: "Dog", icon: "🐶" },
-      { letter: "Ee", word: "Eram fatima", icon: "🙍‍♀️" },
-      { letter: "Ff", word: "Frog", icon: "🐸" },
-      { letter: "Gg", word: "Giraffe", icon: "🦒" },
-      { letter: "Hh", word: "Hassan raza", icon: "🙎🏻‍♂️" },
-      { letter: "Ii", word: "Ice cream", icon: "🍦" },
-      { letter: "Jj", word: "Juice", icon: "🧃" },
-      { letter: "Kk", word: "Kite", icon: "🪁" },
-      { letter: "Ll", word: "Lion", icon: "🦁" },
-      { letter: "Mm", word: "Monkey", icon: "🐒" },
-      { letter: "Nn", word: "Nest", icon: "🪺" },
-      { letter: "Oo", word: "Owl", icon: "🦉" },
-      { letter: "Pp", word: "Parrot", icon: "🦜" },
-      { letter: "Qq", word: "Queen", icon: "👸" },
-      { letter: "Rr", word: "Rainbow", icon: "🌈" },
-      { letter: "Ss", word: "Sun", icon: "☀️" },
-      { letter: "Tt", word: "Turtle", icon: "🐢" },
-      { letter: "Uu", word: "Umbrella", icon: "☂️" },
-      { letter: "Vv", word: "Vase", icon: "🏺" },
-      { letter: "Ww", word: "Watermelon", icon: "🍉" },
-      { letter: "Xx", word: "Xylophone", icon: "🎼" },
-      { letter: "Yy", word: "Yacht", icon: "⛵" },
-      { letter: "Zz", word: "Zebra", icon: "🦓" }
-    ];
-
-    let audioCtx = null;
-
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      loadMaleVoice();
-    }
-
-    function loadMaleVoice() {
-      if ('speechSynthesis' in window) {
-        let voices = window.speechSynthesis.getVoices();
-        maleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Male') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George')));
-        if (!maleVoice && voices.length > 0) {
-          maleVoice = voices.find(v => v.lang.includes('en'));
-        }
-      }
-    }
-
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = loadMaleVoice;
-    }
-
-    function playAudioTone(freq, type, duration) {
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        console.log("Audio Error: ", e);
-      }
-    }
-
-    function playCorrectSound() {
-      playAudioTone(523.25, 'sine', 0.12);
-      setTimeout(() => playAudioTone(659.25, 'sine', 0.12), 100);
-      setTimeout(() => playAudioTone(783.99, 'sine', 0.25), 200);
-    }
-
-    function playWrongSound() {
-      playAudioTone(200, 'sawtooth', 0.2);
-      setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
-    }
-
-    function speakText(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.85;
-        utterance.pitch = 1.0;
+    <script>
+        /* ================= Global State & Data ================= */
+        let stars = 0;
+        let currentMode = '';
+        let currentAnswer = null;
+        let lastSpokenText = '';
         
-        if (!maleVoice) loadMaleVoice();
-        if (maleVoice) utterance.voice = maleVoice;
+        // Sound Synthesis & Web Audio API Context
+        const synth = window.speechSynthesis;
+        let audioCtx = null;
 
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    /* NAVIGATION LOGIC */
-    function goToCategoryMenu() {
-      initAudio();
-      hideAllScreens();
-      document.getElementById("categoryMenu").classList.remove("hidden");
-      speakText("Choose Maths or English");
-    }
-
-    function goHome() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-      document.getElementById("homePage").classList.remove("hidden");
-    }
-
-    function openMathsMenu() {
-      initAudio();
-      hideAllScreens();
-      document.getElementById("mathsMenu").classList.remove("hidden");
-      speakText("Select Maths Game");
-    }
-
-    function openSubMenu(cat) {
-      initAudio();
-      currentCategory = cat;
-      hideAllScreens();
-
-      if (cat === 'addition') {
-        document.getElementById("additionMenu").classList.remove("hidden");
-        speakText("Select Addition Mode");
-      } else if (cat === 'subtraction') {
-        document.getElementById("subtractionMenu").classList.remove("hidden");
-        speakText("Select Subtraction Mode");
-      } else if (cat === 'kidsfun') {
-        document.getElementById("kidsFunMenu").classList.remove("hidden");
-        speakText("Select Fun Mode");
-      }
-    }
-
-    function goCategoryMenu() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-      document.getElementById("categoryMenu").classList.remove("hidden");
-    }
-
-    function backFromQuiz() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-
-      if (currentCategory === 'english') {
-        document.getElementById("categoryMenu").classList.remove("hidden");
-      } else if (['addition', 'subtraction', 'kidsfun', 'mul', 'div'].includes(currentCategory)) {
-        document.getElementById("mathsMenu").classList.remove("hidden");
-      } else {
-        document.getElementById("categoryMenu").classList.remove("hidden");
-      }
-    }
-
-    function hideAllScreens() {
-      document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("categoryMenu").classList.add("hidden");
-      document.getElementById("mathsMenu").classList.add("hidden");
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("subtractionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.add("hidden");
-    }
-
-    function startQuiz(cat, mode) {
-      initAudio();
-      currentCategory = cat;
-      currentMode = mode;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      hideAllScreens();
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    function startDirectQuiz(cat) {
-      initAudio();
-      currentCategory = cat;
-      currentMode = cat;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      hideAllScreens();
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    /* QUESTION GENERATION */
-    function generateQuestion() {
-      isAnsweringLocked = false;
-      document.getElementById("targetBox").innerText = "?";
-      document.getElementById("countItemsContainer").innerHTML = "";
-      document.getElementById("leftVisualBox").innerHTML = "";
-      document.getElementById("rightVisualBox").innerHTML = "";
-      document.getElementById("subtractionVisualBox").innerHTML = "";
-      document.getElementById("customDisplay").innerHTML = "";
-
-      document.getElementById("standardChalkboard").classList.remove("hidden");
-      document.getElementById("matchBoard").classList.add("hidden");
-      document.getElementById("abcChartBoard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.remove("hidden");
-
-      document.getElementById("equationRow").classList.remove("hidden");
-      document.getElementById("visualSplitContainer").classList.add("hidden");
-      document.getElementById("subtractionVisualBox").classList.add("hidden");
-      document.getElementById("countItemsContainer").classList.add("hidden");
-      document.getElementById("customDisplay").classList.add("hidden");
-
-      const visualItems = ['🚗', '👟', '🌂', '🍎', '🧁', '🎈', '🦆', '🍬'];
-
-      // ENGLISH CATEGORY
-      if (currentCategory === 'english') {
-        setupABCChart();
-        return;
-      }
-
-      // ADDITION CATEGORY
-      if (currentCategory === 'addition') {
-        if (currentMode === 'count') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("countItemsContainer").classList.remove("hidden");
-          let count = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = count;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          let displayHTML = '';
-          for (let i = 0; i < count; i++) displayHTML += icon + ' ';
-          document.getElementById("countItemsContainer").innerHTML = displayHTML;
-          setupNumberOptions();
-          speakText("Count the items");
-          return;
-        } 
-        else if (currentMode === '+') {
-          document.getElementById("visualSplitContainer").classList.remove("hidden");
-          let num1 = Math.floor(Math.random() * 5) + 1;
-          let num2 = Math.floor(Math.random() * 5) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
-          for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-        else if (currentMode === '2digit') {
-          let num1 = Math.floor(Math.random() * 40) + 10;
-          let num2 = Math.floor(Math.random() * 40) + 10;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-        else if (currentMode === 'easy') {
-          let num1 = Math.floor(Math.random() * 10) + 1;
-          let num2 = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-      }
-
-      // SUBTRACTION CATEGORY
-      if (currentCategory === 'subtraction') {
-        let num1 = Math.floor(Math.random() * 8) + 2;
-        let num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
-        currentAnswer = num1 - num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "-";
-        document.getElementById("num2Text").innerText = num2;
-
-        if (currentMode === 'visual') {
-          document.getElementById("subtractionVisualBox").classList.remove("hidden");
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          let subHTML = '';
-          for (let i = 0; i < num1; i++) {
-            if (i >= (num1 - num2)) {
-              subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
-            } else {
-              subHTML += `<span class="item-wrapper">${icon}</span>`;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-          }
-          document.getElementById("subtractionVisualBox").innerHTML = subHTML;
         }
 
-        setupNumberOptions();
-        speakText(`${num1} minus ${num2}`);
-        return;
-      }
-
-      if (currentCategory === 'mul') {
-        let num1 = Math.floor(Math.random() * 8) + 1;
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = num1 * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "×";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        speakText(`${num1} multiplied by ${num2}`);
-        return;
-      }
-
-      if (currentCategory === 'div') {
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = Math.floor(Math.random() * 5) + 1;
-        let num1 = currentAnswer * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "÷";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        speakText(`${num1} divided by ${num2}`);
-        return;
-      }
-
-      // KIDS FUN CATEGORY
-      if (currentCategory === 'kidsfun') {
-        let mode = currentMode;
-
-        if (mode === 'mixfun') {
-          const funModes = ['match', 'missing', 'clock', 'shapes'];
-          mode = funModes[Math.floor(Math.random() * funModes.length)];
+        // Simple Sound Generator for SFX
+        function playTone(freq, type, duration) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
         }
 
-        if (mode === 'match') {
-          setupMatchGame();
-          return;
+        function playCorrectSound() {
+            playTone(523.25, 'sine', 0.15); // C5
+            setTimeout(() => playTone(659.25, 'sine', 0.15), 100); // E5
+            setTimeout(() => playTone(783.99, 'sine', 0.3), 200); // G5
         }
 
-        if (mode === 'missing') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
+        function playWrongSound() {
+            playTone(200, 'sawtooth', 0.2);
+            setTimeout(() => playTone(150, 'sawtooth', 0.3), 150);
+        }
 
-          let start = Math.floor(Math.random() * 27) + 1;
-          let seq = [start, start + 1, start + 2, start + 3];
-          
-          let missingIdx = Math.floor(Math.random() * 4);
-          currentAnswer = seq[missingIdx];
+        // Text-to-Speech Engine
+        function speak(text) {
+            if (!synth) return;
+            synth.cancel(); // Stop ongoing speech
+            lastSpokenText = text;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.85; // Slightly slower for kids
+            utterance.pitch = 1.1; // Friendly pitch
+            synth.speak(utterance);
+        }
 
-          let rowDiv = document.createElement("div");
-          rowDiv.className = "missing-row-container";
-
-          seq.forEach((val, index) => {
-            if (index === missingIdx) {
-              let box = document.createElement("div");
-              box.className = "target-box";
-              box.id = "targetBoxMissing";
-              box.innerText = "?";
-              rowDiv.appendChild(box);
-            } else {
-              let numSpan = document.createElement("span");
-              numSpan.className = "missing-num-pill";
-              numSpan.innerText = val;
-              rowDiv.appendChild(numSpan);
+        function repeatAudio() {
+            if (lastSpokenText) {
+                speak(lastSpokenText);
             }
-          });
-
-          document.getElementById("customDisplay").appendChild(rowDiv);
-          setupNumberOptions();
-          speakText("Find the missing number");
         }
-        else if (mode === 'clock') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
 
-          let hour = Math.floor(Math.random() * 12) + 1;
-          let minutesList = [0, 15, 30, 45];
-          let minute = minutesList[Math.floor(Math.random() * minutesList.length)];
-          
-          let formattedMin = minute === 0 ? "00" : minute.toString();
-          currentAnswer = `${hour}:${formattedMin}`;
-
-          let canvas = document.createElement("canvas");
-          canvas.width = 170;
-          canvas.height = 170;
-          canvas.className = "clock-canvas";
-          drawClock(canvas, hour, minute);
-
-          document.getElementById("customDisplay").appendChild(canvas);
-
-          let timeOptions = [currentAnswer];
-          while(timeOptions.length < 4) {
-            let h = Math.floor(Math.random() * 12) + 1;
-            let m = minutesList[Math.floor(Math.random() * minutesList.length)];
-            let fMin = m === 0 ? "00" : m.toString();
-            let opt = `${h}:${fMin}`;
-            if(!timeOptions.includes(opt)) timeOptions.push(opt);
-          }
-          timeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(timeOptions);
-          speakText("What time is it?");
+        /* Navigation Management */
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            synth.cancel();
         }
-        else if (mode === 'shapes') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
 
-          const shapes = [
-            { name: 'Circle', icon: '🔴' },
-            { name: 'Square', icon: '⬛' },
-            { name: 'Triangle', icon: '🔺' },
-            { name: 'Star', icon: '⭐' },
-            { name: 'Heart', icon: '❤️' }
-          ];
-
-          let selected = shapes[Math.floor(Math.random() * shapes.length)];
-          currentAnswer = selected.name;
-
-          let div = document.createElement("div");
-          div.style.fontSize = "90px";
-          div.innerText = selected.icon;
-          document.getElementById("customDisplay").appendChild(div);
-
-          let shapeOptions = [currentAnswer];
-          while(shapeOptions.length < 4) {
-            let s = shapes[Math.floor(Math.random() * shapes.length)].name;
-            if(!shapeOptions.includes(s)) shapeOptions.push(s);
-          }
-          shapeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(shapeOptions);
-          speakText("Name this shape");
+        function goHome() {
+            showScreen('screen-home');
+            speak("Welcome to Fun Learning World!");
         }
-      }
-    }
 
-    /* ABC CHART LOGIC */
-    function setupABCChart() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("matchBoard").classList.add("hidden");
-      document.getElementById("abcChartBoard").classList.remove("hidden");
+        function openMathCategory(cat) {
+            if (cat === 'addition') showScreen('screen-addition-menu');
+            else if (cat === 'subtraction') showScreen('screen-subtraction-menu');
+            else if (cat === 'multiplication') startQuiz('multiplication');
+            else if (cat === 'division') startQuiz('division');
+        }
 
-      const container = document.getElementById("abcGridContainer");
-      container.innerHTML = "";
+        /* ================= Quiz Generation Logic ================= */
+        const emojis = ['🍎', '🍌', '🐶', '🐱', '🚗', '⭐', '🎈', '🐸', '🦆', '🍓'];
+        const shapes = [
+            { name: 'Square', icon: 'fa-square' },
+            { name: 'Circle', icon: 'fa-circle' },
+            { name: 'Triangle', icon: 'fa-play' }, // Rotated visually or stylized
+            { name: 'Star', icon: 'fa-star' },
+            { name: 'Heart', icon: 'fa-heart' }
+        ];
 
-      alphabetData.forEach(item => {
-        let card = document.createElement("div");
-        card.className = "abc-card-item";
-        card.innerHTML = `
-          <div class="abc-card-letters">${item.letter}</div>
-          <div class="abc-card-icon">${item.icon}</div>
-          <div class="abc-card-word">${item.word}</div>
-        `;
-        card.onclick = () => {
-          let letterOnly = item.letter.charAt(0);
-          speakText(`${letterOnly} for ${item.word}`);
+        function startQuiz(mode) {
+            currentMode = mode;
+            showScreen('screen-quiz');
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            const display = document.getElementById('problem-display');
+            const options = document.getElementById('options-container');
+            const title = document.getElementById('quiz-title');
+            
+            display.innerHTML = '';
+            options.innerHTML = '';
+
+            let num1, num2, answerText = '';
+            let choices = [];
+
+            // Select active mode generator
+            switch (currentMode) {
+                case 'add-objects':
+                    title.textContent = "Count and Add!";
+                    num1 = rand(1, 5);
+                    num2 = rand(1, 5);
+                    currentAnswer = num1 + num2;
+                    let icon1 = randItem(emojis);
+                    
+                    display.innerHTML = `
+                        <div class="visual-items">${icon1.repeat(num1)}</div>
+                        <div class="problem-text">+</div>
+                        <div class="visual-items">${icon1.repeat(num2)}</div>
+                    `;
+                    answerText = `${num1} plus ${num2}. How many in total?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'add-visual':
+                    title.textContent = "Visual Addition";
+                    num1 = rand(1, 9);
+                    num2 = rand(1, 9);
+                    currentAnswer = num1 + num2;
+                    display.innerHTML = `<div class="problem-text">${num1} + ${num2} = ?</div>`;
+                    answerText = `What is ${num1} plus ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'add-easy':
+                    title.textContent = "Easy Addition";
+                    num1 = rand(1, 10);
+                    num2 = rand(1, 10);
+                    currentAnswer = num1 + num2;
+                    display.innerHTML = `<div class="problem-text">${num1} + ${num2} = ?</div>`;
+                    answerText = `What is ${num1} plus ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'add-2digit':
+                    title.textContent = "2-Digit Addition";
+                    num1 = rand(10, 50);
+                    num2 = rand(10, 40);
+                    currentAnswer = num1 + num2;
+                    display.innerHTML = `<div class="problem-text">${num1} + ${num2} = ?</div>`;
+                    answerText = `What is ${num1} plus ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'sub-visual':
+                    title.textContent = "Visual Subtraction";
+                    num1 = rand(3, 8);
+                    num2 = rand(1, num1 - 1);
+                    currentAnswer = num1 - num2;
+                    let emojiSub = randItem(emojis);
+                    
+                    let itemsHtml = '';
+                    for (let i = 0; i < num1; i++) {
+                        let crossed = i >= (num1 - num2) ? 'crossed' : '';
+                        itemsHtml += `<span class="visual-item ${crossed}">${emojiSub}</span>`;
+                    }
+                    display.innerHTML = `
+                        <div class="visual-items">${itemsHtml}</div>
+                        <div class="problem-text">${num1} - ${num2} = ?</div>
+                    `;
+                    answerText = `We had ${num1}, removed ${num2}. How many are left?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'sub-simple':
+                    title.textContent = "Simple Subtraction";
+                    num1 = rand(2, 15);
+                    num2 = rand(1, num1);
+                    currentAnswer = num1 - num2;
+                    display.innerHTML = `<div class="problem-text">${num1} - ${num2} = ?</div>`;
+                    answerText = `What is ${num1} minus ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'multiplication':
+                    title.textContent = "Multiplication Fun";
+                    num1 = rand(1, 10);
+                    num2 = rand(1, 10);
+                    currentAnswer = num1 * num2;
+                    display.innerHTML = `<div class="problem-text">${num1} × ${num2} = ?</div>`;
+                    answerText = `What is ${num1} times ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'division':
+                    title.textContent = "Division Practice";
+                    num2 = rand(1, 5);
+                    currentAnswer = rand(1, 10);
+                    num1 = currentAnswer * num2; // Ensures exact division
+                    display.innerHTML = `<div class="problem-text">${num1} ÷ ${num2} = ?</div>`;
+                    answerText = `What is ${num1} divided by ${num2}?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'missing-number':
+                    title.textContent = "Find the Missing Number";
+                    let startNum = rand(1, 20);
+                    let missingIdx = rand(0, 3);
+                    let seq = [startNum, startNum + 1, startNum + 2, startNum + 3];
+                    currentAnswer = seq[missingIdx];
+                    seq[missingIdx] = '?';
+
+                    display.innerHTML = `<div class="problem-text">${seq.join(', ')}</div>`;
+                    answerText = `Which number completes the sequence?`;
+                    choices = generateOptions(currentAnswer);
+                    break;
+
+                case 'time-clock':
+                    title.textContent = "Learn Time Clock";
+                    let hour = rand(1, 12);
+                    currentAnswer = `${hour}:00`;
+                    
+                    display.innerHTML = `<canvas id="clock-canvas" width="180" height="180"></canvas>`;
+                    setTimeout(() => drawClock(hour, 0), 50);
+                    
+                    answerText = `What time does the clock show?`;
+                    choices = generateTimeOptions(hour);
+                    break;
+
+                case 'shapes':
+                    title.textContent = "Shape Recognition";
+                    let shape = randItem(shapes);
+                    currentAnswer = shape.name;
+                    
+                    display.innerHTML = `<i class="fa-solid ${shape.icon}" style="font-size: 6rem; color: var(--color-purple);"></i>`;
+                    answerText = `Which shape is this?`;
+                    
+                    let shapeNames = shapes.map(s => s.name);
+                    choices = shuffle(shapeNames);
+                    break;
+
+                case 'mix-fun':
+                    const modes = ['add-easy', 'sub-simple', 'missing-number', 'shapes'];
+                    currentMode = randItem(modes);
+                    nextQuestion();
+                    return;
+            }
+
+            speak(answerText);
+
+            // Render Options
+            choices.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt);
+                options.appendChild(btn);
+            });
+        }
+
+        /* Option Generator Helpers */
+        function generateOptions(correct) {
+            let opts = new Set([correct]);
+            while (opts.size < 4) {
+                let offset = rand(-4, 4);
+                let wrong = correct + offset;
+                if (wrong >= 0 && wrong !== correct) opts.add(wrong);
+            }
+            return shuffle(Array.from(opts));
+        }
+
+        function generateTimeOptions(correctHour) {
+            let opts = new Set([`${correctHour}:00`]);
+            while (opts.size < 4) {
+                let h = rand(1, 12);
+                opts.add(`${h}:00`);
+            }
+            return shuffle(Array.from(opts));
+        }
+
+        /* Answer Check Logic */
+        function checkAnswer(selected) {
+            if (selected == currentAnswer) {
+                playCorrectSound();
+                stars += 1;
+                document.getElementById('star-count').textContent = stars;
+                
+                showFeedback(true, "Great Job!");
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+                
+                setTimeout(() => {
+                    hideFeedback();
+                    nextQuestion();
+                }, 1500);
+            } else {
+                playWrongSound();
+                showFeedback(false, "Try Again!");
+                setTimeout(() => hideFeedback(), 1200);
+            }
+        }
+
+        function showFeedback(isCorrect, text) {
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            const msg = document.getElementById('feedback-text');
+
+            overlay.style.display = 'flex';
+            overlay.className = `feedback-overlay ${isCorrect ? 'correct' : 'wrong'}`;
+            icon.className = `fa-solid ${isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'}`;
+            msg.textContent = text;
+            speak(text);
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-overlay').style.display = 'none';
+        }
+
+        /* ================= English ABC Data & Setup ================= */
+        const abcData = [
+            { letter: 'Aa', word: 'Apple', icon: '🍎' },
+            { letter: 'Bb', word: 'Ball', icon: '⚽' },
+            { letter: 'Cc', word: 'Cat', icon: '🐱' },
+            { letter: 'Dd', word: 'Dog', icon: '🐶' },
+            { letter: 'Ee', word: 'Elephant', icon: '🐘' },
+            { letter: 'Ff', word: 'Fish', icon: '🐟' },
+            { letter: 'Gg', word: 'Grapes', icon: '🍇' },
+            { letter: 'Hh', word: 'Hat', icon: '🎩' },
+            { letter: 'Ii', word: 'Ice Cream', icon: '🍦' },
+            { letter: 'Jj', word: 'Juice', icon: '🧃' },
+            { letter: 'Kk', word: 'Kite', icon: '🪁' },
+            { letter: 'Ll', word: 'Lion', icon: '🦁' },
+            { letter: 'Mm', word: 'Monkey', icon: '🐵' },
+            { letter: 'Nn', word: 'Nest', icon: '🪹' },
+            { letter: 'Oo', word: 'Orange', icon: '🍊' },
+            { letter: 'Pp', word: 'Penguin', icon: '🐧' },
+            { letter: 'Qq', word: 'Queen', icon: '👑' },
+            { letter: 'Rr', word: 'Rabbit', icon: '🐰' },
+            { letter: 'Ss', word: 'Sun', icon: '☀️' },
+            { letter: 'Tt', word: 'Tree', icon: '🌲' },
+            { letter: 'Uu', word: 'Umbrella', icon: '☂️' },
+            { letter: 'Vv', word: 'Violin', icon: '🎻' },
+            { letter: 'Ww', word: 'Watch', icon: '⌚' },
+            { letter: 'Xx', word: 'Xylophone', icon: '🎼' },
+            { letter: 'Yy', word: 'Yacht', icon: '🛥️' },
+            { letter: 'Zz', word: 'Zebra', icon: '🦓' }
+        ];
+
+        function initEnglishABC() {
+            const container = document.getElementById('abc-container');
+            container.innerHTML = '';
+            abcData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'abc-card';
+                card.innerHTML = `
+                    <div class="abc-letter">${item.letter}</div>
+                    <div class="abc-icon">${item.icon}</div>
+                    <div class="abc-word">${item.word}</div>
+                `;
+                card.onclick = () => speak(`${item.letter}. ${item.word}`);
+                container.appendChild(card);
+            });
+        }
+
+        /* ================= Kids Match Game (Numbers to Words) ================= */
+        let selectedNum = null;
+        let matchedPairs = 0;
+
+        function startMatchGame() {
+            showScreen('screen-match');
+            speak("Match numbers with their words!");
+            matchedPairs = 0;
+
+            const leftCol = document.getElementById('left-match-col');
+            const rightCol = document.getElementById('right-match-col');
+            leftCol.innerHTML = '';
+            rightCol.innerHTML = '';
+
+            const numbers = [1, 2, 3, 4, 5];
+            const wordsMap = { 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five' };
+
+            let shuffledNums = shuffle([...numbers]);
+            let shuffledWords = shuffle(numbers.map(n => ({ num: n, word: wordsMap[n] })));
+
+            shuffledNums.forEach(num => {
+                const btn = document.createElement('div');
+                btn.className = 'match-item';
+                btn.textContent = num;
+                btn.dataset.val = num;
+                btn.onclick = () => selectMatchItem(btn, 'num');
+                leftCol.appendChild(btn);
+            });
+
+            shuffledWords.forEach(item => {
+                const btn = document.createElement('div');
+                btn.className = 'match-item';
+                btn.textContent = item.word;
+                btn.dataset.val = item.num;
+                btn.onclick = () => selectMatchItem(btn, 'word');
+                rightCol.appendChild(btn);
+            });
+        }
+
+        function selectMatchItem(elem, type) {
+            if (elem.classList.contains('matched')) return;
+
+            if (type === 'num') {
+                document.querySelectorAll('#left-match-col .match-item').forEach(e => e.classList.remove('selected'));
+                elem.classList.add('selected');
+                selectedNum = elem;
+                speak(elem.textContent);
+            } else if (type === 'word' && selectedNum) {
+                if (selectedNum.dataset.val === elem.dataset.val) {
+                    // Match Success
+                    playCorrectSound();
+                    selectedNum.classList.remove('selected');
+                    selectedNum.classList.add('matched');
+                    elem.classList.add('matched');
+                    selectedNum = null;
+                    matchedPairs++;
+
+                    if (matchedPairs === 5) {
+                        stars += 3;
+                        document.getElementById('star-count').textContent = stars;
+                        confetti({ particleCount: 100, spread: 70 });
+                        speak("Fantastic! You matched all numbers!");
+                        setTimeout(() => showScreen('screen-kids-fun-menu'), 2500);
+                    }
+                } else {
+                    // Match Fail
+                    playWrongSound();
+                    selectedNum.classList.remove('selected');
+                    selectedNum = null;
+                }
+            }
+        }
+
+        /* ================= HTML5 Canvas Analog Clock Renderer ================= */
+        function drawClock(hour, minute) {
+            const canvas = document.getElementById('clock-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const radius = canvas.height / 2;
+            ctx.translate(radius, radius);
+            
+            // Draw Clock Face
+            ctx.beginPath();
+            ctx.arc(0, 0, radius - 10, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            
+            // Draw Numbers
+            ctx.font = 'bold 16px Quicksand';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#333';
+            for (let num = 1; num <= 12; num++) {
+                let ang = num * Math.PI / 6;
+                ctx.rotate(ang);
+                ctx.translate(0, -radius + 25);
+                ctx.rotate(-ang);
+                ctx.fillText(num.toString(), 0, 0);
+                ctx.rotate(ang);
+                ctx.translate(0, radius - 25);
+                ctx.rotate(-ang);
+            }
+
+            // Hour Hand
+            let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
+            drawHand(ctx, hourPos, radius * 0.5, 6, '#333');
+
+            // Minute Hand
+            let minutePos = (minute * Math.PI / 30);
+            drawHand(ctx, minutePos, radius * 0.7, 4, 'var(--color-pink)');
+
+            // Center Pin
+            ctx.beginPath();
+            ctx.arc(0, 0, 6, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+
+            ctx.translate(-radius, -radius); // Reset Context Translation
+        }
+
+        function drawHand(ctx, pos, length, width, color) {
+            ctx.beginPath();
+            ctx.lineWidth = width;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = color;
+            ctx.moveTo(0, 0);
+            ctx.rotate(pos);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+            ctx.rotate(-pos);
+        }
+
+        /* ================= Utility Helpers ================= */
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function randItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        /* Initial Startup */
+        window.onload = () => {
+            initEnglishABC();
+            speak("Welcome to Fun Learning World!");
         };
-        container.appendChild(card);
-      });
-
-      speakText("ABC Chart");
-    }
-
-    /* MATCH NUMBERS WITH WORDS LOGIC */
-    function setupMatchGame() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("matchBoard").classList.remove("hidden");
-
-      const numCol = document.getElementById("numColumn");
-      const wordCol = document.getElementById("wordColumn");
-      const svg = document.getElementById("matchSvg");
-
-      numCol.innerHTML = "";
-      wordCol.innerHTML = "";
-      svg.innerHTML = "";
-
-      selectedNumItem = null;
-      matchedPairsCount = 0;
-
-      let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      numbers.sort(() => Math.random() - 0.5);
-      let selectedNums = numbers.slice(0, 5);
-
-      let words = selectedNums.map(n => ({ num: n, word: numberWordsMap[n] }));
-      let shuffledWords = [...words].sort(() => Math.random() - 0.5);
-
-      selectedNums.forEach(num => {
-        let div = document.createElement("div");
-        div.className = "match-item";
-        div.dataset.value = num;
-        div.innerText = num;
-        div.innerHTML += '<div class="dot left"></div>';
-        div.onclick = () => selectNumItem(div);
-        numCol.appendChild(div);
-      });
-
-      shuffledWords.forEach(item => {
-        let div = document.createElement("div");
-        div.className = "match-item";
-        div.dataset.value = item.num;
-        div.innerText = item.word;
-        div.innerHTML += '<div class="dot right"></div>';
-        div.onclick = () => selectWordItem(div);
-        wordCol.appendChild(div);
-      });
-
-      speakText("Match numbers with words");
-    }
-
-    function selectNumItem(el) {
-      if (el.classList.contains("matched")) return;
-      initAudio();
-
-      document.querySelectorAll("#numColumn .match-item").forEach(i => i.classList.remove("selected"));
-      el.classList.add("selected");
-      selectedNumItem = el;
-      speakText(el.dataset.value);
-    }
-
-    function selectWordItem(el) {
-      if (el.classList.contains("matched") || !selectedNumItem) return;
-      initAudio();
-
-      let numVal = selectedNumItem.dataset.value;
-      let wordVal = el.dataset.value;
-
-      if (numVal === wordVal) {
-        playCorrectSound();
-        selectedNumItem.classList.remove("selected");
-        selectedNumItem.classList.add("matched");
-        el.classList.add("matched");
-
-        drawMatchLine(selectedNumItem, el);
-        speakText(el.innerText);
-
-        selectedNumItem = null;
-        matchedPairsCount++;
-
-        if (matchedPairsCount === totalMatchPairs) {
-          score += 20;
-          document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-
-          let banner = document.getElementById("popupBanner");
-          document.getElementById("popupText").innerText = `Awesome!`;
-          banner.classList.add("show");
-          confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
-
-          setTimeout(() => {
-            banner.classList.remove("show");
-            generateQuestion();
-          }, 1500);
-        }
-      } else {
-        playWrongSound();
-        speakText("Try again!");
-        selectedNumItem.classList.remove("selected");
-        selectedNumItem = null;
-      }
-    }
-
-    function drawMatchLine(el1, el2) {
-      const svg = document.getElementById("matchSvg");
-      const containerRect = document.querySelector(".match-container").getBoundingClientRect();
-
-      const dot1 = el1.querySelector(".dot");
-      const dot2 = el2.querySelector(".dot");
-
-      const rect1 = dot1.getBoundingClientRect();
-      const rect2 = dot2.getBoundingClientRect();
-
-      const x1 = rect1.left + rect1.width / 2 - containerRect.left;
-      const y1 = rect1.top + rect1.height / 2 - containerRect.top;
-      const x2 = rect2.left + rect2.width / 2 - containerRect.left;
-      const y2 = rect2.top + rect2.height / 2 - containerRect.top;
-
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", x1);
-      line.setAttribute("y1", y1);
-      line.setAttribute("x2", x2);
-      line.setAttribute("y2", y2);
-      line.setAttribute("stroke", "#00b894");
-      line.setAttribute("stroke-width", "4");
-      line.setAttribute("stroke-linecap", "round");
-
-      svg.appendChild(line);
-    }
-
-    function drawClock(canvas, hour, minute) {
-      let ctx = canvas.getContext("2d");
-      let radius = canvas.width / 2;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(radius, radius);
-      radius = radius * 0.88;
-
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-
-      ctx.font = "bold 14px 'Comic Sans MS', sans-serif";
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#2d3436";
-
-      for (let num = 1; num <= 12; num++) {
-        let ang = num * Math.PI / 6;
-        ctx.rotate(ang);
-        ctx.translate(0, -radius * 0.78);
-        ctx.rotate(-ang);
-        ctx.fillText(num.toString(), 0, 0);
-        ctx.rotate(ang);
-        ctx.translate(0, radius * 0.78);
-        ctx.rotate(-ang);
-      }
-
-      ctx.beginPath();
-      ctx.arc(0, 0, 6, 0, 2 * Math.PI);
-      ctx.fillStyle = '#2c3e50';
-      ctx.fill();
-
-      let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
-      ctx.beginPath();
-      ctx.lineWidth = 5;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#ee5253";
-      ctx.moveTo(0, 0);
-      ctx.rotate(hourPos);
-      ctx.lineTo(0, -radius * 0.48);
-      ctx.stroke();
-      ctx.rotate(-hourPos);
-
-      let minPos = (minute * Math.PI / 30);
-      ctx.beginPath();
-      ctx.lineWidth = 3.5;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#0984e3";
-      ctx.moveTo(0, 0);
-      ctx.rotate(minPos);
-      ctx.lineTo(0, -radius * 0.70);
-      ctx.stroke();
-      ctx.rotate(-minPos);
-
-      ctx.restore();
-    }
-
-    function setupNumberOptions() {
-      let options = [Number(currentAnswer)];
-      while (options.length < 4) {
-        let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 9) - 4);
-        if (wrong >= 0 && wrong <= 80 && !options.includes(wrong)) {
-          options.push(wrong);
-        }
-      }
-      options.sort(() => Math.random() - 0.5);
-      renderOptions(options);
-    }
-
-    function renderOptions(opts) {
-      let container = document.getElementById("optionsContainer");
-      container.innerHTML = "";
-
-      opts.forEach(opt => {
-        let btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        container.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected, buttonEl) {
-      if (isAnsweringLocked) return;
-      initAudio();
-
-      if (selected == currentAnswer) {
-        isAnsweringLocked = true;
-        playCorrectSound();
-        speakText("Great job! Correct!");
-        
-        score += 10;
-        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-        
-        let targetBox = document.getElementById("targetBox");
-        if (targetBox) targetBox.innerText = currentAnswer;
-        let targetBoxMissing = document.getElementById("targetBoxMissing");
-        if (targetBoxMissing) targetBoxMissing.innerText = currentAnswer;
-
-        let banner = document.getElementById("popupBanner");
-        document.getElementById("popupText").innerText = `Correct!`;
-        banner.classList.add("show");
-        
-        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-
-        setTimeout(() => {
-          banner.classList.remove("show");
-          generateQuestion();
-        }, 1200);
-      } else {
-        playWrongSound();
-        speakText("Try again!");
-        buttonEl.style.background = "#d63031";
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>
