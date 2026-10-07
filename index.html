@@ -3,1681 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Learning World</title>
-  
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <title>Sky, Grass & Root Letters</title>
   
   <style>
-    * { box-sizing: border-box; }
-
-    html, body {
+    body {
+      background-color: #f4f7f6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
-      user-select: none;
     }
 
-    /* SCREEN 1: HOME PAGE */
-    .home-page {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(-45deg, #ff7675, #6c5ce7, #00cec9, #fdcb6e);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    .learning-container {
+      max-width: 900px;
+      margin: 30px auto;
       text-align: center;
       padding: 20px;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .brand-badge {
-      background: rgba(255, 255, 255, 0.3);
-      color: #fff;
-      padding: 8px 22px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 16px;
-      display: inline-block;
-      margin-bottom: 12px;
-      backdrop-filter: blur(5px);
-    }
-
-    .game-title {
-      font-size: 52px;
-      color: #ffffff;
-      margin: 0;
-      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .game-title span { color: #feca57; }
-
-    .game-subtitle {
-      color: #ffffff;
-      font-size: 18px;
-      margin: 10px 0 30px;
-    }
-
-    .play-button {
-      border: none;
-      border-radius: 50px;
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      font-size: 26px;
-      font-weight: 900;
-      padding: 16px 45px;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      cursor: pointer;
-      box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
-      transition: all 0.2s ease;
-    }
-
-    .play-icon {
-      width: 40px;
-      height: 40px;
-      background: white;
-      color: #ee5253;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .play-button:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 #b22222;
-    }
-
-    /* GENERAL HEADER BAR */
-    .header-bar {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 15px;
-    }
-
-    .home-btn {
-      padding: 10px 22px;
-      font-size: 18px;
-      border: none;
-      border-radius: 25px;
       background: #ffffff;
-      color: #0984e3;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      cursor: pointer;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
-    /* SCREEN 2: MAIN CATEGORY MENU */
-    .main-category-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .app-main-title {
-      font-size: 48px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
-      margin: 10px 0 35px;
-      text-align: center;
-    }
-
-    .main-cards-container {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      max-width: 450px;
-      width: 100%;
-    }
-
-    .main-subject-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(10px);
-      border: 4px solid rgba(255, 255, 255, 0.9);
-      border-radius: 35px;
-      padding: 25px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .main-subject-card:active {
-      transform: scale(0.96);
-    }
-
-    .subject-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .subject-icon {
-      font-size: 55px;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-    }
-
-    .subject-name {
-      font-size: 42px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
-    }
-
-    .arrow-btn {
-      width: 45px;
-      height: 45px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0984e3;
-      font-size: 24px;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    /* SCREEN 2B: MATHS SUB-CATEGORIES MENU */
-    .maths-menu-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-      max-width: 480px;
-      width: 100%;
-    }
-
-    .cat-card {
-      background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(8px);
-      border: 3px solid rgba(255, 255, 255, 0.8);
-      border-radius: 24px;
-      padding: 18px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      transition: transform 0.15s;
-    }
-
-    .cat-card:active { transform: scale(0.95); }
-
-    .cat-demo-eq {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      margin-bottom: 10px;
-    }
-
-    .cat-pill {
-      padding: 6px 18px;
-      border-radius: 20px;
-      color: white;
-      font-weight: 900;
-      font-size: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-      border: 2px solid #ffffff;
-    }
-
-    .cat-pill.add { background: #ff7675; }
-    .cat-pill.sub { background: #ff7675; }
-    .cat-pill.mul { background: #00b894; }
-    .cat-pill.div { background: #0984e3; }
-
-    .full-width-card {
-      grid-column: span 2;
-      background: rgba(255, 255, 255, 0.4);
-      border: 3px solid #ffffff;
-      border-radius: 24px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .full-width-card:active { transform: scale(0.96); }
-
-    .card-icons {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
-
-    /* SCREEN 3: SUB-MENUS FOR MODES */
-    .sub-menu-page {
-      min-height: 100vh;
-      padding: 25px 15px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .banner-title {
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      padding: 10px 45px;
-      border-radius: 25px;
-      font-size: 26px;
-      font-weight: 900;
-      border: 3px solid #ffffff;
-      box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-      margin: 15px 0 25px;
-    }
-
-    .mode-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .mode-card {
-      background: #ff7675;
-      border: 4px solid #d63031;
-      border-radius: 20px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: transform 0.15s;
-    }
-
-    .mode-card:active { transform: scale(0.95); }
-
-    .mode-card.full-width {
-      grid-column: span 2;
-      background: #fdcb6e;
-      border-color: #e17055;
-    }
-
-    .mode-card-inner {
-      background: #006266;
-      border-radius: 14px;
-      width: 100%;
-      height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-    }
-
-    .mode-card-label {
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 6px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-    }
-
-    /* ABC CHART GRID STYLES */
-    .abc-chart-board {
-      width: 100%;
-      max-width: 550px;
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 20px 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .abc-chart-title {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ff4757;
-      text-shadow: 1px 1px 0 #ffa502;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .abc-grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-height: 65vh;
-      overflow-y: auto;
-      padding: 5px;
-    }
-
-    .abc-card-item {
-      background: #f1f2f6;
-      border: 3px solid #70a1ff;
-      border-radius: 16px;
-      padding: 10px 5px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.15s, border-color 0.15s;
-    }
-
-    .abc-card-item:active {
-      transform: scale(0.92);
-      border-color: #ff6b81;
-      background: #ffeaa7;
-    }
-
-    .abc-card-letters {
-      font-size: 22px;
-      font-weight: bold;
-      color: #3742fa;
-    }
-
-    .abc-card-icon {
-      font-size: 38px;
-      margin: 4px 0;
-    }
-
-    .abc-card-word {
-      font-size: 13px;
-      font-weight: bold;
-      color: #2f3542;
-    }
-
-    /* SCREEN 4: QUIZ PAGE */
-    .quiz-page {
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #273c75;
-    }
-
-    .quiz-header {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    h2 {
+      color: #333;
       margin-bottom: 20px;
+      font-size: 28px;
     }
 
-    .score-display {
-      font-size: 18px;
-      font-weight: bold;
-      color: #2d3436;
-      background: #feca57;
-      padding: 8px 18px;
-      border-radius: 20px;
-    }
-
-    .chalkboard-card {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      background: #104e33;
-      border: 10px solid #8c7ae6;
-      border-radius: 24px;
-      padding: 20px 15px;
-      text-align: center;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    /* Category Buttons */
+    .category-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-bottom: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 230px;
     }
 
-    .equation-top-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      color: white;
+    .category-buttons button {
+      padding: 12px 20px;
+      font-size: 16px;
       font-weight: bold;
-      width: 100%;
-      flex-wrap: wrap;
+      cursor: pointer;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .num-1 { color: #ff9f43; }
-    .num-2 { color: #54a0ff; }
-    .operator { color: #feca57; }
+    .btn-sky { background-color: #0288d1; }
+    .btn-grass { background-color: #2e7d32; }
+    .btn-root { background-color: #d84315; }
+    .btn-all { background-color: #6a1b9a; }
 
-    .target-box {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 3px dashed white;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: #feca57;
+    .category-buttons button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
-    .visual-split-container {
-      display: flex;
-      width: 100%;
-      height: 130px;
-      margin-top: 15px;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .visual-box {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      font-size: 36px;
-    }
-
-    .visual-box.left { border-right: 2px solid rgba(255, 255, 255, 0.3); }
-
-    .subtraction-visual-container {
+    /* Letters Grid */
+    .letters-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-      width: 100%;
+      gap: 18px;
     }
 
-    .item-wrapper {
+    /* 4-Lines Notebook Card Style */
+    .letter-card {
+      width: 110px;
+      height: 150px;
+      border: 2px solid #555;
+      border-radius: 12px;
       position: relative;
-      display: inline-block;
-      font-size: 38px;
-      line-height: 1;
+      cursor: pointer;
+      overflow: hidden;
+      background: linear-gradient(
+        to bottom,
+        #e0f7fa 0%, #e0f7fa 25%,     /* Sky area */
+        #e8f5e9 25%, #e8f5e9 75%,     /* Grass area */
+        #efebe9 75%, #efebe9 100%     /* Root area */
+      );
+      box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .item-wrapper.crossed-item { opacity: 0.5; }
+    .letter-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
 
-    .item-wrapper.crossed-item::after {
+    /* Notebook Lines Effect */
+    .letter-card::before {
       content: '';
       position: absolute;
-      left: -10%;
-      top: 50%;
-      width: 120%;
-      height: 4px;
-      background-color: #ff3838;
-      transform: rotate(-25deg);
-      border-radius: 2px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 36px,
+        #ff5252 37px,  /* Sky line (Red) */
+        transparent 38px,
+        transparent 73px,
+        #2196f3 74px,  /* Middle line 1 (Blue) */
+        transparent 75px,
+        transparent 110px,
+        #2196f3 111px, /* Middle line 2 (Blue) */
+        transparent 112px,
+        transparent 147px,
+        #ff5252 148px  /* Root line (Red) */
+      );
+      opacity: 0.5;
     }
 
-    .count-items-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      max-width: 420px;
-    }
-
-    .missing-row-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-size: 36px;
-      color: white;
+    .letter-text {
+      font-size: 80px;
       font-weight: bold;
-    }
-
-    .missing-num-pill {
-      background: rgba(255,255,255,0.15);
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      color: #74b9ff;
-    }
-
-    .clock-canvas {
-      background: white;
-      border-radius: 50%;
-      border: 6px solid #feca57;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .options-grid {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .option-btn {
-      min-width: 90px;
-      height: 70px;
-      padding: 0 15px;
-      font-size: 24px;
-      font-weight: bold;
-      border: none;
-      border-radius: 18px;
-      background: #ff4757;
-      color: white;
-      box-shadow: 0 6px 0 #c0392b, 0 10px 15px rgba(0,0,0,0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.1s;
-    }
-
-    .option-btn:nth-child(2) { background: #2ed573; box-shadow: 0 6px 0 #26af5f; }
-    .option-btn:nth-child(3) { background: #1e90ff; box-shadow: 0 6px 0 #0f68c9; }
-    .option-btn:nth-child(4) { background: #ffa502; box-shadow: 0 6px 0 #d35400; }
-
-    .option-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #888;
-    }
-
-    /* MATCH NUMBERS WITH WORDS STYLES */
-    .match-board {
+      line-height: 130px;
       position: relative;
-      width: 100%;
-      max-width: 480px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 20px 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    .match-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2d3436;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .match-container {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      min-height: 320px;
       z-index: 2;
+      display: block;
     }
 
-    .match-column {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 15px;
-      width: 120px;
+    /* Text Color per Category */
+    .sky-bg { color: #0288d1; }
+    .grass-bg { color: #2e7d32; }
+    .root-bg { color: #d84315; }
+
+    /* Pop/Write Animation */
+    @keyframes writeAnim {
+      0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+      60% { opacity: 1; transform: scale(1.2) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
     }
 
-    .match-item {
-      position: relative;
-      background: #f1f2f6;
-      border: 3px solid #2f3542;
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #2f3542;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 52px;
-      transition: background 0.2s, transform 0.1s;
+    .animate-letter {
+      animation: writeAnim 0.5s ease-out;
     }
-
-    .match-item.selected {
-      background: #feca57;
-      border-color: #ff9f43;
-      transform: scale(1.05);
-    }
-
-    .match-item.matched {
-      background: #55efc4;
-      border-color: #00b894;
-      cursor: default;
-    }
-
-    .dot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: #2f3542;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .dot.left { right: -18px; }
-    .dot.right { left: -18px; }
-
-    .match-svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .popup-banner {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: linear-gradient(to right, #4834d4, #686de0);
-      border: 4px solid #ffffff;
-      border-radius: 30px;
-      padding: 15px 35px;
-      color: white;
-      font-size: 32px;
-      font-weight: 900;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .popup-banner.show { transform: translate(-50%, -50%) scale(1); }
-
-    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- SCREEN 1: HOME PAGE -->
-  <div id="homePage" class="home-page">
-    <div class="hero-content">
-      <div class="brand-badge">🎮 FUN LEARNING WORLD</div>
-      <h1 class="game-title">Kids <span>Master</span></h1>
-      <p class="game-subtitle">Maths & English Learning Fun! 🎉</p>
-
-      <button class="play-button" onclick="goToCategoryMenu()">
-        <span class="play-icon">▶</span>
-        <span>PLAY NOW</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: MAIN SUBJECT MENU -->
-  <div id="categoryMenu" class="main-category-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goHome()">🏠 Home</button>
+  <div class="learning-container">
+    <h2>Sky, Grass & Root Letters</h2>
+    
+    <div class="category-buttons">
+      <button class="btn-sky" onclick="filterLetters('sky')">Sky Letters (7)</button>
+      <button class="btn-grass" onclick="filterLetters('grass')">Grass Letters (14)</button>
+      <button class="btn-root" onclick="filterLetters('root')">Root Letters (5)</button>
+      <button class="btn-all" onclick="filterLetters('all')">All Letters (26)</button>
     </div>
 
-    <h1 class="app-main-title">Kids Learning</h1>
-
-    <div class="main-cards-container">
-      <!-- MATHS CARD -->
-      <div class="main-subject-card" onclick="openMathsMenu()">
-        <div class="subject-left">
-          <div class="subject-icon">🧮</div>
-          <div class="subject-name">Maths</div>
-        </div>
-        <div class="arrow-btn">❯</div>
-      </div>
-
-      <!-- ENGLISH CARD (DIRECTLY OPENS ABC CHART) -->
-      <div class="main-subject-card" onclick="startQuiz('english', 'abcchart')">
-        <div class="subject-left">
-          <div class="subject-icon">📚</div>
-          <div class="subject-name">English</div>
-        </div>
-        <div class="arrow-btn">❯</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 2B: MATHS CATEGORIES -->
-  <div id="mathsMenu" class="maths-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
-    </div>
-
-    <h1 class="app-main-title" style="font-size: 38px; margin-bottom: 20px;">Maths Menu</h1>
-
-    <div class="category-grid">
-      <div class="cat-card" onclick="openSubMenu('addition')">
-        <div class="cat-demo-eq">2 + 3 = 5</div>
-        <div class="cat-pill add">Addition</div>
-      </div>
-
-      <div class="cat-card" onclick="openSubMenu('subtraction')">
-        <div class="cat-demo-eq">8 - 3 = 5</div>
-        <div class="cat-pill sub">Subtraction</div>
-      </div>
-
-      <div class="cat-card" onclick="startDirectQuiz('mul')">
-        <div class="cat-demo-eq">4 × 6 = 24</div>
-        <div class="cat-pill mul">Multiplication</div>
-      </div>
-
-      <div class="cat-card" onclick="startDirectQuiz('div')">
-        <div class="cat-demo-eq">12 ÷ 3 = 4</div>
-        <div class="cat-pill div">Division</div>
-      </div>
-
-      <div class="full-width-card" onclick="openSubMenu('kidsfun')">
-        <div class="card-icons">🧩 ⏰ ✏️ 🔢 🎲</div>
-        <div class="cat-pill fun">Kids Fun</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3B: ADDITION MODES MENU -->
-  <div id="additionMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️️ Back</button>
-    </div>
-
-    <div class="banner-title">Addition Modes</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('addition', 'count')">
-        <div class="mode-card-inner">🦒🧁🚗 ➔ [ ? ]</div>
-        <div class="mode-card-label">Counting</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '+')">
-        <div class="mode-card-inner">🌂🌂 + 🌂<br>= 3</div>
-        <div class="mode-card-label">Adding Fun</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '2digit')">
-        <div class="mode-card-inner">22 + 12 = 34</div>
-        <div class="mode-card-label">2 Digits +</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', 'easy')">
-        <div class="mode-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
-        <div class="mode-card-label">Easy Addition</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3C: SUBTRACTION MODES MENU -->
-  <div id="subtractionMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
-    </div>
-
-    <div class="banner-title">Subtraction Modes</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('subtraction', 'visual')">
-        <div class="mode-card-inner">🍎 <s>🍎</s><br>2 - 1 = 1</div>
-        <div class="mode-card-label">With Pictures</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('subtraction', 'simple')">
-        <div class="mode-card-inner">2 - 1 = ?<br>8 - 3 = 5</div>
-        <div class="mode-card-label">Simple Subtraction</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3D: KIDS FUN MODES MENU -->
-  <div id="kidsFunMenu" class="sub-menu-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️ Back</button>
-    </div>
-
-    <div class="banner-title">Kids Fun</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'match')">
-        <div class="mode-card-inner">3 ── Three<br>7 ── Seven</div>
-        <div class="mode-card-label">Match Words</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'missing')">
-        <div class="mode-card-inner">1, 2, [ ? ], 4</div>
-        <div class="mode-card-label">Missing Number</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'clock')">
-        <div class="mode-card-inner">🕒 ➔ 10:30</div>
-        <div class="mode-card-label">Time Clock</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'shapes')">
-        <div class="mode-card-inner">🔴 🔺 ⬛</div>
-        <div class="mode-card-label">Shapes</div>
-      </div>
-
-      <div class="mode-card full-width" onclick="startQuiz('kidsfun', 'mixfun')">
-        <div class="mode-card-inner" style="background: #2d3436; font-size: 26px;">🎲 🔀 🧩</div>
-        <div class="mode-card-label" style="font-size: 16px;">Mix Fun</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 4: QUIZ PAGE -->
-  <div id="quizPage" class="quiz-page hidden">
-    <div class="quiz-header">
-      <button class="home-btn" onclick="backFromQuiz()">⬅️ Back</button>
-      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
-    </div>
-
-    <!-- STANDARD CHALKBOARD CARD -->
-    <div id="standardChalkboard" class="chalkboard-card">
-      <div id="equationRow" class="equation-top-row">
-        <span id="num1Text" class="num-1">1</span>
-        <span id="opSymbol" class="operator">+</span>
-        <span id="num2Text" class="num-2">2</span>
-        <span id="equalsSign">=</span>
-        <div id="targetBox" class="target-box">?</div>
-      </div>
-
-      <div id="countItemsContainer" class="count-items-container hidden"></div>
-
-      <div id="visualSplitContainer" class="visual-split-container hidden">
-        <div id="leftVisualBox" class="visual-box left"></div>
-        <div id="rightVisualBox" class="visual-box"></div>
-      </div>
-
-      <div id="subtractionVisualBox" class="subtraction-visual-container hidden"></div>
-
-      <div id="customDisplay" class="hidden"></div>
-    </div>
-
-    <!-- ABC ALPHABET CHART BOARD -->
-    <div id="abcChartBoard" class="abc-chart-board hidden">
-      <div class="abc-chart-title">ABC CHART FOR KIDS</div>
-      <div id="abcGridContainer" class="abc-grid-container"></div>
-    </div>
-
-    <!-- MATCH WORDS BOARD -->
-    <div id="matchBoard" class="match-board hidden">
-      <div class="match-title">Match numbers with words.</div>
-      <div class="match-container">
-        <svg id="matchSvg" class="match-svg"></svg>
-        <div id="numColumn" class="match-column"></div>
-        <div id="wordColumn" class="match-column"></div>
-      </div>
-    </div>
-
-    <div id="optionsContainer" class="options-grid"></div>
-  </div>
-
-  <div id="popupBanner" class="popup-banner">
-    <span id="popupText">Great Job!</span> 🎉
+    <div id="lettersGrid" class="letters-grid"></div>
   </div>
 
   <script>
-    let currentCategory = 'addition'; 
-    let currentMode = '+';
-    let currentAnswer = '';
-    let score = 0;
-    let isAnsweringLocked = false;
-    let maleVoice = null;
+    // Alphabet Categories Setup
+    const lettersData = [
+      // Sky Letters (b, d, f, h, k, l, t)
+      { char: 'b', type: 'sky' }, { char: 'd', type: 'sky' }, { char: 'f', type: 'sky' },
+      { char: 'h', type: 'sky' }, { char: 'k', type: 'sky' }, { char: 'l', type: 'sky' }, { char: 't', type: 'sky' },
 
-    let selectedNumItem = null;
-    let matchedPairsCount = 0;
-    let totalMatchPairs = 5;
+      // Grass Letters (a, c, e, i, m, n, o, r, s, u, v, w, x, z)
+      { char: 'a', type: 'grass' }, { char: 'c', type: 'grass' }, { char: 'e', type: 'grass' },
+      { char: 'i', type: 'grass' }, { char: 'm', type: 'grass' }, { char: 'n', type: 'grass' },
+      { char: 'o', type: 'grass' }, { char: 'r', type: 'grass' }, { char: 's', type: 'grass' },
+      { char: 'u', type: 'grass' }, { char: 'v', type: 'grass' }, { char: 'w', type: 'grass' },
+      { char: 'x', type: 'grass' }, { char: 'z', type: 'grass' },
 
-    const numberWordsMap = {
-      1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
-      6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
-    };
-
-    const alphabetData = [
-      { letter: "Aa", word: "Apple", icon: "🍎" },
-      { letter: "Bb", word: "Ball", icon: "⚽" },
-      { letter: "Cc", word: "Cat", icon: "🐱" },
-      { letter: "Dd", word: "Dog", icon: "🐶" },
-      { letter: "Ee", word: "Elephant", icon: "🐘" },
-      { letter: "Ff", word: "Frog", icon: "🐸" },
-      { letter: "Gg", word: "Giraffe", icon: "🦒" },
-      { letter: "Hh", word: "House", icon: "🏠" },
-      { letter: "Ii", word: "Ice cream", icon: "🍦" },
-      { letter: "Jj", word: "Juice", icon: "🧃" },
-      { letter: "Kk", word: "Kite", icon: "🪁" },
-      { letter: "Ll", word: "Lion", icon: "🦁" },
-      { letter: "Mm", word: "Monkey", icon: "🐒" },
-      { letter: "Nn", word: "Nest", icon: "🪺" },
-      { letter: "Oo", word: "Owl", icon: "🦉" },
-      { letter: "Pp", word: "Parrot", icon: "🦜" },
-      { letter: "Qq", word: "Queen", icon: "👸" },
-      { letter: "Rr", word: "Rainbow", icon: "🌈" },
-      { letter: "Ss", word: "Sun", icon: "☀️" },
-      { letter: "Tt", word: "Turtle", icon: "🐢" },
-      { letter: "Uu", word: "Umbrella", icon: "☂️" },
-      { letter: "Vv", word: "Vase", icon: "🏺" },
-      { letter: "Ww", word: "Watermelon", icon: "🍉" },
-      { letter: "Xx", word: "Xylophone", icon: "🎼" },
-      { letter: "Yy", word: "Yacht", icon: "⛵" },
-      { letter: "Zz", word: "Zebra", icon: "🦓" }
+      // Root Letters (g, j, p, q, y)
+      { char: 'g', type: 'root' }, { char: 'j', type: 'root' }, { char: 'p', type: 'root' },
+      { char: 'q', type: 'root' }, { char: 'y', type: 'root' }
     ];
 
-    let audioCtx = null;
+    // Render Cards
+    function renderLetters(filter = 'all') {
+      const container = document.getElementById('lettersGrid');
+      container.innerHTML = '';
 
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      loadMaleVoice();
-    }
+      const filtered = filter === 'all' 
+        ? lettersData 
+        : lettersData.filter(item => item.type === filter);
 
-    function loadMaleVoice() {
-      if ('speechSynthesis' in window) {
-        let voices = window.speechSynthesis.getVoices();
-        maleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Male') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George')));
-        if (!maleVoice && voices.length > 0) {
-          maleVoice = voices.find(v => v.lang.includes('en'));
-        }
-      }
-    }
-
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = loadMaleVoice;
-    }
-
-    function playAudioTone(freq, type, duration) {
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        console.log("Audio Error: ", e);
-      }
-    }
-
-    function playCorrectSound() {
-      playAudioTone(523.25, 'sine', 0.12);
-      setTimeout(() => playAudioTone(659.25, 'sine', 0.12), 100);
-      setTimeout(() => playAudioTone(783.99, 'sine', 0.25), 200);
-    }
-
-    function playWrongSound() {
-      playAudioTone(200, 'sawtooth', 0.2);
-      setTimeout(() => playAudioTone(150, 'sawtooth', 0.3), 150);
-    }
-
-    function speakText(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.85;
-        utterance.pitch = 1.0;
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'letter-card';
         
-        if (!maleVoice) loadMaleVoice();
-        if (maleVoice) utterance.voice = maleVoice;
+        const textSpan = document.createElement('span');
+        textSpan.className = `letter-text ${item.type}-bg`;
+        textSpan.innerText = item.char;
 
-        window.speechSynthesis.speak(utterance);
-      }
-    }
+        card.appendChild(textSpan);
 
-    /* NAVIGATION LOGIC */
-    function goToCategoryMenu() {
-      initAudio();
-      hideAllScreens();
-      document.getElementById("categoryMenu").classList.remove("hidden");
-      speakText("Choose Maths or English");
-    }
+        // Click Event for Animation & Voice Sound
+        card.onclick = () => playSoundAndAnimate(item.char, item.type, textSpan);
 
-    function goHome() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-      document.getElementById("homePage").classList.remove("hidden");
-    }
-
-    function openMathsMenu() {
-      initAudio();
-      hideAllScreens();
-      document.getElementById("mathsMenu").classList.remove("hidden");
-      speakText("Select Maths Game");
-    }
-
-    function openSubMenu(cat) {
-      initAudio();
-      currentCategory = cat;
-      hideAllScreens();
-
-      if (cat === 'addition') {
-        document.getElementById("additionMenu").classList.remove("hidden");
-        speakText("Select Addition Mode");
-      } else if (cat === 'subtraction') {
-        document.getElementById("subtractionMenu").classList.remove("hidden");
-        speakText("Select Subtraction Mode");
-      } else if (cat === 'kidsfun') {
-        document.getElementById("kidsFunMenu").classList.remove("hidden");
-        speakText("Select Fun Mode");
-      }
-    }
-
-    function goCategoryMenu() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-      document.getElementById("categoryMenu").classList.remove("hidden");
-    }
-
-    function backFromQuiz() {
-      initAudio();
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      hideAllScreens();
-
-      if (currentCategory === 'english') {
-        document.getElementById("categoryMenu").classList.remove("hidden");
-      } else if (['addition', 'subtraction', 'kidsfun', 'mul', 'div'].includes(currentCategory)) {
-        document.getElementById("mathsMenu").classList.remove("hidden");
-      } else {
-        document.getElementById("categoryMenu").classList.remove("hidden");
-      }
-    }
-
-    function hideAllScreens() {
-      document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("categoryMenu").classList.add("hidden");
-      document.getElementById("mathsMenu").classList.add("hidden");
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("subtractionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.add("hidden");
-    }
-
-    function startQuiz(cat, mode) {
-      initAudio();
-      currentCategory = cat;
-      currentMode = mode;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      hideAllScreens();
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    function startDirectQuiz(cat) {
-      initAudio();
-      currentCategory = cat;
-      currentMode = cat;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      hideAllScreens();
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    /* QUESTION GENERATION */
-    function generateQuestion() {
-      isAnsweringLocked = false;
-      document.getElementById("targetBox").innerText = "?";
-      document.getElementById("countItemsContainer").innerHTML = "";
-      document.getElementById("leftVisualBox").innerHTML = "";
-      document.getElementById("rightVisualBox").innerHTML = "";
-      document.getElementById("subtractionVisualBox").innerHTML = "";
-      document.getElementById("customDisplay").innerHTML = "";
-
-      document.getElementById("standardChalkboard").classList.remove("hidden");
-      document.getElementById("matchBoard").classList.add("hidden");
-      document.getElementById("abcChartBoard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.remove("hidden");
-
-      document.getElementById("equationRow").classList.remove("hidden");
-      document.getElementById("visualSplitContainer").classList.add("hidden");
-      document.getElementById("subtractionVisualBox").classList.add("hidden");
-      document.getElementById("countItemsContainer").classList.add("hidden");
-      document.getElementById("customDisplay").classList.add("hidden");
-
-      const visualItems = ['🚗', '👟', '🌂', '🍎', '🧁', '🎈', '🦆', '🍬'];
-
-      // ENGLISH CATEGORY
-      if (currentCategory === 'english') {
-        setupABCChart();
-        return;
-      }
-
-      // ADDITION CATEGORY
-      if (currentCategory === 'addition') {
-        if (currentMode === 'count') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("countItemsContainer").classList.remove("hidden");
-          let count = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = count;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          let displayHTML = '';
-          for (let i = 0; i < count; i++) displayHTML += icon + ' ';
-          document.getElementById("countItemsContainer").innerHTML = displayHTML;
-          setupNumberOptions();
-          speakText("Count the items");
-          return;
-        } 
-        else if (currentMode === '+') {
-          document.getElementById("visualSplitContainer").classList.remove("hidden");
-          let num1 = Math.floor(Math.random() * 5) + 1;
-          let num2 = Math.floor(Math.random() * 5) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
-          for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-        else if (currentMode === '2digit') {
-          let num1 = Math.floor(Math.random() * 40) + 10;
-          let num2 = Math.floor(Math.random() * 40) + 10;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-        else if (currentMode === 'easy') {
-          let num1 = Math.floor(Math.random() * 10) + 1;
-          let num2 = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          speakText(`${num1} plus ${num2}`);
-          return;
-        }
-      }
-
-      // SUBTRACTION CATEGORY
-      if (currentCategory === 'subtraction') {
-        let num1 = Math.floor(Math.random() * 8) + 2;
-        let num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
-        currentAnswer = num1 - num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "-";
-        document.getElementById("num2Text").innerText = num2;
-
-        if (currentMode === 'visual') {
-          document.getElementById("subtractionVisualBox").classList.remove("hidden");
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          let subHTML = '';
-          for (let i = 0; i < num1; i++) {
-            if (i >= (num1 - num2)) {
-              subHTML += `<span class="item-wrapper crossed-item">${icon}</span>`;
-            } else {
-              subHTML += `<span class="item-wrapper">${icon}</span>`;
-            }
-          }
-          document.getElementById("subtractionVisualBox").innerHTML = subHTML;
-        }
-
-        setupNumberOptions();
-        speakText(`${num1} minus ${num2}`);
-        return;
-      }
-
-      if (currentCategory === 'mul') {
-        let num1 = Math.floor(Math.random() * 8) + 1;
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = num1 * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "×";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        speakText(`${num1} multiplied by ${num2}`);
-        return;
-      }
-
-      if (currentCategory === 'div') {
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = Math.floor(Math.random() * 5) + 1;
-        let num1 = currentAnswer * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "÷";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        speakText(`${num1} divided by ${num2}`);
-        return;
-      }
-
-      // KIDS FUN CATEGORY
-      if (currentCategory === 'kidsfun') {
-        let mode = currentMode;
-
-        if (mode === 'mixfun') {
-          const funModes = ['match', 'missing', 'clock', 'shapes'];
-          mode = funModes[Math.floor(Math.random() * funModes.length)];
-        }
-
-        if (mode === 'match') {
-          setupMatchGame();
-          return;
-        }
-
-        if (mode === 'missing') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          let start = Math.floor(Math.random() * 27) + 1;
-          let seq = [start, start + 1, start + 2, start + 3];
-          
-          let missingIdx = Math.floor(Math.random() * 4);
-          currentAnswer = seq[missingIdx];
-
-          let rowDiv = document.createElement("div");
-          rowDiv.className = "missing-row-container";
-
-          seq.forEach((val, index) => {
-            if (index === missingIdx) {
-              let box = document.createElement("div");
-              box.className = "target-box";
-              box.id = "targetBoxMissing";
-              box.innerText = "?";
-              rowDiv.appendChild(box);
-            } else {
-              let numSpan = document.createElement("span");
-              numSpan.className = "missing-num-pill";
-              numSpan.innerText = val;
-              rowDiv.appendChild(numSpan);
-            }
-          });
-
-          document.getElementById("customDisplay").appendChild(rowDiv);
-          setupNumberOptions();
-          speakText("Find the missing number");
-        }
-        else if (mode === 'clock') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          let hour = Math.floor(Math.random() * 12) + 1;
-          let minutesList = [0, 15, 30, 45];
-          let minute = minutesList[Math.floor(Math.random() * minutesList.length)];
-          
-          let formattedMin = minute === 0 ? "00" : minute.toString();
-          currentAnswer = `${hour}:${formattedMin}`;
-
-          let canvas = document.createElement("canvas");
-          canvas.width = 170;
-          canvas.height = 170;
-          canvas.className = "clock-canvas";
-          drawClock(canvas, hour, minute);
-
-          document.getElementById("customDisplay").appendChild(canvas);
-
-          let timeOptions = [currentAnswer];
-          while(timeOptions.length < 4) {
-            let h = Math.floor(Math.random() * 12) + 1;
-            let m = minutesList[Math.floor(Math.random() * minutesList.length)];
-            let fMin = m === 0 ? "00" : m.toString();
-            let opt = `${h}:${fMin}`;
-            if(!timeOptions.includes(opt)) timeOptions.push(opt);
-          }
-          timeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(timeOptions);
-          speakText("What time is it?");
-        }
-        else if (mode === 'shapes') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          const shapes = [
-            { name: 'Circle', icon: '🔴' },
-            { name: 'Square', icon: '⬛' },
-            { name: 'Triangle', icon: '🔺' },
-            { name: 'Star', icon: '⭐' },
-            { name: 'Heart', icon: '❤️' }
-          ];
-
-          let selected = shapes[Math.floor(Math.random() * shapes.length)];
-          currentAnswer = selected.name;
-
-          let div = document.createElement("div");
-          div.style.fontSize = "90px";
-          div.innerText = selected.icon;
-          document.getElementById("customDisplay").appendChild(div);
-
-          let shapeOptions = [currentAnswer];
-          while(shapeOptions.length < 4) {
-            let s = shapes[Math.floor(Math.random() * shapes.length)].name;
-            if(!shapeOptions.includes(s)) shapeOptions.push(s);
-          }
-          shapeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(shapeOptions);
-          speakText("Name this shape");
-        }
-      }
-    }
-
-    /* ABC CHART LOGIC */
-    function setupABCChart() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("matchBoard").classList.add("hidden");
-      document.getElementById("abcChartBoard").classList.remove("hidden");
-
-      const container = document.getElementById("abcGridContainer");
-      container.innerHTML = "";
-
-      alphabetData.forEach(item => {
-        let card = document.createElement("div");
-        card.className = "abc-card-item";
-        card.innerHTML = `
-          <div class="abc-card-letters">${item.letter}</div>
-          <div class="abc-card-icon">${item.icon}</div>
-          <div class="abc-card-word">${item.word}</div>
-        `;
-        card.onclick = () => {
-          let letterOnly = item.letter.charAt(0);
-          speakText(`${letterOnly} for ${item.word}`);
-        };
         container.appendChild(card);
       });
-
-      speakText("ABC Chart");
     }
 
-    /* MATCH NUMBERS WITH WORDS LOGIC */
-    function setupMatchGame() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("matchBoard").classList.remove("hidden");
+    // Play Sound & Trigger Animation
+    function playSoundAndAnimate(char, type, element) {
+      // Re-trigger CSS animation
+      element.classList.remove('animate-letter');
+      void element.offsetWidth; // Force Reflow
+      element.classList.add('animate-letter');
 
-      const numCol = document.getElementById("numColumn");
-      const wordCol = document.getElementById("wordColumn");
-      const svg = document.getElementById("matchSvg");
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
 
-      numCol.innerHTML = "";
-      wordCol.innerHTML = "";
-      svg.innerHTML = "";
-
-      selectedNumItem = null;
-      matchedPairsCount = 0;
-
-      let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      numbers.sort(() => Math.random() - 0.5);
-      let selectedNums = numbers.slice(0, 5);
-
-      let words = selectedNums.map(n => ({ num: n, word: numberWordsMap[n] }));
-      let shuffledWords = [...words].sort(() => Math.random() - 0.5);
-
-      selectedNums.forEach(num => {
-        let div = document.createElement("div");
-        div.className = "match-item";
-        div.dataset.value = num;
-        div.innerText = num;
-        div.innerHTML += '<div class="dot left"></div>';
-        div.onclick = () => selectNumItem(div);
-        numCol.appendChild(div);
-      });
-
-      shuffledWords.forEach(item => {
-        let div = document.createElement("div");
-        div.className = "match-item";
-        div.dataset.value = item.num;
-        div.innerText = item.word;
-        div.innerHTML += '<div class="dot right"></div>';
-        div.onclick = () => selectWordItem(div);
-        wordCol.appendChild(div);
-      });
-
-      speakText("Match numbers with words");
+      // Clear English Audio Voice
+      const speech = new SpeechSynthesisUtterance();
+      speech.text = `${char}. ${char} is a ${type} letter.`;
+      speech.lang = 'en-US';
+      speech.rate = 0.8; // Slow speech rate for kids
+      
+      window.speechSynthesis.speak(speech);
     }
 
-    function selectNumItem(el) {
-      if (el.classList.contains("matched")) return;
-      initAudio();
-
-      document.querySelectorAll("#numColumn .match-item").forEach(i => i.classList.remove("selected"));
-      el.classList.add("selected");
-      selectedNumItem = el;
-      speakText(el.dataset.value);
+    // Filter Function
+    function filterLetters(category) {
+      renderLetters(category);
     }
 
-    function selectWordItem(el) {
-      if (el.classList.contains("matched") || !selectedNumItem) return;
-      initAudio();
-
-      let numVal = selectedNumItem.dataset.value;
-      let wordVal = el.dataset.value;
-
-      if (numVal === wordVal) {
-        playCorrectSound();
-        selectedNumItem.classList.remove("selected");
-        selectedNumItem.classList.add("matched");
-        el.classList.add("matched");
-
-        drawMatchLine(selectedNumItem, el);
-        speakText(el.innerText);
-
-        selectedNumItem = null;
-        matchedPairsCount++;
-
-        if (matchedPairsCount === totalMatchPairs) {
-          score += 20;
-          document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-
-          let banner = document.getElementById("popupBanner");
-          document.getElementById("popupText").innerText = `Awesome!`;
-          banner.classList.add("show");
-          confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
-
-          setTimeout(() => {
-            banner.classList.remove("show");
-            generateQuestion();
-          }, 1500);
-        }
-      } else {
-        playWrongSound();
-        speakText("Try again!");
-        selectedNumItem.classList.remove("selected");
-        selectedNumItem = null;
-      }
-    }
-
-    function drawMatchLine(el1, el2) {
-      const svg = document.getElementById("matchSvg");
-      const containerRect = document.querySelector(".match-container").getBoundingClientRect();
-
-      const dot1 = el1.querySelector(".dot");
-      const dot2 = el2.querySelector(".dot");
-
-      const rect1 = dot1.getBoundingClientRect();
-      const rect2 = dot2.getBoundingClientRect();
-
-      const x1 = rect1.left + rect1.width / 2 - containerRect.left;
-      const y1 = rect1.top + rect1.height / 2 - containerRect.top;
-      const x2 = rect2.left + rect2.width / 2 - containerRect.left;
-      const y2 = rect2.top + rect2.height / 2 - containerRect.top;
-
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", x1);
-      line.setAttribute("y1", y1);
-      line.setAttribute("x2", x2);
-      line.setAttribute("y2", y2);
-      line.setAttribute("stroke", "#00b894");
-      line.setAttribute("stroke-width", "4");
-      line.setAttribute("stroke-linecap", "round");
-
-      svg.appendChild(line);
-    }
-
-    function drawClock(canvas, hour, minute) {
-      let ctx = canvas.getContext("2d");
-      let radius = canvas.width / 2;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(radius, radius);
-      radius = radius * 0.88;
-
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-
-      ctx.font = "bold 14px 'Comic Sans MS', sans-serif";
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#2d3436";
-
-      for (let num = 1; num <= 12; num++) {
-        let ang = num * Math.PI / 6;
-        ctx.rotate(ang);
-        ctx.translate(0, -radius * 0.78);
-        ctx.rotate(-ang);
-        ctx.fillText(num.toString(), 0, 0);
-        ctx.rotate(ang);
-        ctx.translate(0, radius * 0.78);
-        ctx.rotate(-ang);
-      }
-
-      ctx.beginPath();
-      ctx.arc(0, 0, 6, 0, 2 * Math.PI);
-      ctx.fillStyle = '#2c3e50';
-      ctx.fill();
-
-      let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
-      ctx.beginPath();
-      ctx.lineWidth = 5;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#ee5253";
-      ctx.moveTo(0, 0);
-      ctx.rotate(hourPos);
-      ctx.lineTo(0, -radius * 0.48);
-      ctx.stroke();
-      ctx.rotate(-hourPos);
-
-      let minPos = (minute * Math.PI / 30);
-      ctx.beginPath();
-      ctx.lineWidth = 3.5;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#0984e3";
-      ctx.moveTo(0, 0);
-      ctx.rotate(minPos);
-      ctx.lineTo(0, -radius * 0.70);
-      ctx.stroke();
-      ctx.rotate(-minPos);
-
-      ctx.restore();
-    }
-
-    function setupNumberOptions() {
-      let options = [Number(currentAnswer)];
-      while (options.length < 4) {
-        let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 9) - 4);
-        if (wrong >= 0 && wrong <= 80 && !options.includes(wrong)) {
-          options.push(wrong);
-        }
-      }
-      options.sort(() => Math.random() - 0.5);
-      renderOptions(options);
-    }
-
-    function renderOptions(opts) {
-      let container = document.getElementById("optionsContainer");
-      container.innerHTML = "";
-
-      opts.forEach(opt => {
-        let btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        container.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected, buttonEl) {
-      if (isAnsweringLocked) return;
-      initAudio();
-
-      if (selected == currentAnswer) {
-        isAnsweringLocked = true;
-        playCorrectSound();
-        speakText("Great job! Correct!");
-        
-        score += 10;
-        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-        
-        let targetBox = document.getElementById("targetBox");
-        if (targetBox) targetBox.innerText = currentAnswer;
-        let targetBoxMissing = document.getElementById("targetBoxMissing");
-        if (targetBoxMissing) targetBoxMissing.innerText = currentAnswer;
-
-        let banner = document.getElementById("popupBanner");
-        document.getElementById("popupText").innerText = `Correct!`;
-        banner.classList.add("show");
-        
-        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-
-        setTimeout(() => {
-          banner.classList.remove("show");
-          generateQuestion();
-        }, 1200);
-      } else {
-        playWrongSound();
-        speakText("Try again!");
-        buttonEl.style.background = "#d63031";
-      }
-    }
+    // Initialize on page load
+    renderLetters('all');
   </script>
+
 </body>
 </html>
