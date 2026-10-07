@@ -299,6 +299,7 @@
       border: 3px solid #ffffff;
       box-shadow: 0 6px 0 rgba(0,0,0,0.2);
       margin: 15px 0 25px;
+      text-align: center;
     }
 
     .mode-grid {
@@ -416,6 +417,68 @@
       font-size: 13px;
       font-weight: bold;
       color: #2f3542;
+    }
+
+    /* SKY, GRASS & ROOT LETTERS STYLES */
+    .sgr-container {
+      width: 100%;
+      max-width: 520px;
+      background: #74b9ff;
+      border: 6px solid #ffffff;
+      border-radius: 25px;
+      padding: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .sgr-section {
+      border-radius: 20px;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 3px solid rgba(255,255,255,0.8);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .sgr-sky { background: #81ecec; border-color: #00cec9; }
+    .sgr-grass { background: #55efc4; border-color: #00b894; }
+    .sgr-root { background: #ffeaa7; border-color: #fdcb6e; }
+
+    .sgr-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #2d3436;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .sgr-letters-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .sgr-bubble {
+      width: 45px;
+      height: 45px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #2d3436;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .sgr-bubble:active {
+      transform: scale(0.9);
+      background: #74b9ff;
+      color: white;
     }
 
     /* SCREEN 4: QUIZ PAGE */
@@ -769,13 +832,34 @@
         <div class="arrow-btn">❯</div>
       </div>
 
-      <!-- ENGLISH CARD (DIRECTLY OPENS ABC CHART) -->
-      <div class="main-subject-card" onclick="startQuiz('english', 'abcchart')">
+      <!-- ENGLISH CARD (OPENS ENGLISH MENU) -->
+      <div class="main-subject-card" onclick="openEnglishMenu()">
         <div class="subject-left">
           <div class="subject-icon">📚</div>
           <div class="subject-name">English</div>
         </div>
         <div class="arrow-btn">❯</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2C: ENGLISH SUB-MENU -->
+  <div id="englishMenu" class="sub-menu-page hidden">
+    <div class="header-bar">
+      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
+    </div>
+
+    <div class="banner-title">English Menu</div>
+
+    <div class="mode-grid">
+      <div class="mode-card" onclick="startQuiz('english', 'abcchart')">
+        <div class="mode-card-inner">🔤 Aa Bb Cc</div>
+        <div class="mode-card-label">ABC Chart</div>
+      </div>
+
+      <div class="mode-card" onclick="startQuiz('english', 'skygrassroot')">
+        <div class="mode-card-inner">☁️ Sky<br>🌱 Grass<br>🪵 Root</div>
+        <div class="mode-card-label">Sky, Grass & Root</div>
       </div>
     </div>
   </div>
@@ -819,7 +903,7 @@
   <!-- SCREEN 3B: ADDITION MODES MENU -->
   <div id="additionMenu" class="sub-menu-page hidden">
     <div class="header-bar">
-      <button class="home-btn" onclick="openMathsMenu()">⬅️️ Back</button>
+      <button class="home-btn" onclick="openMathsMenu()">⬅ Back</button>
     </div>
 
     <div class="banner-title">Addition Modes</div>
@@ -939,6 +1023,24 @@
       <div id="abcGridContainer" class="abc-grid-container"></div>
     </div>
 
+    <!-- SKY, GRASS & ROOT LETTERS BOARD -->
+    <div id="skyGrassRootBoard" class="sgr-container hidden">
+      <div class="sgr-section sgr-sky">
+        <div class="sgr-title">☁️ Sky Letters (7)</div>
+        <div class="sgr-letters-grid" id="skyLettersGrid"></div>
+      </div>
+
+      <div class="sgr-section sgr-grass">
+        <div class="sgr-title">🌱 Grass Letters (14)</div>
+        <div class="sgr-letters-grid" id="grassLettersGrid"></div>
+      </div>
+
+      <div class="sgr-section sgr-root">
+        <div class="sgr-title">🪵 Root Letters (5)</div>
+        <div class="sgr-letters-grid" id="rootLettersGrid"></div>
+      </div>
+    </div>
+
     <!-- MATCH WORDS BOARD -->
     <div id="matchBoard" class="match-board hidden">
       <div class="match-title">Match numbers with words.</div>
@@ -1001,6 +1103,12 @@
       { letter: "Yy", word: "Yacht", icon: "⛵" },
       { letter: "Zz", word: "Zebra", icon: "🦓" }
     ];
+
+    const skyGrassRootData = {
+      sky: ['b', 'd', 'f', 'h', 'k', 'l', 't'],
+      grass: ['a', 'c', 'e', 'i', 'm', 'n', 'o', 'r', 's', 'u', 'v', 'w', 'x', 'z'],
+      root: ['g', 'j', 'p', 'q', 'y']
+    };
 
     let audioCtx = null;
 
@@ -1094,6 +1202,13 @@
       speakText("Select Maths Game");
     }
 
+    function openEnglishMenu() {
+      initAudio();
+      hideAllScreens();
+      document.getElementById("englishMenu").classList.remove("hidden");
+      speakText("Select English Game");
+    }
+
     function openSubMenu(cat) {
       initAudio();
       currentCategory = cat;
@@ -1124,7 +1239,7 @@
       hideAllScreens();
 
       if (currentCategory === 'english') {
-        document.getElementById("categoryMenu").classList.remove("hidden");
+        document.getElementById("englishMenu").classList.remove("hidden");
       } else if (['addition', 'subtraction', 'kidsfun', 'mul', 'div'].includes(currentCategory)) {
         document.getElementById("mathsMenu").classList.remove("hidden");
       } else {
@@ -1136,6 +1251,7 @@
       document.getElementById("homePage").classList.add("hidden");
       document.getElementById("categoryMenu").classList.add("hidden");
       document.getElementById("mathsMenu").classList.add("hidden");
+      document.getElementById("englishMenu").classList.add("hidden");
       document.getElementById("additionMenu").classList.add("hidden");
       document.getElementById("subtractionMenu").classList.add("hidden");
       document.getElementById("kidsFunMenu").classList.add("hidden");
@@ -1177,6 +1293,7 @@
       document.getElementById("standardChalkboard").classList.remove("hidden");
       document.getElementById("matchBoard").classList.add("hidden");
       document.getElementById("abcChartBoard").classList.add("hidden");
+      document.getElementById("skyGrassRootBoard").classList.add("hidden");
       document.getElementById("optionsContainer").classList.remove("hidden");
 
       document.getElementById("equationRow").classList.remove("hidden");
@@ -1189,7 +1306,11 @@
 
       // ENGLISH CATEGORY
       if (currentCategory === 'english') {
-        setupABCChart();
+        if (currentMode === 'abcchart') {
+          setupABCChart();
+        } else if (currentMode === 'skygrassroot') {
+          setupSkyGrassRootChart();
+        }
         return;
       }
 
@@ -1413,6 +1534,7 @@
       document.getElementById("standardChalkboard").classList.add("hidden");
       document.getElementById("optionsContainer").classList.add("hidden");
       document.getElementById("matchBoard").classList.add("hidden");
+      document.getElementById("skyGrassRootBoard").classList.add("hidden");
       document.getElementById("abcChartBoard").classList.remove("hidden");
 
       const container = document.getElementById("abcGridContainer");
@@ -1436,10 +1558,55 @@
       speakText("ABC Chart");
     }
 
+    /* SKY, GRASS & ROOT LETTERS LOGIC */
+    function setupSkyGrassRootChart() {
+      document.getElementById("standardChalkboard").classList.add("hidden");
+      document.getElementById("optionsContainer").classList.add("hidden");
+      document.getElementById("matchBoard").classList.add("hidden");
+      document.getElementById("abcChartBoard").classList.add("hidden");
+      document.getElementById("skyGrassRootBoard").classList.remove("hidden");
+
+      const skyGrid = document.getElementById("skyLettersGrid");
+      const grassGrid = document.getElementById("grassLettersGrid");
+      const rootGrid = document.getElementById("rootLettersGrid");
+
+      skyGrid.innerHTML = "";
+      grassGrid.innerHTML = "";
+      rootGrid.innerHTML = "";
+
+      skyGrassRootData.sky.forEach(letter => {
+        let bubble = document.createElement("div");
+        bubble.className = "sgr-bubble";
+        bubble.innerText = letter;
+        bubble.onclick = () => speakText(`${letter}, Sky Letter`);
+        skyGrid.appendChild(bubble);
+      });
+
+      skyGrassRootData.grass.forEach(letter => {
+        let bubble = document.createElement("div");
+        bubble.className = "sgr-bubble";
+        bubble.innerText = letter;
+        bubble.onclick = () => speakText(`${letter}, Grass Letter`);
+        grassGrid.appendChild(bubble);
+      });
+
+      skyGrassRootData.root.forEach(letter => {
+        let bubble = document.createElement("div");
+        bubble.className = "sgr-bubble";
+        bubble.innerText = letter;
+        bubble.onclick = () => speakText(`${letter}, Root Letter`);
+        rootGrid.appendChild(bubble);
+      });
+
+      speakText("Sky, Grass, and Root Letters");
+    }
+
     /* MATCH NUMBERS WITH WORDS LOGIC */
     function setupMatchGame() {
       document.getElementById("standardChalkboard").classList.add("hidden");
       document.getElementById("optionsContainer").classList.add("hidden");
+      document.getElementById("abcChartBoard").classList.add("hidden");
+      document.getElementById("skyGrassRootBoard").classList.add("hidden");
       document.getElementById("matchBoard").classList.remove("hidden");
 
       const numCol = document.getElementById("numColumn");
