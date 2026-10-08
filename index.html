@@ -482,8 +482,8 @@
       color: white;
     }
 
-    /* 3 LESSON PAGES STYLES (VOWELS, CONSONANTS, A/AN) */
-    .lesson-book-card {
+    /* SINGLE BOX COMBINED ENGLISH LESSON BOARD */
+    .combined-lesson-box {
       width: 100%;
       max-width: 520px;
       background: #ffffff;
@@ -491,96 +491,90 @@
       border-radius: 28px;
       padding: 18px 15px;
       box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-      max-height: 78vh;
+      max-height: 80vh;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lesson-section-block {
+      background: #f8f9fa;
+      border: 3px solid #dfe4ea;
+      border-radius: 20px;
+      padding: 14px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .page-badge {
-      background: #ff4757;
-      color: #ffffff;
+    .section-title-badge {
+      font-size: 22px;
       font-weight: 900;
-      font-size: 14px;
-      padding: 4px 16px;
+      color: #ffffff;
+      padding: 6px 20px;
       border-radius: 20px;
-      align-self: flex-start;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
-    .lesson-main-header {
-      font-size: 32px;
-      font-weight: 900;
-      text-align: center;
-      margin: 5px 0;
-      color: #ff6b81;
-      text-shadow: 1px 1px 0 #ffa502;
-    }
+    .bg-vowels { background: #ff6b81; }
+    .bg-consonants { background: #e17055; }
+    .bg-aan { background: #00b894; }
 
     .lesson-sub-banner {
       background: #ffeaa7;
       border: 2px dashed #fdcb6e;
       color: #d63031;
       font-weight: bold;
-      font-size: 15px;
-      padding: 8px 18px;
-      border-radius: 15px;
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 12px;
       text-align: center;
       width: 100%;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .vowel-bubbles-row {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .vowel-pill {
       flex: 1;
       background: linear-gradient(135deg, #ff7675, #d63031);
       color: white;
-      border-radius: 18px;
-      padding: 10px 5px;
+      border-radius: 16px;
+      padding: 8px 3px;
       text-align: center;
-      box-shadow: 0 5px 0 #b22222;
+      box-shadow: 0 4px 0 #b22222;
       cursor: pointer;
     }
 
-    .vowel-pill:nth-child(2) { background: linear-gradient(135deg, #fdcb6e, #e17055); box-shadow: 0 5px 0 #c0392b; }
-    .vowel-pill:nth-child(3) { background: linear-gradient(135deg, #55efc4, #00b894); box-shadow: 0 5px 0 #006266; }
-    .vowel-pill:nth-child(4) { background: linear-gradient(135deg, #74b9ff, #0984e3); box-shadow: 0 5px 0 #2c3e50; }
-    .vowel-pill:nth-child(5) { background: linear-gradient(135deg, #a29bfe, #6c5ce7); box-shadow: 0 5px 0 #4834d4; }
+    .vowel-pill:nth-child(2) { background: linear-gradient(135deg, #fdcb6e, #e17055); box-shadow: 0 4px 0 #c0392b; }
+    .vowel-pill:nth-child(3) { background: linear-gradient(135deg, #55efc4, #00b894); box-shadow: 0 4px 0 #006266; }
+    .vowel-pill:nth-child(4) { background: linear-gradient(135deg, #74b9ff, #0984e3); box-shadow: 0 4px 0 #2c3e50; }
+    .vowel-pill:nth-child(5) { background: linear-gradient(135deg, #a29bfe, #6c5ce7); box-shadow: 0 4px 0 #4834d4; }
 
-    .vowel-letter { font-size: 28px; font-weight: 900; }
-    .vowel-sound { font-size: 13px; opacity: 0.9; }
-
-    .section-ribbon {
-      background: #ff7675;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      padding: 5px 15px;
-      border-radius: 20px;
-      margin: 10px 0;
-      align-self: flex-start;
-    }
+    .vowel-letter { font-size: 24px; font-weight: 900; }
+    .vowel-sound { font-size: 11px; opacity: 0.9; }
 
     .word-cards-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 6px;
       width: 100%;
     }
 
     .word-card-item {
-      background: #f1f2f6;
+      background: #ffffff;
       border: 2px solid #ced6e0;
-      border-radius: 14px;
-      padding: 8px 3px;
+      border-radius: 12px;
+      padding: 6px 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -591,28 +585,28 @@
 
     .word-card-item:active { transform: scale(0.92); background: #ffeaa7; }
 
-    .word-card-icon { font-size: 30px; }
-    .word-card-text { font-size: 12px; font-weight: bold; color: #2f3542; margin-top: 2px; }
+    .word-card-icon { font-size: 26px; }
+    .word-card-text { font-size: 11px; font-weight: bold; color: #2f3542; margin-top: 2px; }
 
     .consonants-box-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
       justify-content: center;
       background: #f8c291;
-      border-radius: 16px;
-      padding: 10px;
+      border-radius: 14px;
+      padding: 8px;
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .consonant-chip {
       background: white;
       color: #e67e22;
       font-weight: 900;
-      font-size: 18px;
-      width: 32px;
-      height: 32px;
+      font-size: 16px;
+      width: 30px;
+      height: 30px;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -624,14 +618,13 @@
     .a-an-dual-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      margin-top: 5px;
     }
 
     .a-an-column {
-      border-radius: 18px;
-      padding: 10px;
+      border-radius: 16px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -641,68 +634,48 @@
     .an-col { background: #fce4ec; border: 2px solid #f06292; }
 
     .col-header-pill {
-      padding: 5px 15px;
-      border-radius: 15px;
+      padding: 4px 12px;
+      border-radius: 12px;
       color: white;
       font-weight: 900;
-      font-size: 16px;
-      margin-bottom: 6px;
+      font-size: 14px;
+      margin-bottom: 4px;
     }
 
     .a-col .col-header-pill { background: #1e88e5; }
     .an-col .col-header-pill { background: #d81b60; }
 
     .col-subtext {
-      font-size: 11px;
+      font-size: 10px;
       color: #555;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: bold;
     }
 
     .mini-examples-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      gap: 5px;
       width: 100%;
     }
 
     .mini-ex-card {
       background: white;
-      border-radius: 10px;
-      padding: 6px 2px;
+      border-radius: 8px;
+      padding: 5px 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: bold;
       color: #333;
       box-shadow: 0 2px 4px rgba(0,0,0,0.08);
       cursor: pointer;
     }
 
-    .mini-ex-card span { font-size: 22px; }
-
-    .page-nav-bar {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 15px;
-      padding-top: 10px;
-      border-top: 2px dashed #ccc;
-    }
-
-    .nav-pg-btn {
-      background: #70a1ff;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 13px;
-    }
+    .mini-ex-card span { font-size: 20px; }
 
     /* SCREEN 4: QUIZ PAGE */
     .quiz-page {
@@ -1037,7 +1010,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: MAIN SUBJECT MENU -->
+  <!-- SCREEN 2: MAIN CATEGORY MENU -->
   <div id="categoryMenu" class="main-category-page hidden">
     <div class="header-bar">
       <button class="home-btn" onclick="goHome()">🏠 Home</button>
@@ -1085,19 +1058,9 @@
         <div class="mode-card-label">Sky, Grass & Root</div>
       </div>
 
-      <div class="mode-card" onclick="startQuiz('english', 'vowels')">
-        <div class="mode-card-inner" style="background:#ff7675;">🅰️ 🅴 🅸 🅾️ 🆄</div>
-        <div class="mode-card-label">Page 1: Vowels</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('english', 'consonants')">
-        <div class="mode-card-inner" style="background:#fdcb6e;">🔤 B C D F...</div>
-        <div class="mode-card-label">Page 2: Consonants</div>
-      </div>
-
-      <div class="mode-card full-width" onclick="startQuiz('english', 'aan')">
-        <div class="mode-card-inner" style="background:#00cec9;">🅰️ A / An Rules</div>
-        <div class="mode-card-label">Page 3: Use A / An</div>
+      <div class="mode-card full-width" onclick="startQuiz('english', 'combined_grammar')">
+        <div class="mode-card-inner" style="background: linear-gradient(135deg, #ff7675, #00b894);">🅰️ Vowels, Consonants & A/An</div>
+        <div class="mode-card-label">Grammar Basics Box</div>
       </div>
     </div>
   </div>
@@ -1279,134 +1242,111 @@
       </div>
     </div>
 
-    <!-- PAGE 1: VOWELS -->
-    <div id="vowelsBoard" class="lesson-book-card hidden">
-      <div class="page-badge">Page 1</div>
-      <div class="lesson-main-header">Let's Learn Vowels</div>
-      <div class="lesson-sub-banner">Vowels are the 5 special letters!</div>
+    <!-- COMBINED SINGLE BOX FOR VOWELS, CONSONANTS & A/AN -->
+    <div id="combinedGrammarBoard" class="combined-lesson-box hidden">
+      <!-- SECTION 1: VOWELS -->
+      <div class="lesson-section-block">
+        <div class="section-title-badge bg-vowels">1. Vowels</div>
+        <div class="lesson-sub-banner">Vowels are the 5 special letters!</div>
 
-      <div class="vowel-bubbles-row">
-        <div class="vowel-pill" onclick="speakText('A')"><div class="vowel-letter">A</div><div class="vowel-sound">(a)</div></div>
-        <div class="vowel-pill" onclick="speakText('E')"><div class="vowel-letter">E</div><div class="vowel-sound">(e)</div></div>
-        <div class="vowel-pill" onclick="speakText('I')"><div class="vowel-letter">I</div><div class="vowel-sound">(i)</div></div>
-        <div class="vowel-pill" onclick="speakText('O')"><div class="vowel-letter">O</div><div class="vowel-sound">(o)</div></div>
-        <div class="vowel-pill" onclick="speakText('U')"><div class="vowel-letter">U</div><div class="vowel-sound">(u)</div></div>
-      </div>
-
-      <div class="section-ribbon">Here are some words with vowels:</div>
-
-      <div class="word-cards-grid">
-        <div class="word-card-item" onclick="speakText('Apple')">
-          <div class="word-card-icon">🍎</div>
-          <div class="word-card-text">apple<br>(a)</div>
+        <div class="vowel-bubbles-row">
+          <div class="vowel-pill" onclick="speakText('A')"><div class="vowel-letter">A</div><div class="vowel-sound">(a)</div></div>
+          <div class="vowel-pill" onclick="speakText('E')"><div class="vowel-letter">E</div><div class="vowel-sound">(e)</div></div>
+          <div class="vowel-pill" onclick="speakText('I')"><div class="vowel-letter">I</div><div class="vowel-sound">(i)</div></div>
+          <div class="vowel-pill" onclick="speakText('O')"><div class="vowel-letter">O</div><div class="vowel-sound">(o)</div></div>
+          <div class="vowel-pill" onclick="speakText('U')"><div class="vowel-letter">U</div><div class="vowel-sound">(u)</div></div>
         </div>
-        <div class="word-card-item" onclick="speakText('Elephant')">
-          <div class="word-card-icon">🐘</div>
-          <div class="word-card-text">elephant<br>(e)</div>
-        </div>
-        <div class="word-card-item" onclick="speakText('Ice cream')">
-          <div class="word-card-icon">🍦</div>
-          <div class="word-card-text">ice cream<br>(i)</div>
-        </div>
-        <div class="word-card-item" onclick="speakText('Orange')">
-          <div class="word-card-icon">🍊</div>
-          <div class="word-card-text">orange<br>(o)</div>
-        </div>
-        <div class="word-card-item" onclick="speakText('Umbrella')">
-          <div class="word-card-icon">☂️</div>
-          <div class="word-card-text">umbrella<br>(u)</div>
-        </div>
-      </div>
 
-      <div class="page-nav-bar">
-        <span></span>
-        <button class="nav-pg-btn" onclick="startQuiz('english', 'consonants')">Page 2: Consonants ➔</button>
-      </div>
-    </div>
-
-    <!-- PAGE 2: CONSONANTS -->
-    <div id="consonantsBoard" class="lesson-book-card hidden">
-      <div class="page-badge" style="background:#e17055;">Page 2</div>
-      <div class="lesson-main-header" style="color:#e17055;">Let's Learn Consonants</div>
-      <div class="lesson-sub-banner" style="background:#ffeaa7; color:#d63031;">All other letters are consonants. There are 21 consonants!</div>
-
-      <div class="consonants-box-grid">
-        <div class="consonant-chip" onclick="speakText('B')">B</div>
-        <div class="consonant-chip" onclick="speakText('C')">C</div>
-        <div class="consonant-chip" onclick="speakText('D')">D</div>
-        <div class="consonant-chip" onclick="speakText('F')">F</div>
-        <div class="consonant-chip" onclick="speakText('G')">G</div>
-        <div class="consonant-chip" onclick="speakText('H')">H</div>
-        <div class="consonant-chip" onclick="speakText('J')">J</div>
-        <div class="consonant-chip" onclick="speakText('K')">K</div>
-        <div class="consonant-chip" onclick="speakText('L')">L</div>
-        <div class="consonant-chip" onclick="speakText('M')">M</div>
-        <div class="consonant-chip" onclick="speakText('N')">N</div>
-        <div class="consonant-chip" onclick="speakText('P')">P</div>
-        <div class="consonant-chip" onclick="speakText('Q')">Q</div>
-        <div class="consonant-chip" onclick="speakText('R')">R</div>
-        <div class="consonant-chip" onclick="speakText('S')">S</div>
-        <div class="consonant-chip" onclick="speakText('T')">T</div>
-        <div class="consonant-chip" onclick="speakText('V')">V</div>
-        <div class="consonant-chip" onclick="speakText('W')">W</div>
-        <div class="consonant-chip" onclick="speakText('X')">X</div>
-        <div class="consonant-chip" onclick="speakText('Y')">Y</div>
-        <div class="consonant-chip" onclick="speakText('Z')">Z</div>
-      </div>
-
-      <div class="section-ribbon" style="background:#e17055;">Some words with consonants:</div>
-
-      <div class="word-cards-grid">
-        <div class="word-card-item" onclick="speakText('Ball')"><div class="word-card-icon">⚽</div><div class="word-card-text">ball</div></div>
-        <div class="word-card-item" onclick="speakText('Cat')"><div class="word-card-icon">🐱</div><div class="word-card-text">cat</div></div>
-        <div class="word-card-item" onclick="speakText('Dog')"><div class="word-card-icon">🐶</div><div class="word-card-text">dog</div></div>
-        <div class="word-card-item" onclick="speakText('Fish')"><div class="word-card-icon">🐟</div><div class="word-card-text">fish</div></div>
-        <div class="word-card-item" onclick="speakText('Hat')"><div class="word-card-icon">🧢</div><div class="word-card-text">hat</div></div>
-      </div>
-
-      <div class="page-nav-bar">
-        <button class="nav-pg-btn" onclick="startQuiz('english', 'vowels')">⬅ Page 1</button>
-        <button class="nav-pg-btn" onclick="startQuiz('english', 'aan')">Page 3: A / An ➔</button>
-      </div>
-    </div>
-
-    <!-- PAGE 3: A / AN RULES -->
-    <div id="aAnBoard" class="lesson-book-card hidden">
-      <div class="page-badge" style="background:#00b894;">Page 3</div>
-      <div class="lesson-main-header" style="color:#00b894;">Let's Learn A / An</div>
-      <div class="lesson-sub-banner" style="background:#e3f2fd; color:#0984e3;">
-        Use <b>"a"</b> before a consonant sound.<br>Use <b>"an"</b> before a vowel sound.
-      </div>
-
-      <div class="a-an-dual-container">
-        <!-- USE A COLUMN -->
-        <div class="a-an-column a-col">
-          <div class="col-header-pill">Use "a"</div>
-          <div class="col-subtext">before consonant<br>(b, c, d, f, g...)</div>
-          <div class="mini-examples-grid">
-            <div class="mini-ex-card" onclick="speakText('a ball')"><span>⚽</span>a ball</div>
-            <div class="mini-ex-card" onclick="speakText('a cat')"><span>🐱</span>a cat</div>
-            <div class="mini-ex-card" onclick="speakText('a book')"><span>📘</span>a book</div>
-            <div class="mini-ex-card" onclick="speakText('a pen')"><span>🖊️</span>a pen</div>
+        <div class="word-cards-grid">
+          <div class="word-card-item" onclick="speakText('Apple')">
+            <div class="word-card-icon">🍎</div>
+            <div class="word-card-text">apple (a)</div>
           </div>
-        </div>
-
-        <!-- USE AN COLUMN -->
-        <div class="a-an-column an-col">
-          <div class="col-header-pill">Use "an"</div>
-          <div class="col-subtext">before vowel<br>(a, e, i, o, u)</div>
-          <div class="mini-examples-grid">
-            <div class="mini-ex-card" onclick="speakText('an apple')"><span>🍎</span>an apple</div>
-            <div class="mini-ex-card" onclick="speakText('an egg')"><span>🥚</span>an egg</div>
-            <div class="mini-ex-card" onclick="speakText('an umbrella')"><span>☂️</span>an umbrella</div>
-            <div class="mini-ex-card" onclick="speakText('an orange')"><span>🍊</span>an orange</div>
+          <div class="word-card-item" onclick="speakText('Elephant')">
+            <div class="word-card-icon">🐘</div>
+            <div class="word-card-text">elephant (e)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Ice cream')">
+            <div class="word-card-icon">🍦</div>
+            <div class="word-card-text">ice cream (i)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Orange')">
+            <div class="word-card-icon">🍊</div>
+            <div class="word-card-text">orange (o)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Umbrella')">
+            <div class="word-card-icon">☂️</div>
+            <div class="word-card-text">umbrella (u)</div>
           </div>
         </div>
       </div>
 
-      <div class="page-nav-bar">
-        <button class="nav-pg-btn" onclick="startQuiz('english', 'consonants')">⬅ Page 2</button>
-        <span></span>
+      <!-- SECTION 2: CONSONANTS -->
+      <div class="lesson-section-block">
+        <div class="section-title-badge bg-consonants">2. Consonants</div>
+        <div class="lesson-sub-banner">All other 21 letters are consonants!</div>
+
+        <div class="consonants-box-grid">
+          <div class="consonant-chip" onclick="speakText('B')">B</div>
+          <div class="consonant-chip" onclick="speakText('C')">C</div>
+          <div class="consonant-chip" onclick="speakText('D')">D</div>
+          <div class="consonant-chip" onclick="speakText('F')">F</div>
+          <div class="consonant-chip" onclick="speakText('G')">G</div>
+          <div class="consonant-chip" onclick="speakText('H')">H</div>
+          <div class="consonant-chip" onclick="speakText('J')">J</div>
+          <div class="consonant-chip" onclick="speakText('K')">K</div>
+          <div class="consonant-chip" onclick="speakText('L')">L</div>
+          <div class="consonant-chip" onclick="speakText('M')">M</div>
+          <div class="consonant-chip" onclick="speakText('N')">N</div>
+          <div class="consonant-chip" onclick="speakText('P')">P</div>
+          <div class="consonant-chip" onclick="speakText('Q')">Q</div>
+          <div class="consonant-chip" onclick="speakText('R')">R</div>
+          <div class="consonant-chip" onclick="speakText('S')">S</div>
+          <div class="consonant-chip" onclick="speakText('T')">T</div>
+          <div class="consonant-chip" onclick="speakText('V')">V</div>
+          <div class="consonant-chip" onclick="speakText('W')">W</div>
+          <div class="consonant-chip" onclick="speakText('X')">X</div>
+          <div class="consonant-chip" onclick="speakText('Y')">Y</div>
+          <div class="consonant-chip" onclick="speakText('Z')">Z</div>
+        </div>
+
+        <div class="word-cards-grid">
+          <div class="word-card-item" onclick="speakText('Ball')"><div class="word-card-icon">⚽</div><div class="word-card-text">ball</div></div>
+          <div class="word-card-item" onclick="speakText('Cat')"><div class="word-card-icon">🐱</div><div class="word-card-text">cat</div></div>
+          <div class="word-card-item" onclick="speakText('Dog')"><div class="word-card-icon">🐶</div><div class="word-card-text">dog</div></div>
+          <div class="word-card-item" onclick="speakText('Fish')"><div class="word-card-icon">🐟</div><div class="word-card-text">fish</div></div>
+          <div class="word-card-item" onclick="speakText('Hat')"><div class="word-card-icon">🧢</div><div class="word-card-text">hat</div></div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: A / AN RULES -->
+      <div class="lesson-section-block">
+        <div class="section-title-badge bg-aan">3. Use A / An</div>
+        <div class="lesson-sub-banner">Learn when to use 'a' or 'an'!</div>
+
+        <div class="a-an-dual-container">
+          <div class="a-an-column a-col">
+            <div class="col-header-pill">Use "a"</div>
+            <div class="col-subtext">before consonant sound</div>
+            <div class="mini-examples-grid">
+              <div class="mini-ex-card" onclick="speakText('a ball')"><span>⚽</span>a ball</div>
+              <div class="mini-ex-card" onclick="speakText('a cat')"><span>🐱</span>a cat</div>
+              <div class="mini-ex-card" onclick="speakText('a book')"><span>📘</span>a book</div>
+              <div class="mini-ex-card" onclick="speakText('a pen')"><span>🖊️</span>a pen</div>
+            </div>
+          </div>
+
+          <div class="a-an-column an-col">
+            <div class="col-header-pill">Use "an"</div>
+            <div class="col-subtext">before vowel sound</div>
+            <div class="mini-examples-grid">
+              <div class="mini-ex-card" onclick="speakText('an apple')"><span>🍎</span>an apple</div>
+              <div class="mini-ex-card" onclick="speakText('an egg')"><span>🥚</span>an egg</div>
+              <div class="mini-ex-card" onclick="speakText('an umbrella')"><span>☂️</span>an umbrella</div>
+              <div class="mini-ex-card" onclick="speakText('an orange')"><span>🍊</span>an orange</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1663,9 +1603,7 @@
       document.getElementById("matchBoard").classList.add("hidden");
       document.getElementById("abcChartBoard").classList.add("hidden");
       document.getElementById("skyGrassRootBoard").classList.add("hidden");
-      document.getElementById("vowelsBoard").classList.add("hidden");
-      document.getElementById("consonantsBoard").classList.add("hidden");
-      document.getElementById("aAnBoard").classList.add("hidden");
+      document.getElementById("combinedGrammarBoard").classList.add("hidden");
       document.getElementById("optionsContainer").classList.remove("hidden");
 
       document.getElementById("equationRow").classList.remove("hidden");
@@ -1682,12 +1620,8 @@
           setupABCChart();
         } else if (currentMode === 'skygrassroot') {
           setupSkyGrassRootChart();
-        } else if (currentMode === 'vowels') {
-          setupVowelsPage();
-        } else if (currentMode === 'consonants') {
-          setupConsonantsPage();
-        } else if (currentMode === 'aan') {
-          setupAAnPage();
+        } else if (currentMode === 'combined_grammar') {
+          setupCombinedGrammarBoard();
         }
         return;
       }
@@ -1975,28 +1909,12 @@
       speakText("Sky, Grass, and Root Letters");
     }
 
-    /* ENGLISH PAGE 1: VOWELS */
-    function setupVowelsPage() {
+    /* COMBINED GRAMMAR BOARD (Vowels, Consonants & A/An in 1 Box) */
+    function setupCombinedGrammarBoard() {
       document.getElementById("standardChalkboard").classList.add("hidden");
       document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("vowelsBoard").classList.remove("hidden");
-      speakText("Page 1: Let's Learn Vowels. Vowels are A, E, I, O, U.");
-    }
-
-    /* ENGLISH PAGE 2: CONSONANTS */
-    function setupConsonantsPage() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("consonantsBoard").classList.remove("hidden");
-      speakText("Page 2: Let's Learn Consonants. There are 21 consonants.");
-    }
-
-    /* ENGLISH PAGE 3: A / AN RULES */
-    function setupAAnPage() {
-      document.getElementById("standardChalkboard").classList.add("hidden");
-      document.getElementById("optionsContainer").classList.add("hidden");
-      document.getElementById("aAnBoard").classList.remove("hidden");
-      speakText("Page 3: Let's Learn A and An. Use a before a consonant, use an before a vowel.");
+      document.getElementById("combinedGrammarBoard").classList.remove("hidden");
+      speakText("Grammar Basics: Vowels, Consonants, and A or An");
     }
 
     /* MATCH NUMBERS WITH WORDS LOGIC */
