@@ -9,6 +9,10 @@ let selectedNumItem = null;
 let matchedPairsCount = 0;
 let totalMatchPairs = 5;
 
+// Worksheet Circle Game Variables
+let worksheetIndex = 0;
+let totalWorksheetCorrect = 0;
+
 const numberWordsMap = {
   1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
   6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"
@@ -48,6 +52,35 @@ const skyGrassRootData = {
   grass: ['a', 'c', 'e', 'i', 'm', 'n', 'o', 'r', 's', 'u', 'v', 'w', 'x', 'z'],
   root: ['g', 'j', 'p', 'q', 'y']
 };
+
+const allWorksheetPairs = [
+  { capital: "A", correct: "a", options: ["c", "o", "a", "e"] },
+  { capital: "B", correct: "b", options: ["q", "b", "d", "p"] },
+  { capital: "C", correct: "c", options: ["e", "c", "o", "a"] },
+  { capital: "D", correct: "d", options: ["b", "p", "d", "g"] },
+  { capital: "E", correct: "e", options: ["c", "e", "f", "a"] },
+  { capital: "F", correct: "f", options: ["t", "f", "l", "h"] },
+  { capital: "G", correct: "g", options: ["q", "y", "g", "j"] },
+  { capital: "H", correct: "h", options: ["n", "h", "k", "b"] },
+  { capital: "I", correct: "i", options: ["l", "i", "t", "j"] },
+  { capital: "J", correct: "j", options: ["i", "j", "g", "y"] },
+  { capital: "K", correct: "k", options: ["h", "k", "l", "t"] },
+  { capital: "L", correct: "l", options: ["i", "t", "l", "k"] },
+  { capital: "M", correct: "m", options: ["n", "w", "m", "u"] },
+  { capital: "N", correct: "n", options: ["m", "n", "u", "h"] },
+  { capital: "O", correct: "o", options: ["c", "a", "o", "e"] },
+  { capital: "P", correct: "p", options: ["q", "p", "b", "d"] },
+  { capital: "Q", correct: "q", options: ["p", "q", "g", "d"] },
+  { capital: "R", correct: "r", options: ["n", "m", "r", "h"] },
+  { capital: "S", correct: "s", options: ["c", "s", "z", "x"] },
+  { capital: "T", correct: "t", options: ["f", "l", "t", "i"] },
+  { capital: "U", correct: "u", options: ["n", "u", "v", "w"] },
+  { capital: "V", correct: "v", options: ["u", "v", "w", "y"] },
+  { capital: "W", correct: "w", options: ["m", "v", "w", "u"] },
+  { capital: "X", correct: "x", options: ["v", "s", "x", "z"] },
+  { capital: "Y", correct: "y", options: ["g", "j", "y", "q"] },
+  { capital: "Z", correct: "z", options: ["s", "x", "z", "n"] }
+];
 
 let audioCtx = null;
 
@@ -202,6 +235,7 @@ function startQuiz(cat, mode) {
   currentCategory = cat;
   currentMode = mode;
   score = 0;
+  worksheetIndex = 0;
   document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
   hideAllScreens();
   document.getElementById("quizPage").classList.remove("hidden");
@@ -542,7 +576,7 @@ function setupSkyGrassRootChart() {
   speakText("Sky, Grass, and Root Letters");
 }
 
-/* COMBINED GRAMMAR BOARD (Vowels, Consonants & A/An in 1 Box) */
+/* COMBINED GRAMMAR BOARD */
 function setupCombinedGrammarBoard() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
@@ -550,7 +584,7 @@ function setupCombinedGrammarBoard() {
   speakText("Grammar Basics: Vowels, Consonants, and A or An");
 }
 
-/* WORKSHEET CIRCLE GAME LOGIC */
+/* WORKSHEET CIRCLE GAME LOGIC (A to Z with Auto Next Level) */
 function setupWorksheetCircle() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
@@ -559,14 +593,16 @@ function setupWorksheetCircle() {
   const container = document.getElementById("worksheetRowsContainer");
   container.innerHTML = "";
 
-  const pairs = [
-    { capital: "D", correct: "d", options: ["m", "f", "d", "j"] },
-    { capital: "P", correct: "p", options: ["c", "p", "q", "t"] },
-    { capital: "B", correct: "b", options: ["q", "b", "d", "p"] },
-    { capital: "E", correct: "e", options: ["c", "b", "f", "e"] }
-  ];
+  totalWorksheetCorrect = 0;
 
-  pairs.forEach(pair => {
+  let currentBatch = [];
+  for (let i = 0; i < 4; i++) {
+    let item = allWorksheetPairs[worksheetIndex % allWorksheetPairs.length];
+    currentBatch.push(item);
+    worksheetIndex++;
+  }
+
+  currentBatch.forEach(pair => {
     let row = document.createElement("div");
     row.className = "worksheet-row";
 
@@ -595,6 +631,20 @@ function setupWorksheetCircle() {
           score += 10;
           document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
           confetti({ particleCount: 30, spread: 50, origin: { y: 0.6 } });
+
+          totalWorksheetCorrect++;
+
+          if (totalWorksheetCorrect === 4) {
+            let banner = document.getElementById("popupBanner");
+            document.getElementById("popupText").innerText = `Great Job! Next Level!`;
+            banner.classList.add("show");
+
+            setTimeout(() => {
+              banner.classList.remove("show");
+              setupWorksheetCircle();
+            }, 1200);
+          }
+
         } else {
           playWrongSound();
           item.classList.add("wrong-circled");
