@@ -667,6 +667,113 @@ html, body {
 
 .mini-ex-card span { font-size: 20px; }
 
+/* WORKSHEET CIRCLE BOARD STYLES */
+.worksheet-board {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border: 6px solid #74b9ff;
+  border-radius: 24px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.worksheet-row {
+  display: flex;
+  align-items: center;
+  background: #f1f2f6;
+  border-radius: 18px;
+  padding: 8px;
+  gap: 10px;
+  border: 3px solid #dfe4ea;
+}
+
+.target-letter-box {
+  width: 65px;
+  height: 65px;
+  background: #ffeaa7;
+  border: 3px solid #fdcb6e;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: #2d3436;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.worksheet-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  flex: 1;
+}
+
+.ws-item {
+  position: relative;
+  height: 55px;
+  background: #ffffff;
+  border: 3px solid #70a1ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #2f3542;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.ws-item:active {
+  transform: scale(0.92);
+}
+
+/* Sahi hone par Green Circle */
+.ws-item.correct-circled {
+  border-color: #2ed573;
+  background: #e8f8f5;
+  color: #2ed573;
+}
+
+.ws-item.correct-circled::after {
+  content: '';
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 4px solid #2ed573;
+  border-radius: 50%;
+  animation: popCircle 0.3s ease;
+}
+
+/* Galat hone par Red Circle */
+.ws-item.wrong-circled {
+  border-color: #ff4757;
+  background: #fdf2f2;
+  color: #ff4757;
+}
+
+.ws-item.wrong-circled::after {
+  content: '';
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 4px solid #ff4757;
+  border-radius: 50%;
+  animation: popCircle 0.3s ease;
+}
+
+@keyframes popCircle {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* SCREEN 4: QUIZ PAGE */
 .quiz-page {
   min-height: 100vh;
