@@ -234,6 +234,7 @@ function generateQuestion() {
   document.getElementById("abcChartBoard").classList.add("hidden");
   document.getElementById("skyGrassRootBoard").classList.add("hidden");
   document.getElementById("combinedGrammarBoard").classList.add("hidden");
+  document.getElementById("worksheetBoard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.remove("hidden");
 
   document.getElementById("equationRow").classList.remove("hidden");
@@ -252,6 +253,8 @@ function generateQuestion() {
       setupSkyGrassRootChart();
     } else if (currentMode === 'combined_grammar') {
       setupCombinedGrammarBoard();
+    } else if (currentMode === 'worksheet_circle') {
+      setupWorksheetCircle();
     }
     return;
   }
@@ -545,6 +548,68 @@ function setupCombinedGrammarBoard() {
   document.getElementById("optionsContainer").classList.add("hidden");
   document.getElementById("combinedGrammarBoard").classList.remove("hidden");
   speakText("Grammar Basics: Vowels, Consonants, and A or An");
+}
+
+/* WORKSHEET CIRCLE GAME LOGIC */
+function setupWorksheetCircle() {
+  document.getElementById("standardChalkboard").classList.add("hidden");
+  document.getElementById("optionsContainer").classList.add("hidden");
+  document.getElementById("worksheetBoard").classList.remove("hidden");
+
+  const container = document.getElementById("worksheetRowsContainer");
+  container.innerHTML = "";
+
+  const pairs = [
+    { capital: "D", correct: "d", options: ["m", "f", "d", "j"] },
+    { capital: "P", correct: "p", options: ["c", "p", "q", "t"] },
+    { capital: "B", correct: "b", options: ["q", "b", "d", "p"] },
+    { capital: "E", correct: "e", options: ["c", "b", "f", "e"] }
+  ];
+
+  pairs.forEach(pair => {
+    let row = document.createElement("div");
+    row.className = "worksheet-row";
+
+    let targetBox = document.createElement("div");
+    targetBox.className = "target-letter-box";
+    targetBox.innerText = pair.capital;
+    row.appendChild(targetBox);
+
+    let optGrid = document.createElement("div");
+    optGrid.className = "worksheet-options-grid";
+
+    let shuffledOpts = [...pair.options].sort(() => Math.random() - 0.5);
+
+    shuffledOpts.forEach(letter => {
+      let item = document.createElement("div");
+      item.className = "ws-item";
+      item.innerText = letter;
+
+      item.onclick = () => {
+        if (item.classList.contains("correct-circled") || item.classList.contains("wrong-circled")) return;
+
+        if (letter === pair.correct) {
+          playCorrectSound();
+          item.classList.add("correct-circled");
+          speakText(`Correct, ${letter} for ${pair.capital}`);
+          score += 10;
+          document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+          confetti({ particleCount: 30, spread: 50, origin: { y: 0.6 } });
+        } else {
+          playWrongSound();
+          item.classList.add("wrong-circled");
+          speakText("Try again");
+        }
+      };
+
+      optGrid.appendChild(item);
+    });
+
+    row.appendChild(optGrid);
+    container.appendChild(row);
+  });
+
+  speakText("Circle the small letter of capital letter");
 }
 
 /* MATCH NUMBERS WITH WORDS LOGIC */
