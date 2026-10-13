@@ -1,1017 +1,984 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Maths Learning App</title>
-  
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100vh;
-      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-      background: #f0f8ff;
-      user-select: none;
-    }
-
-    /* SCREEN 1: HOME PAGE */
-    .home-page {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #74b9ff, #0984e3);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .brand-badge {
-      background: rgba(255, 255, 255, 0.3);
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 15px;
-      display: inline-block;
-      margin-bottom: 12px;
-    }
-
-    .game-title {
-      font-size: 52px;
-      color: #ffffff;
-      margin: 0;
-      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .game-title span { color: #feca57; }
-
-    .game-subtitle {
-      color: #ffffff;
-      font-size: 18px;
-      margin: 10px 0 30px;
-    }
-
-    .play-button {
-      border: none;
-      border-radius: 50px;
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      font-size: 26px;
-      font-weight: 900;
-      padding: 16px 45px;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      cursor: pointer;
-      box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
-      transition: all 0.2s ease;
-    }
-
-    .play-icon {
-      width: 40px;
-      height: 40px;
-      background: white;
-      color: #ee5253;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .play-button:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 #b22222;
-    }
-
-    /* SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) */
-    .main-category-page {
-      min-height: 100vh;
-      padding: 20px 15px 40px;
-      background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .header-bar {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 10px;
-    }
-
-    .home-btn {
-      padding: 8px 18px;
-      font-size: 16px;
-      border: none;
-      border-radius: 15px;
-      background: #ffffff;
-      color: #0984e3;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .app-main-title {
-      font-size: 44px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
-      margin: 5px 0 25px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      max-width: 480px;
-      width: 100%;
-    }
-
-    .cat-card {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(5px);
-      border: 3px solid rgba(255, 255, 255, 0.6);
-      border-radius: 24px;
-      padding: 15px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      transition: transform 0.15s;
-    }
-
-    .cat-card:active { transform: scale(0.95); }
-
-    .cat-demo-eq {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      margin-bottom: 8px;
-    }
-
-    .cat-pill {
-      padding: 6px 18px;
-      border-radius: 20px;
-      color: white;
-      font-weight: 900;
-      font-size: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-      border: 2px solid #ffffff;
-    }
-
-    .cat-pill.add { background: #ff7675; }
-    .cat-pill.sub { background: #ff7675; }
-    .cat-pill.mul { background: #00b894; }
-    .cat-pill.div { background: #0984e3; }
-
-    .kids-fun-card {
-      grid-column: span 2;
-      background: rgba(255, 255, 255, 0.3);
-      border: 3px solid #ffffff;
-      border-radius: 24px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      margin-top: 5px;
-    }
-
-    .kids-fun-card:active { transform: scale(0.96); }
-
-    .kids-fun-icons {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
-
-    /* SCREEN 3: SUB-MENUS */
-    .sub-menu-page {
-      min-height: 100vh;
-      padding: 25px 15px 40px;
-      background: linear-gradient(to bottom, #7ed6df, #e056fd, #ffbe76);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .banner-title {
-      background: linear-gradient(to bottom, #ff9f43, #ee5253);
-      color: white;
-      padding: 10px 45px;
-      border-radius: 25px;
-      font-size: 28px;
-      font-weight: 900;
-      border: 3px solid #ffffff;
-      box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-      margin: 15px 0 25px;
-    }
-
-    .mode-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .mode-card {
-      background: #ff7675;
-      border: 4px solid #d63031;
-      border-radius: 20px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: transform 0.15s;
-    }
-
-    .mode-card:active { transform: scale(0.95); }
-
-    .mode-card-inner {
-      background: #006266;
-      border-radius: 14px;
-      width: 100%;
-      height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-    }
-
-    .mode-card-label {
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 6px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-    }
-
-    /* SCREEN 4: QUIZ PAGE */
-    .quiz-page {
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #273c75;
-    }
-
-    .quiz-header {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .score-display {
-      font-size: 18px;
-      font-weight: bold;
-      color: #2d3436;
-      background: #feca57;
-      padding: 8px 18px;
-      border-radius: 20px;
-    }
-
-    .chalkboard-card {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      background: #104e33;
-      border: 10px solid #8c7ae6;
-      border-radius: 24px;
-      padding: 30px 15px;
-      text-align: center;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-      margin-bottom: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 220px;
-    }
-
-    .equation-top-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      color: white;
-      font-weight: bold;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    .num-1 { color: #ff9f43; }
-    .num-2 { color: #54a0ff; }
-    .operator { color: #feca57; }
-
-    .target-box {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 3px dashed white;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: #feca57;
-    }
-
-    .visual-split-container {
-      display: flex;
-      width: 100%;
-      height: 130px;
-      margin-top: 15px;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .visual-box {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      font-size: 36px;
-    }
-
-    .visual-box.left {
-      border-right: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .count-items-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      font-size: 38px;
-      max-width: 420px;
-    }
-
-    /* MISSING NUMBERS ROW STYLE */
-    .missing-row-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-size: 36px;
-      color: white;
-      font-weight: bold;
-    }
-
-    .missing-num-pill {
-      background: rgba(255,255,255,0.15);
-      padding: 8px 16px;
-      border-radius: 12px;
-      color: #74b9ff;
-    }
-
-    /* SHAPE CANVAS / TIME CLOCK STYLES */
-    .clock-canvas {
-      background: white;
-      border-radius: 50%;
-      border: 6px solid #feca57;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .options-grid {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .option-btn {
-      min-width: 80px;
-      height: 75px;
-      padding: 0 15px;
-      font-size: 28px;
-      font-weight: bold;
-      border: none;
-      border-radius: 18px;
-      background: #ff4757;
-      color: white;
-      box-shadow: 0 6px 0 #c0392b, 0 10px 15px rgba(0,0,0,0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.1s;
-    }
-
-    .option-btn:nth-child(2) { background: #2ed573; box-shadow: 0 6px 0 #26af5f; }
-    .option-btn:nth-child(3) { background: #1e90ff; box-shadow: 0 6px 0 #0f68c9; }
-    .option-btn:nth-child(4) { background: #ffa502; box-shadow: 0 6px 0 #d35400; }
-
-    .option-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #888;
-    }
-
-    .popup-banner {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: linear-gradient(to right, #4834d4, #686de0);
-      border: 4px solid #ffffff;
-      border-radius: 30px;
-      padding: 15px 35px;
-      color: white;
-      font-size: 32px;
-      font-weight: 900;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .popup-banner.show { transform: translate(-50%, -50%) scale(1); }
-
-    .hidden { display: none !important; }
-  </style>
-</head>
-<body>
-
-  <!-- SCREEN 1: HOME PAGE -->
-  <div id="homePage" class="home-page">
-    <div class="hero-content">
-      <div class="brand-badge">🎮 FUN LEARNING</div>
-      <h1 class="game-title">Kids <span>Maths</span></h1>
-      <p class="game-subtitle">Learn Maths & Have Fun! 🎉</p>
-
-      <button class="play-button" onclick="goToCategoryMenu()">
-        <span class="play-icon">▶</span>
-        <span>PLAY NOW</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: MAIN CATEGORY MENU (KIDS MATHS) -->
-  <div id="categoryMenu" class="main-category-page hidden">
-    <div class="header-bar">
-      <button class="home-btn" onclick="goHome()">🏠 Home</button>
-    </div>
-
-    <h1 class="app-main-title">Kids Maths</h1>
-
-    <div class="category-grid">
-      <!-- ADDITION CARD -->
-      <div class="cat-card" onclick="openSubMenu('addition')">
-        <div class="cat-demo-eq">2 + 3 = 5</div>
-        <div class="cat-pill add">Addition</div>
-      </div>
-
-      <!-- SUBTRACTIONS CARD -->
-      <div class="cat-card" onclick="startDirectQuiz('sub')">
-        <div class="cat-demo-eq">8 - 3 = 5</div>
-        <div class="cat-pill sub">Subtractions</div>
-      </div>
-
-      <!-- MULTIPLICATION CARD -->
-      <div class="cat-card" onclick="startDirectQuiz('mul')">
-        <div class="cat-demo-eq">4 × 6 = 24</div>
-        <div class="cat-pill mul">Multiplication</div>
-      </div>
-
-      <!-- DIVISION CARD -->
-      <div class="cat-card" onclick="startDirectQuiz('div')">
-        <div class="cat-demo-eq">12 ÷ 3 = 4</div>
-        <div class="cat-pill div">Division</div>
-      </div>
-
-      <!-- KIDS FUN CARD -->
-      <div class="kids-fun-card" onclick="openSubMenu('kidsfun')">
-        <div class="kids-fun-icons">🧩 ⏰ 🔺 🔢</div>
-        <div class="cat-pill fun">Kids Fun</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3A: ADDITION MODES MENU -->
-  <div id="additionMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
-    </div>
-
-    <div class="banner-title">Addition Modes</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('addition', 'count')">
-        <div class="mode-card-inner">🦒🧁🚗 ➔ [ ? ]</div>
-        <div class="mode-card-label">Counting</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '+')">
-        <div class="mode-card-inner">🌂🌂 + 🌂<br>= 3</div>
-        <div class="mode-card-label">Adding Fun</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', '2digit')">
-        <div class="mode-card-inner">22 + 12 = 34</div>
-        <div class="mode-card-label">2 Digits +</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('addition', 'easy')">
-        <div class="mode-card-inner">2 + 5 = 7<br>10 + 6 = 16</div>
-        <div class="mode-card-label">Easy Addition</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3B: KIDS FUN MODES MENU -->
-  <div id="kidsFunMenu" class="sub-menu-page hidden">
-    <div style="width: 100%; max-width: 500px; display: flex; justify-content: start;">
-      <button class="home-btn" onclick="goCategoryMenu()">⬅️ Menu</button>
-    </div>
-
-    <div class="banner-title">Kids Fun</div>
-
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'missing')">
-        <div class="mode-card-inner">2, 4, [ ? ], 8</div>
-        <div class="mode-card-label">Missing Number</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'clock')">
-        <div class="mode-card-inner">🕒 ➔ 3:00</div>
-        <div class="mode-card-label">Time Clock</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'shapes')">
-        <div class="mode-card-inner">🔴 🔺 ⬛</div>
-        <div class="mode-card-label">Shapes</div>
-      </div>
-
-      <div class="mode-card" onclick="startQuiz('kidsfun', 'mix')">
-        <div class="mode-card-inner">⭐ Mix Fun</div>
-        <div class="mode-card-label">Mix Challenges</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 4: QUIZ PAGE -->
-  <div id="quizPage" class="quiz-page hidden">
-    <div class="quiz-header">
-      <button class="home-btn" onclick="backFromQuiz()">⬅️ Back</button>
-      <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
-    </div>
-
-    <div class="chalkboard-card">
-      <!-- EQUATION / TEXT DISPLAY -->
-      <div id="equationRow" class="equation-top-row">
-        <span id="num1Text" class="num-1">1</span>
-        <span id="opSymbol" class="operator">+</span>
-        <span id="num2Text" class="num-2">2</span>
-        <span id="equalsSign">=</span>
-        <div id="targetBox" class="target-box">?</div>
-      </div>
-
-      <!-- COUNTING MODE DISPLAY -->
-      <div id="countItemsContainer" class="count-items-container hidden"></div>
-
-      <!-- VISUAL ADDITION BOXES -->
-      <div id="visualSplitContainer" class="visual-split-container hidden">
-        <div id="leftVisualBox" class="visual-box left"></div>
-        <div id="rightVisualBox" class="visual-box"></div>
-      </div>
-
-      <!-- SHAPE / CLOCK / MISSING CONTAINER -->
-      <div id="customDisplay" class="hidden"></div>
-    </div>
-
-    <div id="optionsContainer" class="options-grid"></div>
-  </div>
-
-  <!-- POPUP BANNER -->
-  <div id="popupBanner" class="popup-banner">
-    <span id="popupText">Great Job!</span> 🎉
-  </div>
-
-  <script>
-    let currentCategory = 'addition'; 
-    let currentMode = '+';
-    let currentAnswer = '';
-    let score = 0;
-
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    function playAudioTone(freq, type, duration) {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    }
-
-    function playCorrectSound() {
-      playAudioTone(523.25, 'triangle', 0.15);
-      setTimeout(() => playAudioTone(659.25, 'triangle', 0.15), 100);
-      setTimeout(() => playAudioTone(783.99, 'triangle', 0.25), 200);
-    }
-
-    function playWrongSound() {
-      playAudioTone(220, 'sawtooth', 0.2);
-      setTimeout(() => playAudioTone(180, 'sawtooth', 0.3), 150);
-    }
-
-    /* NAVIGATION */
-    function goToCategoryMenu() {
-      document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("categoryMenu").classList.remove("hidden");
-    }
-
-    function goHome() {
-      document.getElementById("categoryMenu").classList.add("hidden");
-      document.getElementById("homePage").classList.remove("hidden");
-    }
-
-    function openSubMenu(cat) {
-      currentCategory = cat;
-      document.getElementById("categoryMenu").classList.add("hidden");
-      if (cat === 'addition') {
-        document.getElementById("additionMenu").classList.remove("hidden");
-      } else if (cat === 'kidsfun') {
-        document.getElementById("kidsFunMenu").classList.remove("hidden");
-      }
-    }
-
-    function goCategoryMenu() {
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.add("hidden");
-      document.getElementById("categoryMenu").classList.remove("hidden");
-    }
-
-    function backFromQuiz() {
-      document.getElementById("quizPage").classList.add("hidden");
-      if (currentCategory === 'addition') {
-        document.getElementById("additionMenu").classList.remove("hidden");
-      } else if (currentCategory === 'kidsfun') {
-        document.getElementById("kidsFunMenu").classList.remove("hidden");
-      } else {
-        document.getElementById("categoryMenu").classList.remove("hidden");
-      }
-    }
-
-    function startQuiz(cat, mode) {
-      currentCategory = cat;
-      currentMode = mode;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      document.getElementById("additionMenu").classList.add("hidden");
-      document.getElementById("kidsFunMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    function startDirectQuiz(cat) {
-      currentCategory = cat;
-      currentMode = cat;
-      score = 0;
-      document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-      document.getElementById("categoryMenu").classList.add("hidden");
-      document.getElementById("quizPage").classList.remove("hidden");
-      generateQuestion();
-    }
-
-    /* QUESTION GENERATION */
-    function generateQuestion() {
-      document.getElementById("targetBox").innerText = "?";
-      document.getElementById("countItemsContainer").innerHTML = "";
-      document.getElementById("leftVisualBox").innerHTML = "";
-      document.getElementById("rightVisualBox").innerHTML = "";
-      document.getElementById("customDisplay").innerHTML = "";
-
-      document.getElementById("equationRow").classList.remove("hidden");
-      document.getElementById("visualSplitContainer").classList.add("hidden");
-      document.getElementById("countItemsContainer").classList.add("hidden");
-      document.getElementById("customDisplay").classList.add("hidden");
-      document.getElementById("equalsSign").classList.remove("hidden");
-
-      const visualItems = ['👟', '🌂', '🚗', '🍎', '🧁', '🎈', '🦆', '🍬'];
-
-      // 1. ADDITION CATEGORY
-      if (currentCategory === 'addition') {
-        if (currentMode === 'count') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("countItemsContainer").classList.remove("hidden");
-          let count = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = count;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          let displayHTML = '';
-          for (let i = 0; i < count; i++) displayHTML += icon + ' ';
-          document.getElementById("countItemsContainer").innerHTML = displayHTML;
-          setupNumberOptions();
-          return;
-        } 
-        else if (currentMode === '+') {
-          document.getElementById("visualSplitContainer").classList.remove("hidden");
-          let num1 = Math.floor(Math.random() * 5) + 1;
-          let num2 = Math.floor(Math.random() * 5) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          let icon = visualItems[Math.floor(Math.random() * visualItems.length)];
-          for (let i = 0; i < num1; i++) document.getElementById("leftVisualBox").innerHTML += icon;
-          for (let i = 0; i < num2; i++) document.getElementById("rightVisualBox").innerHTML += icon;
-          setupNumberOptions();
-          return;
-        }
-        else if (currentMode === '2digit') {
-          let num1 = Math.floor(Math.random() * 40) + 10;
-          let num2 = Math.floor(Math.random() * 40) + 10;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          return;
-        }
-        else if (currentMode === 'easy') {
-          let num1 = Math.floor(Math.random() * 10) + 1;
-          let num2 = Math.floor(Math.random() * 10) + 1;
-          currentAnswer = num1 + num2;
-          document.getElementById("num1Text").innerText = num1;
-          document.getElementById("opSymbol").innerText = "+";
-          document.getElementById("num2Text").innerText = num2;
-          setupNumberOptions();
-          return;
-        }
-      }
-
-      // 2. OTHER MAIN OPERATIONS
-      if (currentCategory === 'sub') {
-        let num1 = Math.floor(Math.random() * 9) + 2;
-        let num2 = Math.floor(Math.random() * num1) + 1;
-        currentAnswer = num1 - num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "-";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        return;
-      }
-      if (currentCategory === 'mul') {
-        let num1 = Math.floor(Math.random() * 8) + 1;
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = num1 * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "×";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        return;
-      }
-      if (currentCategory === 'div') {
-        let num2 = Math.floor(Math.random() * 5) + 1;
-        currentAnswer = Math.floor(Math.random() * 5) + 1;
-        let num1 = currentAnswer * num2;
-        document.getElementById("num1Text").innerText = num1;
-        document.getElementById("opSymbol").innerText = "÷";
-        document.getElementById("num2Text").innerText = num2;
-        setupNumberOptions();
-        return;
-      }
-
-      // 3. KIDS FUN CATEGORY
-      if (currentCategory === 'kidsfun') {
-        let mode = currentMode;
-        if (mode === 'mix') {
-          const modes = ['missing', 'clock', 'shapes'];
-          mode = modes[Math.floor(Math.random() * modes.length)];
-        }
-
-        if (mode === 'missing') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          // Sequence from 1 to 30 (either step 1 or step 2)
-          let step = Math.random() > 0.5 ? 1 : 2;
-          let maxStart = 30 - (step * 3);
-          let start = Math.floor(Math.random() * maxStart) + 1;
-          
-          let seq = [start, start + step, start + (step * 2), start + (step * 3)];
-          let missingIdx = Math.floor(Math.random() * 4);
-          currentAnswer = seq[missingIdx];
-
-          let rowDiv = document.createElement("div");
-          rowDiv.className = "missing-row-container";
-
-          seq.forEach((val, index) => {
-            if (index === missingIdx) {
-              let box = document.createElement("div");
-              box.className = "target-box";
-              box.id = "targetBoxMissing";
-              box.innerText = "?";
-              rowDiv.appendChild(box);
-            } else {
-              let numSpan = document.createElement("span");
-              numSpan.className = "missing-num-pill";
-              numSpan.innerText = val;
-              rowDiv.appendChild(numSpan);
-            }
-          });
-
-          document.getElementById("customDisplay").appendChild(rowDiv);
-          setupNumberOptions();
-        }
-        else if (mode === 'clock') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          let hour = Math.floor(Math.random() * 12) + 1;
-          currentAnswer = `${hour}:00`;
-
-          let canvas = document.createElement("canvas");
-          canvas.width = 140;
-          canvas.height = 140;
-          canvas.className = "clock-canvas";
-          drawClock(canvas, hour, 0);
-
-          document.getElementById("customDisplay").appendChild(canvas);
-
-          let timeOptions = [currentAnswer];
-          while(timeOptions.length < 3) {
-            let h = Math.floor(Math.random() * 12) + 1;
-            let opt = `${h}:00`;
-            if(!timeOptions.includes(opt)) timeOptions.push(opt);
-          }
-          timeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(timeOptions);
-        }
-        else if (mode === 'shapes') {
-          document.getElementById("equationRow").classList.add("hidden");
-          document.getElementById("customDisplay").classList.remove("hidden");
-
-          const shapes = [
-            { name: 'Circle', icon: '🔴' },
-            { name: 'Square', icon: '⬛' },
-            { name: 'Triangle', icon: '🔺' },
-            { name: 'Star', icon: '⭐' },
-            { name: 'Heart', icon: '❤️' }
-          ];
-
-          let selected = shapes[Math.floor(Math.random() * shapes.length)];
-          currentAnswer = selected.name;
-
-          let div = document.createElement("div");
-          div.style.fontSize = "90px";
-          div.innerText = selected.icon;
-          document.getElementById("customDisplay").appendChild(div);
-
-          let shapeOptions = [currentAnswer];
-          while(shapeOptions.length < 3) {
-            let s = shapes[Math.floor(Math.random() * shapes.length)].name;
-            if(!shapeOptions.includes(s)) shapeOptions.push(s);
-          }
-          shapeOptions.sort(() => Math.random() - 0.5);
-          renderOptions(shapeOptions);
-        }
-      }
-    }
-
-    /* DRAW ANALOG CLOCK */
-    function drawClock(canvas, hour, minute) {
-      let ctx = canvas.getContext("2d");
-      let radius = canvas.width / 2;
-      ctx.translate(radius, radius);
-      radius = radius * 0.9;
-
-      // Clock face
-      ctx.beginPath();
-      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-
-      // Center dot
-      ctx.beginPath();
-      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = '#333';
-      ctx.fill();
-
-      // Hour Hand
-      let hourPos = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
-      ctx.beginPath();
-      ctx.lineWidth = 6;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#ee5253";
-      ctx.moveTo(0, 0);
-      ctx.rotate(hourPos);
-      ctx.lineTo(0, -radius * 0.5);
-      ctx.stroke();
-      ctx.rotate(-hourPos);
-
-      // Minute Hand
-      let minPos = (minute * Math.PI / 30);
-      ctx.beginPath();
-      ctx.lineWidth = 4;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#0984e3";
-      ctx.moveTo(0, 0);
-      ctx.rotate(minPos);
-      ctx.lineTo(0, -radius * 0.75);
-      ctx.stroke();
-      ctx.rotate(-minPos);
-    }
-
-    /* SETUP OPTIONS */
-    function setupNumberOptions() {
-      let options = [Number(currentAnswer)];
-      while (options.length < 3) {
-        let wrong = Number(currentAnswer) + (Math.floor(Math.random() * 7) - 3);
-        if (wrong >= 1 && wrong <= 30 && !options.includes(wrong)) {
-          options.push(wrong);
-        }
-      }
-      options.sort(() => Math.random() - 0.5);
-      renderOptions(options);
-    }
-
-    function renderOptions(opts) {
-      let container = document.getElementById("optionsContainer");
-      container.innerHTML = "";
-
-      opts.forEach(opt => {
-        let btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        container.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected, buttonEl) {
-      if (selected == currentAnswer) {
-        playCorrectSound();
-        score += 10;
-        document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-        
-        let targetBox = document.getElementById("targetBox");
-        if (targetBox) targetBox.innerText = currentAnswer;
-        let targetBoxMissing = document.getElementById("targetBoxMissing");
-        if (targetBoxMissing) targetBoxMissing.innerText = currentAnswer;
-
-        let banner = document.getElementById("popupBanner");
-        document.getElementById("popupText").innerText = `Correct!`;
-        banner.classList.add("show");
-        setTimeout(() => banner.classList.remove("show"), 1400);
-
-        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-
-        setTimeout(() => {
-          generateQuestion();
-        }, 1200);
-      } else {
-        playWrongSound();
-        buttonEl.style.background = "#d63031";
-      }
-    }
-  </script>
-</body>
-</html>
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #81ecec, #74b9ff, #a29bfe);
+  user-select: none;
+}
+
+/* SCREEN 1: HOME PAGE */
+.home-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(-45deg, #ff7675, #6c5ce7, #00cec9, #fdcb6e);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.brand-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  display: inline-block;
+  margin-bottom: 12px;
+  backdrop-filter: blur(5px);
+}
+
+.game-title {
+  font-size: 52px;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.game-title span { color: #feca57; }
+
+.game-subtitle {
+  color: #ffffff;
+  font-size: 18px;
+  margin: 10px 0 30px;
+}
+
+.play-button {
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(to bottom, #ff9f43, #ee5253);
+  color: white;
+  font-size: 26px;
+  font-weight: 900;
+  padding: 16px 45px;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 0 #b22222, 0 15px 25px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+
+.play-icon {
+  width: 40px;
+  height: 40px;
+  background: white;
+  color: #ee5253;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.play-button:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 #b22222;
+}
+
+/* GENERAL HEADER BAR */
+.header-bar {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.home-btn {
+  padding: 10px 22px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background: #ffffff;
+  color: #0984e3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* SCREEN 2: MAIN CATEGORY MENU */
+.main-category-page {
+  min-height: 100vh;
+  padding: 20px 15px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-main-title {
+  font-size: 48px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #6c5ce7, -2px -2px 0 #00cec9;
+  margin: 10px 0 35px;
+  text-align: center;
+}
+
+.main-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.main-subject-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  border-radius: 35px;
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.main-subject-card:active {
+  transform: scale(0.96);
+}
+
+.subject-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.subject-icon {
+  font-size: 55px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+}
+
+.subject-name {
+  font-size: 42px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+}
+
+.arrow-btn {
+  width: 45px;
+  height: 45px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0984e3;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* MATHS SUB-CATEGORIES MENU */
+.maths-menu-page {
+  min-height: 100vh;
+  padding: 20px 15px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.cat-card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: transform 0.15s;
+}
+
+.cat-card:active { transform: scale(0.95); }
+
+.cat-demo-eq {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+
+.cat-pill {
+  padding: 6px 18px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  border: 2px solid #ffffff;
+}
+
+.cat-pill.add { background: #ff7675; }
+.cat-pill.sub { background: #ff7675; }
+.cat-pill.mul { background: #00b894; }
+.cat-pill.div { background: #0984e3; }
+
+.full-width-card {
+  grid-column: span 2;
+  background: rgba(255, 255, 255, 0.4);
+  border: 3px solid #ffffff;
+  border-radius: 24px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.full-width-card:active { transform: scale(0.96); }
+
+.card-icons {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.cat-pill.fun { background: #a29bfe; font-size: 18px; padding: 8px 25px; }
+
+/* SUB-MENUS FOR MODES */
+.sub-menu-page {
+  min-height: 100vh;
+  padding: 25px 15px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-title {
+  background: linear-gradient(to bottom, #ff9f43, #ee5253);
+  color: white;
+  padding: 10px 45px;
+  border-radius: 25px;
+  font-size: 26px;
+  font-weight: 900;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+  margin: 15px 0 25px;
+  text-align: center;
+}
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.mode-card {
+  background: #ff7675;
+  border: 4px solid #d63031;
+  border-radius: 20px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: transform 0.15s;
+}
+
+.mode-card:active { transform: scale(0.95); }
+
+.mode-card.full-width {
+  grid-column: span 2;
+  background: #fdcb6e;
+  border-color: #e17055;
+}
+
+.mode-card-inner {
+  background: #006266;
+  border-radius: 14px;
+  width: 100%;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.mode-card-label {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 6px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+/* ABC CHART GRID STYLES */
+.abc-chart-board {
+  width: 100%;
+  max-width: 550px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 20px 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.abc-chart-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ff4757;
+  text-shadow: 1px 1px 0 #ffa502;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.abc-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.abc-card-item {
+  background: #f1f2f6;
+  border: 3px solid #70a1ff;
+  border-radius: 16px;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.abc-card-item:active {
+  transform: scale(0.92);
+  border-color: #ff6b81;
+  background: #ffeaa7;
+}
+
+.abc-card-letters {
+  font-size: 22px;
+  font-weight: bold;
+  color: #3742fa;
+}
+
+.abc-card-icon {
+  font-size: 38px;
+  margin: 4px 0;
+}
+
+.abc-card-word {
+  font-size: 13px;
+  font-weight: bold;
+  color: #2f3542;
+}
+
+/* SKY, GRASS & ROOT LETTERS STYLES */
+.sgr-container {
+  width: 100%;
+  max-width: 520px;
+  background: #74b9ff;
+  border: 6px solid #ffffff;
+  border-radius: 25px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.sgr-section {
+  border-radius: 20px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 3px solid rgba(255,255,255,0.8);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.sgr-sky { background: #81ecec; border-color: #00cec9; }
+.sgr-grass { background: #55efc4; border-color: #00b894; }
+.sgr-root { background: #ffeaa7; border-color: #fdcb6e; }
+
+.sgr-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #2d3436;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sgr-letters-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.sgr-bubble {
+  width: 45px;
+  height: 45px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d3436;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.sgr-bubble:active {
+  transform: scale(0.9);
+  background: #74b9ff;
+  color: white;
+}
+
+/* SINGLE BOX COMBINED ENGLISH LESSON BOARD */
+.combined-lesson-box {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border: 6px solid #70a1ff;
+  border-radius: 28px;
+  padding: 18px 15px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lesson-section-block {
+  background: #f8f9fa;
+  border: 3px solid #dfe4ea;
+  border-radius: 20px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-title-badge {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  padding: 6px 20px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.bg-vowels { background: #ff6b81; }
+.bg-consonants { background: #e17055; }
+.bg-aan { background: #00b894; }
+
+.lesson-sub-banner {
+  background: #ffeaa7;
+  border: 2px dashed #fdcb6e;
+  color: #d63031;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.vowel-bubbles-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.vowel-pill {
+  flex: 1;
+  background: linear-gradient(135deg, #ff7675, #d63031);
+  color: white;
+  border-radius: 16px;
+  padding: 8px 3px;
+  text-align: center;
+  box-shadow: 0 4px 0 #b22222;
+  cursor: pointer;
+}
+
+.vowel-pill:nth-child(2) { background: linear-gradient(135deg, #fdcb6e, #e17055); box-shadow: 0 4px 0 #c0392b; }
+.vowel-pill:nth-child(3) { background: linear-gradient(135deg, #55efc4, #00b894); box-shadow: 0 4px 0 #006266; }
+.vowel-pill:nth-child(4) { background: linear-gradient(135deg, #74b9ff, #0984e3); box-shadow: 0 4px 0 #2c3e50; }
+.vowel-pill:nth-child(5) { background: linear-gradient(135deg, #a29bfe, #6c5ce7); box-shadow: 0 4px 0 #4834d4; }
+
+.vowel-letter { font-size: 24px; font-weight: 900; }
+.vowel-sound { font-size: 11px; opacity: 0.9; }
+
+.word-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.word-card-item {
+  background: #ffffff;
+  border: 2px solid #ced6e0;
+  border-radius: 12px;
+  padding: 6px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.word-card-item:active { transform: scale(0.92); background: #ffeaa7; }
+
+.word-card-icon { font-size: 26px; }
+.word-card-text { font-size: 11px; font-weight: bold; color: #2f3542; margin-top: 2px; }
+
+.consonants-box-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  background: #f8c291;
+  border-radius: 14px;
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.consonant-chip {
+  background: white;
+  color: #e67e22;
+  font-weight: 900;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.a-an-dual-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.a-an-column {
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.a-col { background: #e3f2fd; border: 2px solid #64b5f6; }
+.an-col { background: #fce4ec; border: 2px solid #f06292; }
+
+.col-header-pill {
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.a-col .col-header-pill { background: #1e88e5; }
+.an-col .col-header-pill { background: #d81b60; }
+
+.col-subtext {
+  font-size: 10px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.mini-examples-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  width: 100%;
+}
+
+.mini-ex-card {
+  background: white;
+  border-radius: 8px;
+  padding: 5px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.mini-ex-card span { font-size: 20px; }
+
+/* SCREEN 4: QUIZ PAGE */
+.quiz-page {
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #273c75;
+}
+
+.quiz-header {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.score-display {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2d3436;
+  background: #feca57;
+  padding: 8px 18px;
+  border-radius: 20px;
+}
+
+.chalkboard-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: #104e33;
+  border: 10px solid #8c7ae6;
+  border-radius: 24px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 230px;
+}
+
+.equation-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 38px;
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.num-1 { color: #ff9f43; }
+.num-2 { color: #54a0ff; }
+.operator { color: #feca57; }
+
+.target-box {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 3px dashed white;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #feca57;
+}
+
+.visual-split-container {
+  display: flex;
+  width: 100%;
+  height: 130px;
+  margin-top: 15px;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.visual-box {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  font-size: 36px;
+}
+
+.visual-box.left { border-right: 2px solid rgba(255, 255, 255, 0.3); }
+
+.subtraction-visual-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+}
+
+.item-wrapper {
+  position: relative;
+  display: inline-block;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.item-wrapper.crossed-item { opacity: 0.5; }
+
+.item-wrapper.crossed-item::after {
+  content: '';
+  position: absolute;
+  left: -10%;
+  top: 50%;
+  width: 120%;
+  height: 4px;
+  background-color: #ff3838;
+  transform: rotate(-25deg);
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+.count-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-size: 38px;
+  max-width: 420px;
+}
+
+.missing-row-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 36px;
+  color: white;
+  font-weight: bold;
+}
+
+.missing-num-pill {
+  background: rgba(255,255,255,0.15);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  color: #74b9ff;
+}
+
+.clock-canvas {
+  background: white;
+  border-radius: 50%;
+  border: 6px solid #feca57;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.options-grid {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  min-width: 90px;
+  height: 70px;
+  padding: 0 15px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 18px;
+  background: #ff4757;
+  color: white;
+  box-shadow: 0 6px 0 #c0392b, 0 10px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.option-btn:nth-child(2) { background: #2ed573; box-shadow: 0 6px 0 #26af5f; }
+.option-btn:nth-child(3) { background: #1e90ff; box-shadow: 0 6px 0 #0f68c9; }
+.option-btn:nth-child(4) { background: #ffa502; box-shadow: 0 6px 0 #d35400; }
+
+.option-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #888;
+}
+
+/* MATCH NUMBERS WITH WORDS STYLES */
+.match-board {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.match-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2d3436;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.match-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 320px;
+  z-index: 2;
+}
+
+.match-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  width: 120px;
+}
+
+.match-item {
+  position: relative;
+  background: #f1f2f6;
+  border: 3px solid #2f3542;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #2f3542;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.match-item.selected {
+  background: #feca57;
+  border-color: #ff9f43;
+  transform: scale(1.05);
+}
+
+.match-item.matched {
+  background: #55efc4;
+  border-color: #00b894;
+  cursor: default;
+}
+
+.dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #2f3542;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dot.left { right: -18px; }
+.dot.right { left: -18px; }
+
+.match-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.popup-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: linear-gradient(to right, #4834d4, #686de0);
+  border: 4px solid #ffffff;
+  border-radius: 30px;
+  padding: 15px 35px;
+  color: white;
+  font-size: 32px;
+  font-weight: 900;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup-banner.show { transform: translate(-50%, -50%) scale(1); }
+
+.hidden { display: none !important; }
