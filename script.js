@@ -10,7 +10,6 @@ let matchedPairsCount = 0;
 let totalMatchPairs = 5;
 
 // Worksheet Circle Game Variables
-let worksheetIndex = 0;
 let totalWorksheetCorrect = 0;
 
 const numberWordsMap = {
@@ -235,7 +234,6 @@ function startQuiz(cat, mode) {
   currentCategory = cat;
   currentMode = mode;
   score = 0;
-  worksheetIndex = 0;
   document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
   hideAllScreens();
   document.getElementById("quizPage").classList.remove("hidden");
@@ -584,7 +582,7 @@ function setupCombinedGrammarBoard() {
   speakText("Grammar Basics: Vowels, Consonants, and A or An");
 }
 
-/* WORKSHEET CIRCLE GAME LOGIC (A to Z with Auto Next Level) */
+/* WORKSHEET CIRCLE GAME LOGIC (Random Letters Every Time) */
 function setupWorksheetCircle() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
@@ -595,12 +593,9 @@ function setupWorksheetCircle() {
 
   totalWorksheetCorrect = 0;
 
-  let currentBatch = [];
-  for (let i = 0; i < 4; i++) {
-    let item = allWorksheetPairs[worksheetIndex % allWorksheetPairs.length];
-    currentBatch.push(item);
-    worksheetIndex++;
-  }
+  // Har baar random letters shuffle hoke aayenge
+  let shuffledPairs = [...allWorksheetPairs].sort(() => Math.random() - 0.5);
+  let currentBatch = shuffledPairs.slice(0, 4);
 
   currentBatch.forEach(pair => {
     let row = document.createElement("div");
@@ -641,7 +636,7 @@ function setupWorksheetCircle() {
 
             setTimeout(() => {
               banner.classList.remove("show");
-              setupWorksheetCircle();
+              setupWorksheetCircle(); // Agla naya random set load hoga
             }, 1200);
           }
 
