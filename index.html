@@ -59,28 +59,46 @@
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
     </div>
 
-    <div class="banner-title">English Menu</div>
+    <!-- Wooden Signboard Header -->
+    <div class="wooden-menu-header">
+      <div class="wooden-board-title">English Menu</div>
+    </div>
 
-    <div class="mode-grid">
-      <div class="mode-card" onclick="startQuiz('english', 'abcchart')">
-        <div class="mode-card-inner">🔤 Aa Bb Cc</div>
-        <div class="mode-card-label">ABC Chart</div>
+    <div class="eng-cards-grid">
+      <!-- Card 1: ABC Chart (Pink) -->
+      <div class="eng-menu-card pink-card" onclick="startQuiz('english', 'abcchart')">
+        <div class="eng-card-top">
+          <div class="eng-card-icon-text">🔤</div>
+          <div class="eng-card-title-sm">Aa Bb Cc</div>
+        </div>
+        <div class="eng-card-bottom-pill">ABC Chart</div>
       </div>
 
-      <div class="mode-card" onclick="startQuiz('english', 'skygrassroot')">
-        <div class="mode-card-inner">☁️ Sky<br>🌱 Grass<br>🪵 Root</div>
-        <div class="mode-card-label">Sky, Grass & Root</div>
+      <!-- Card 2: Sky, Grass & Root (Green) -->
+      <div class="eng-menu-card green-card" onclick="startQuiz('english', 'skygrassroot')">
+        <div class="eng-card-top">
+          <div class="eng-card-icon-text">☁️🌱</div>
+          <div class="eng-card-title-sm">Sky Grass Root</div>
+        </div>
+        <div class="eng-card-bottom-pill">Sky, Grass & Root</div>
       </div>
 
-      <div class="mode-card full-width" onclick="startQuiz('english', 'combined_grammar')">
-        <div class="mode-card-inner" style="background: linear-gradient(135deg, #ff7675, #00b894);">🅰️ Vowels, Consonants & A/An</div>
-        <div class="mode-card-label">Grammar Basics Box</div>
+      <!-- Card 3: Grammar Basics Box (Orange) -->
+      <div class="eng-menu-card orange-card" onclick="startQuiz('english', 'combined_grammar')">
+        <div class="eng-card-top">
+          <div class="eng-card-icon-text">🅰️</div>
+          <div class="eng-card-title-sm">Vowels, Consonants & A/An</div>
+        </div>
+        <div class="eng-card-bottom-pill">Grammar Basics Box</div>
       </div>
 
-      <!-- Worksheet Circle Mode Card -->
-      <div class="mode-card full-width" onclick="startQuiz('english', 'worksheet_circle')">
-        <div class="mode-card-inner" style="background: #e17055;">🎯 Circle the Letter Worksheet</div>
-        <div class="mode-card-label">Find & Circle Matching Letter</div>
+      <!-- Card 4: Worksheet Circle (Purple) -->
+      <div class="eng-menu-card purple-card" onclick="startQuiz('english', 'worksheet_circle')">
+        <div class="eng-card-top">
+          <div class="eng-card-icon-text">🎯</div>
+          <div class="eng-card-title-sm">Circle the Letter Worksheet</div>
+        </div>
+        <div class="eng-card-bottom-pill">Find & Circle Matching Letter</div>
       </div>
     </div>
   </div>
