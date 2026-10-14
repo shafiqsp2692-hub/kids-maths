@@ -59,11 +59,13 @@
       <button class="home-btn" onclick="goCategoryMenu()">⬅️ Back</button>
     </div>
 
+    <!-- Wooden Signboard Header -->
     <div class="wooden-menu-header">
       <div class="wooden-board-title">English Menu</div>
     </div>
 
     <div class="eng-cards-grid">
+      <!-- Card 1: ABC Chart (Pink) -->
       <div class="eng-menu-card pink-card" onclick="startQuiz('english', 'abcchart')">
         <div class="eng-card-top">
           <div class="eng-card-icon-text">🔤</div>
@@ -72,6 +74,7 @@
         <div class="eng-card-bottom-pill">ABC Chart</div>
       </div>
 
+      <!-- Card 2: Sky, Grass & Root (Green) -->
       <div class="eng-menu-card green-card" onclick="startQuiz('english', 'skygrassroot')">
         <div class="eng-card-top">
           <div class="eng-card-icon-text">☁️🌱</div>
@@ -80,6 +83,7 @@
         <div class="eng-card-bottom-pill">Sky, Grass & Root</div>
       </div>
 
+      <!-- Card 3: Grammar Basics Box (Orange) -->
       <div class="eng-menu-card orange-card" onclick="startQuiz('english', 'combined_grammar')">
         <div class="eng-card-top">
           <div class="eng-card-icon-text">🅰️</div>
@@ -88,21 +92,13 @@
         <div class="eng-card-bottom-pill">Grammar Basics Box</div>
       </div>
 
+      <!-- Card 4: Worksheet Circle (Purple) -->
       <div class="eng-menu-card purple-card" onclick="startQuiz('english', 'worksheet_circle')">
         <div class="eng-card-top">
           <div class="eng-card-icon-text">🎯</div>
           <div class="eng-card-title-sm">Circle the Letter Worksheet</div>
         </div>
         <div class="eng-card-bottom-pill">Find & Circle Matching Letter</div>
-      </div>
-
-      <!-- New Spelling SGR Finder Card -->
-      <div class="eng-menu-card pink-card full-span-card" onclick="startQuiz('english', 'sgr_spelling_game')">
-        <div class="eng-card-top">
-          <div class="eng-card-icon-text">📝✨</div>
-          <div class="eng-card-title-sm">Spelling Letter Finder (Root, Sky, Grass)</div>
-        </div>
-        <div class="eng-card-bottom-pill">SGR Spelling Test</div>
       </div>
     </div>
   </div>
@@ -238,6 +234,7 @@
       <div id="scoreDisplay" class="score-display">⭐ Score: 0</div>
     </div>
 
+    <!-- STANDARD CHALKBOARD CARD -->
     <div id="standardChalkboard" class="chalkboard-card">
       <div id="equationRow" class="equation-top-row">
         <span id="num1Text" class="num-1">1</span>
@@ -259,11 +256,13 @@
       <div id="customDisplay" class="hidden"></div>
     </div>
 
+    <!-- ABC ALPHABET CHART BOARD -->
     <div id="abcChartBoard" class="abc-chart-board hidden">
       <div class="abc-chart-title">ABC CHART FOR KIDS</div>
       <div id="abcGridContainer" class="abc-grid-container"></div>
     </div>
 
+    <!-- SKY, GRASS & ROOT LETTERS BOARD -->
     <div id="skyGrassRootBoard" class="sgr-container hidden">
       <div class="sgr-section sgr-sky">
         <div class="sgr-title">☁️ Sky Letters (7)</div>
@@ -281,7 +280,9 @@
       </div>
     </div>
 
+    <!-- COMBINED SINGLE BOX FOR VOWELS, CONSONANTS & A/AN -->
     <div id="combinedGrammarBoard" class="combined-lesson-box hidden">
+      <!-- SECTION 1: VOWELS -->
       <div class="lesson-section-block">
         <div class="section-title-badge bg-vowels">1. Vowels</div>
         <div class="lesson-sub-banner">Vowels are the 5 special letters!</div>
@@ -295,14 +296,30 @@
         </div>
 
         <div class="word-cards-grid">
-          <div class="word-card-item" onclick="speakText('Apple')"><div class="word-card-icon">🍎</div><div class="word-card-text">apple (a)</div></div>
-          <div class="word-card-item" onclick="speakText('Elephant')"><div class="word-card-icon">🐘</div><div class="word-card-text">elephant (e)</div></div>
-          <div class="word-card-item" onclick="speakText('Ice cream')"><div class="word-card-icon">🍦</div><div class="word-card-text">ice cream (i)</div></div>
-          <div class="word-card-item" onclick="speakText('Orange')"><div class="word-card-icon">🍊</div><div class="word-card-text">orange (o)</div></div>
-          <div class="word-card-item" onclick="speakText('Umbrella')"><div class="word-card-icon">☂️</div><div class="word-card-text">umbrella (u)</div></div>
+          <div class="word-card-item" onclick="speakText('Apple')">
+            <div class="word-card-icon">🍎</div>
+            <div class="word-card-text">apple (a)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Elephant')">
+            <div class="word-card-icon">🐘</div>
+            <div class="word-card-text">elephant (e)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Ice cream')">
+            <div class="word-card-icon">🍦</div>
+            <div class="word-card-text">ice cream (i)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Orange')">
+            <div class="word-card-icon">🍊</div>
+            <div class="word-card-text">orange (o)</div>
+          </div>
+          <div class="word-card-item" onclick="speakText('Umbrella')">
+            <div class="word-card-icon">☂️</div>
+            <div class="word-card-text">umbrella (u)</div>
+          </div>
         </div>
       </div>
 
+      <!-- SECTION 2: CONSONANTS -->
       <div class="lesson-section-block">
         <div class="section-title-badge bg-consonants">2. Consonants</div>
         <div class="lesson-sub-banner">All other 21 letters are consonants!</div>
@@ -330,9 +347,48 @@
           <div class="consonant-chip" onclick="speakText('Y')">Y</div>
           <div class="consonant-chip" onclick="speakText('Z')">Z</div>
         </div>
+
+        <div class="word-cards-grid">
+          <div class="word-card-item" onclick="speakText('Ball')"><div class="word-card-icon">⚽</div><div class="word-card-text">ball</div></div>
+          <div class="word-card-item" onclick="speakText('Cat')"><div class="word-card-icon">🐱</div><div class="word-card-text">cat</div></div>
+          <div class="word-card-item" onclick="speakText('Dog')"><div class="word-card-icon">🐶</div><div class="word-card-text">dog</div></div>
+          <div class="word-card-item" onclick="speakText('Fish')"><div class="word-card-icon">🐟</div><div class="word-card-text">fish</div></div>
+          <div class="word-card-item" onclick="speakText('Hat')"><div class="word-card-icon">🧢</div><div class="word-card-text">hat</div></div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: A / AN RULES -->
+      <div class="lesson-section-block">
+        <div class="section-title-badge bg-aan">3. Use A / An</div>
+        <div class="lesson-sub-banner">Learn when to use 'a' or 'an'!</div>
+
+        <div class="a-an-dual-container">
+          <div class="a-an-column a-col">
+            <div class="col-header-pill">Use "a"</div>
+            <div class="col-subtext">before consonant sound</div>
+            <div class="mini-examples-grid">
+              <div class="mini-ex-card" onclick="speakText('a ball')"><span>⚽</span>a ball</div>
+              <div class="mini-ex-card" onclick="speakText('a cat')"><span>🐱</span>a cat</div>
+              <div class="mini-ex-card" onclick="speakText('a book')"><span>📘</span>a book</div>
+              <div class="mini-ex-card" onclick="speakText('a pen')"><span>🖊️</span>a pen</div>
+            </div>
+          </div>
+
+          <div class="a-an-column an-col">
+            <div class="col-header-pill">Use "an"</div>
+            <div class="col-subtext">before vowel sound</div>
+            <div class="mini-examples-grid">
+              <div class="mini-ex-card" onclick="speakText('an apple')"><span>🍎</span>an apple</div>
+              <div class="mini-ex-card" onclick="speakText('an egg')"><span>🥚</span>an egg</div>
+              <div class="mini-ex-card" onclick="speakText('an umbrella')"><span>☂️</span>an umbrella</div>
+              <div class="mini-ex-card" onclick="speakText('an orange')"><span>🍊</span>an orange</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- MATCH WORDS BOARD -->
     <div id="matchBoard" class="match-board hidden">
       <div class="match-title">Match numbers with words.</div>
       <div class="match-container">
@@ -342,15 +398,10 @@
       </div>
     </div>
 
+    <!-- WORKSHEET CIRCLE BOARD -->
     <div id="worksheetBoard" class="worksheet-board hidden">
       <div class="abc-chart-title">Circle the small letter!</div>
       <div id="worksheetRowsContainer"></div>
-    </div>
-
-    <!-- SGR Spelling Letter Finder Board -->
-    <div id="sgrSpellingBoard" class="worksheet-board hidden">
-      <div id="sgrWordTitleText" class="abc-chart-title">Find letters in spelling</div>
-      <div id="sgrSpellingLettersContainer" class="sgr-spelling-grid"></div>
     </div>
 
     <div id="optionsContainer" class="options-grid"></div>
