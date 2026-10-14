@@ -341,6 +341,7 @@ html, body {
 .green-card { background: #55efc4; border-color: #00b894; }
 .orange-card { background: #ffeaa7; border-color: #fdcb6e; }
 .purple-card { background: #a29bfe; border-color: #6c5ce7; }
+.teal-card { background: #81ecec; border-color: #00cec9; }
 
 .eng-card-top {
   background: #ffffff;
@@ -378,6 +379,7 @@ html, body {
 .green-card .eng-card-bottom-pill { background: #00b894; color: #fff; }
 .orange-card .eng-card-bottom-pill { background: #e17055; }
 .purple-card .eng-card-bottom-pill { background: #6c5ce7; }
+.teal-card .eng-card-bottom-pill { background: #00b894; color: #fff; }
 
 .mode-grid {
   display: grid;
