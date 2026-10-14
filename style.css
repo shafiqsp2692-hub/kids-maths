@@ -444,11 +444,11 @@ html, body {
 }
 
 .abc-chart-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 900;
   color: #ff4757;
   text-shadow: 1px 1px 0 #ffa502;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
@@ -558,6 +558,115 @@ html, body {
   transform: scale(0.9);
   background: #74b9ff;
   color: white;
+}
+
+/* SGR FULL WORKBOOK CONTAINER (Jesa aapne photo me dikhaya hai) */
+.sgr-workbook-container {
+  width: 100%;
+  max-width: 540px;
+  background: #ffffff;
+  border: 6px solid #74b9ff;
+  border-radius: 25px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sgr-wb-section {
+  border-radius: 18px;
+  padding: 10px;
+  border: 3px solid;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.wb-root-sec { background: #fffcf0; border-color: #fdcb6e; }
+.wb-sky-sec { background: #f0fbff; border-color: #00cec9; }
+.wb-grass-sec { background: #f2fffb; border-color: #00b894; }
+
+.sgr-wb-header {
+  font-size: 18px;
+  font-weight: 900;
+  padding: 4px 14px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #2d3436;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.wb-root-header { background: #ffeaa7; border: 2px solid #f39c12; }
+.wb-sky-header { background: #81ecec; border: 2px solid #00cec9; }
+.wb-grass-header { background: #55efc4; border: 2px solid #00b894; }
+
+.wb-rows-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wb-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.wb-item {
+  height: 48px;
+  background: #ffffff;
+  border: 3px solid #70a1ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2f3542;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s;
+}
+
+.wb-item:active { transform: scale(0.92); }
+
+.wb-item.correct-circled {
+  border-color: #2ed573;
+  background: #e8f8f5;
+  color: #2ed573;
+}
+
+.wb-item.correct-circled::after {
+  content: '';
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border: 4px solid #2ed573;
+  border-radius: 50%;
+  animation: popCircle 0.3s ease;
+}
+
+.wb-item.wrong-circled {
+  border-color: #ff4757;
+  background: #fdf2f2;
+  color: #ff4757;
+}
+
+.wb-item.wrong-circled::after {
+  content: '';
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border: 4px solid #ff4757;
+  border-radius: 50%;
+  animation: popCircle 0.3s ease;
+}
+
+@keyframes popCircle {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* SINGLE BOX COMBINED ENGLISH LESSON BOARD */
@@ -853,11 +962,6 @@ html, body {
   border: 4px solid #ff4757;
   border-radius: 50%;
   animation: popCircle 0.3s ease;
-}
-
-@keyframes popCircle {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
 }
 
 /* SCREEN 4: QUIZ PAGE */
