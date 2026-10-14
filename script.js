@@ -12,9 +12,9 @@ let totalMatchPairs = 5;
 // Worksheet Circle Game Variables
 let totalWorksheetCorrect = 0;
 
-// SGR Worksheet Variables
-let totalSGRCorrect = 0;
-let currentSGRTargetType = 'root';
+// SGR Workbook Variables (Mukammal hone par hi next aayega)
+let totalWorkbookTargets = 0;
+let totalWorkbookFound = 0;
 
 const numberWordsMap = {
   1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
@@ -271,7 +271,7 @@ function generateQuestion() {
   document.getElementById("skyGrassRootBoard").classList.add("hidden");
   document.getElementById("combinedGrammarBoard").classList.add("hidden");
   document.getElementById("worksheetBoard").classList.add("hidden");
-  document.getElementById("sgrWorksheetBoard").classList.add("hidden");
+  document.getElementById("sgrWorkbookBoard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.remove("hidden");
 
   document.getElementById("equationRow").classList.remove("hidden");
@@ -292,8 +292,8 @@ function generateQuestion() {
       setupCombinedGrammarBoard();
     } else if (currentMode === 'worksheet_circle') {
       setupWorksheetCircle();
-    } else if (currentMode === 'sgr_worksheet') {
-      setupSGRWorksheet();
+    } else if (currentMode === 'sgr_workbook') {
+      setupSGRWorkbook();
     }
     return;
   }
@@ -663,8 +663,8 @@ function setupWorksheetCircle() {
   speakText("Circle the small letter of capital letter");
 }
 
-/* SKY, GRASS & ROOT WORKSHEET PRACTICE */
-function setupSGRWorksheet() {
+/* SGR FULL WORKBOOK SHEET (Root, Sky & Grass ek sath, jab tak saare mukammal na ho aage nahi badhega) */
+function setupSGRWorkbook() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
   document.getElementById("abcChartBoard").classList.add("hidden");
@@ -673,92 +673,107 @@ function setupSGRWorksheet() {
   document.getElementById("worksheetBoard").classList.add("hidden");
   document.getElementById("matchBoard").classList.add("hidden");
   
-  let sgrBoard = document.getElementById("sgrWorksheetBoard");
-  if (sgrBoard) sgrBoard.classList.remove("hidden");
+  let workbookBoard = document.getElementById("sgrWorkbookBoard");
+  if (workbookBoard) workbookBoard.classList.remove("hidden");
 
-  const container = document.getElementById("sgrWorksheetRowsContainer");
-  container.innerHTML = "";
-  totalSGRCorrect = 0;
+  const sectionsContainer = document.getElementById("sgrWorkbookSectionsContainer");
+  sectionsContainer.innerHTML = "";
 
-  const types = ['sky', 'grass', 'root'];
-  currentSGRTargetType = types[Math.floor(Math.random() * types.length)];
+  totalWorkbookFound = 0;
+  totalWorkbookTargets = 0;
 
-  let titleText = `Circle the ${currentSGRTargetType.toUpperCase()} letters!`;
-  document.getElementById("sgrWsInstruction").innerText = titleText;
-  speakText(titleText);
+  const sectionsConfig = [
+    { title: "Root letters", type: "root", secClass: "wb-root-sec", headerClass: "wb-root-header" },
+    { title: "Sky letters", type: "sky", secClass: "wb-sky-sec", headerClass: "wb-sky-header" },
+    { title: "Grass letters", type: "grass", secClass: "wb-grass-sec", headerClass: "wb-grass-header" }
+  ];
 
-  for (let r = 0; r < 2; r++) {
-    let row = document.createElement("div");
-    row.className = "worksheet-row";
-
-    let targetBox = document.createElement("div");
-    targetBox.className = "target-letter-box";
-    targetBox.style.fontSize = "16px";
-    targetBox.style.background = currentSGRTargetType === 'sky' ? '#81ecec' : (currentSGRTargetType === 'grass' ? '#55efc4' : '#ffeaa7');
-    targetBox.innerText = currentSGRTargetType.toUpperCase();
-    row.appendChild(targetBox);
-
-    let optGrid = document.createElement("div");
-    optGrid.className = "worksheet-options-grid";
-    optGrid.style.gridTemplateColumns = "repeat(6, 1fr)";
-
-    let targetPool = skyGrassRootData[currentSGRTargetType];
+  sectionsConfig.forEach(sec => {
+    let targetPool = skyGrassRootData[sec.type];
     let otherPool = [...skyGrassRootData.sky, ...skyGrassRootData.grass, ...skyGrassRootData.root].filter(l => !targetPool.includes(l));
 
-    let rowLetters = [];
-    let targetShuffled = [...targetPool].sort(() => Math.random() - 0.5);
-    let otherShuffled = [...otherPool].sort(() => Math.random() - 0.5);
+    let secBox = document.createElement("div");
+    secBox.className = `sgr-wb-section ${sec.secClass}`;
 
-    let numTargetsToInclude = Math.floor(Math.random() * 2) + 2; 
-    for(let i=0; i<numTargetsToInclude; i++) rowLetters.push(targetShuffled[i]);
-    for(let i=0; i<(6 - numTargetsToInclude); i++) rowLetters.push(otherShuffled[i]);
+    let header = document.createElement("div");
+    header.className = `sgr-wb-header ${sec.headerClass}`;
+    header.innerText = sec.title;
+    secBox.appendChild(header);
 
-    rowLetters.sort(() => Math.random() - 0.5);
+    let rowsBox = document.createElement("div");
+    rowsBox.className = "wb-rows-box";
 
-    rowLetters.forEach(letter => {
-      let item = document.createElement("div");
-      item.className = "ws-item";
-      item.innerText = letter;
+    // 2 rows per section (jaisa photo me hai)
+    for (let r = 0; r < 2; r++) {
+      let row = document.createElement("div");
+      row.className = "wb-row";
 
-      let isTarget = targetPool.includes(letter);
+      // 6 items per row
+      let rowLetters = [];
+      let targetShuffled = [...targetPool].sort(() => Math.random() - 0.5);
+      let otherShuffled = [...otherPool].sort(() => Math.random() - 0.5);
 
-      item.onclick = () => {
-        if (item.classList.contains("correct-circled") || item.classList.contains("wrong-circled")) return;
+      let numTargets = 2; // Har row me 2 target letters honge
+      for (let i = 0; i < numTargets; i++) {
+        rowLetters.push(targetShuffled[r * 2 + i] || targetShuffled[0]);
+        totalWorkbookTargets++;
+      }
+      for (let i = 0; i < (6 - numTargets); i++) {
+        rowLetters.push(otherShuffled[r * 4 + i] || otherShuffled[0]);
+      }
 
-        if (isTarget) {
-          playCorrectSound();
-          item.classList.add("correct-circled"); // Green circle for correct
-          speakText(`Correct, ${letter}`);
-          score += 5;
-          document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
-          
-          totalSGRCorrect++;
+      rowLetters.sort(() => Math.random() - 0.5);
 
-          if (totalSGRCorrect >= 3) {
-            let banner = document.getElementById("popupBanner");
-            document.getElementById("popupText").innerText = `Great Job! Next!`;
-            banner.classList.add("show");
-            confetti({ particleCount: 30, spread: 50, origin: { y: 0.6 } });
+      rowLetters.forEach(letter => {
+        let item = document.createElement("div");
+        item.className = "wb-item";
+        item.innerText = letter;
 
-            setTimeout(() => {
-              banner.classList.remove("show");
-              setupSGRWorksheet();
-            }, 1200);
+        let isTarget = targetPool.includes(letter);
+
+        item.onclick = () => {
+          if (item.classList.contains("correct-circled") || item.classList.contains("wrong-circled")) return;
+
+          if (isTarget) {
+            playCorrectSound();
+            item.classList.add("correct-circled"); // Green circle
+            speakText(`Correct, ${letter}`);
+            score += 5;
+            document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+
+            totalWorkbookFound++;
+
+            // Jab tak poori sheet ke saare target letters mukammal circle na ho jayein, tab tak next nahi aayega!
+            if (totalWorkbookFound === totalWorkbookTargets) {
+              let banner = document.getElementById("popupBanner");
+              document.getElementById("popupText").innerText = `Wonderful! Sheet Completed!`;
+              banner.classList.add("show");
+              confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+
+              setTimeout(() => {
+                banner.classList.remove("show");
+                setupSGRWorkbook(); // Agli nayi workbook sheet load hogi
+              }, 1800);
+            }
+
+          } else {
+            playWrongSound();
+            item.classList.add("wrong-circled"); // Red circle
+            speakText("Not a " + sec.type + " letter, try again");
           }
+        };
 
-        } else {
-          playWrongSound();
-          item.classList.add("wrong-circled"); // Red circle for wrong
-          speakText("Not a " + currentSGRTargetType + " letter, try again");
-        }
-      };
+        row.appendChild(item);
+      });
 
-      optGrid.appendChild(item);
-    });
+      rowsBox.appendChild(row);
+    }
 
-    row.appendChild(optGrid);
-    container.appendChild(row);
-  }
+    secBox.appendChild(rowsBox);
+    sectionsContainer.appendChild(secBox);
+  });
+
+  speakText("Circle Root, Sky, and Grass letters");
 }
 
 /* MATCH NUMBERS WITH WORDS LOGIC */
