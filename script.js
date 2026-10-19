@@ -12,9 +12,12 @@ let totalMatchPairs = 5;
 // Worksheet Circle Game Variables
 let totalWorksheetCorrect = 0;
 
-// SGR Workbook Variables (Mukammal hone par hi next aayega)
+// SGR Workbook Variables
 let totalWorkbookTargets = 0;
 let totalWorkbookFound = 0;
+
+// A / An Game Current Item
+let currentAAnItem = null;
 
 const numberWordsMap = {
   1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
@@ -83,6 +86,22 @@ const allWorksheetPairs = [
   { capital: "X", correct: "x", options: ["v", "s", "x", "z"] },
   { capital: "Y", correct: "y", options: ["g", "j", "y", "q"] },
   { capital: "Z", correct: "z", options: ["s", "x", "z", "n"] }
+];
+
+// A / AN GAME DATA POOL
+const aanGameData = [
+  { word: "apple", icon: "🍎", type: "an" },
+  { word: "ball", icon: "⚽", type: "a" },
+  { word: "cat", icon: "🐱", type: "a" },
+  { word: "dog", icon: "🐶", type: "a" },
+  { word: "egg", icon: "🥚", type: "an" },
+  { word: "fish", icon: "🐟", type: "a" },
+  { word: "ice cream", icon: "🍦", type: "an" },
+  { word: "kite", icon: "🪁", type: "a" },
+  { word: "orange", icon: "🍊", type: "an" },
+  { word: "pen", icon: "🖊️", type: "a" },
+  { word: "umbrella", icon: "☂️", type: "an" },
+  { word: "book", icon: "📘", type: "a" }
 ];
 
 let audioCtx = null;
@@ -272,6 +291,7 @@ function generateQuestion() {
   document.getElementById("combinedGrammarBoard").classList.add("hidden");
   document.getElementById("worksheetBoard").classList.add("hidden");
   document.getElementById("sgrWorkbookBoard").classList.add("hidden");
+  document.getElementById("aanGameBoard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.remove("hidden");
 
   document.getElementById("equationRow").classList.remove("hidden");
@@ -294,6 +314,8 @@ function generateQuestion() {
       setupWorksheetCircle();
     } else if (currentMode === 'sgr_workbook') {
       setupSGRWorkbook();
+    } else if (currentMode === 'aan_game') {
+      setupAAnGame();
     }
     return;
   }
@@ -589,7 +611,52 @@ function setupCombinedGrammarBoard() {
   speakText("Grammar Basics: Vowels, Consonants, and A or An");
 }
 
-/* WORKSHEET CIRCLE GAME LOGIC (Random Letters Every Time) */
+/* A / AN GAME MODE SETUP */
+function setupAAnGame() {
+  document.getElementById("standardChalkboard").classList.add("hidden");
+  document.getElementById("optionsContainer").classList.add("hidden");
+  document.getElementById("aanGameBoard").classList.remove("hidden");
+
+  currentAAnItem = aanGameData[Math.floor(Math.random() * aanGameData.length)];
+
+  document.getElementById("aanEmoji").innerText = currentAAnItem.icon;
+  document.getElementById("aanBlankBox").innerText = "___";
+  document.getElementById("aanWordText").innerText = currentAAnItem.word;
+
+  speakText(`Choose A or An for ${currentAAnItem.word}`);
+}
+
+function checkAAnAnswer(chosen) {
+  if (isAnsweringLocked) return;
+  initAudio();
+
+  if (chosen === currentAAnItem.type) {
+    isAnsweringLocked = true;
+    playCorrectSound();
+    document.getElementById("aanBlankBox").innerText = chosen.toUpperCase();
+    speakText(`Correct! ${chosen} ${currentAAnItem.word}`);
+
+    score += 10;
+    document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
+
+    let banner = document.getElementById("popupBanner");
+    document.getElementById("popupText").innerText = `Correct!`;
+    banner.classList.add("show");
+
+    confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+
+    setTimeout(() => {
+      banner.classList.remove("show");
+      setupAAnGame();
+    }, 1300);
+
+  } else {
+    playWrongSound();
+    speakText("Try again!");
+  }
+}
+
+/* WORKSHEET CIRCLE GAME LOGIC */
 function setupWorksheetCircle() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
@@ -663,7 +730,7 @@ function setupWorksheetCircle() {
   speakText("Circle the small letter of capital letter");
 }
 
-/* SGR FULL WORKBOOK SHEET (Root, Sky & Grass ek sath, jab tak saare mukammal na ho aage nahi badhega) */
+/* SGR FULL WORKBOOK SHEET */
 function setupSGRWorkbook() {
   document.getElementById("standardChalkboard").classList.add("hidden");
   document.getElementById("optionsContainer").classList.add("hidden");
@@ -672,6 +739,7 @@ function setupSGRWorkbook() {
   document.getElementById("combinedGrammarBoard").classList.add("hidden");
   document.getElementById("worksheetBoard").classList.add("hidden");
   document.getElementById("matchBoard").classList.add("hidden");
+  document.getElementById("aanGameBoard").classList.add("hidden");
   
   let workbookBoard = document.getElementById("sgrWorkbookBoard");
   if (workbookBoard) workbookBoard.classList.remove("hidden");
@@ -703,17 +771,15 @@ function setupSGRWorkbook() {
     let rowsBox = document.createElement("div");
     rowsBox.className = "wb-rows-box";
 
-    // 2 rows per section (jaisa photo me hai)
     for (let r = 0; r < 2; r++) {
       let row = document.createElement("div");
       row.className = "wb-row";
 
-      // 6 items per row
       let rowLetters = [];
       let targetShuffled = [...targetPool].sort(() => Math.random() - 0.5);
       let otherShuffled = [...otherPool].sort(() => Math.random() - 0.5);
 
-      let numTargets = 2; // Har row me 2 target letters honge
+      let numTargets = 2;
       for (let i = 0; i < numTargets; i++) {
         rowLetters.push(targetShuffled[r * 2 + i] || targetShuffled[0]);
         totalWorkbookTargets++;
@@ -736,14 +802,13 @@ function setupSGRWorkbook() {
 
           if (isTarget) {
             playCorrectSound();
-            item.classList.add("correct-circled"); // Green circle
+            item.classList.add("correct-circled");
             speakText(`Correct, ${letter}`);
             score += 5;
             document.getElementById("scoreDisplay").innerText = "⭐ Score: " + score;
 
             totalWorkbookFound++;
 
-            // Jab tak poori sheet ke saare target letters mukammal circle na ho jayein, tab tak next nahi aayega!
             if (totalWorkbookFound === totalWorkbookTargets) {
               let banner = document.getElementById("popupBanner");
               document.getElementById("popupText").innerText = `Wonderful! Sheet Completed!`;
@@ -752,13 +817,13 @@ function setupSGRWorkbook() {
 
               setTimeout(() => {
                 banner.classList.remove("show");
-                setupSGRWorkbook(); // Agli nayi workbook sheet load hogi
+                setupSGRWorkbook();
               }, 1800);
             }
 
           } else {
             playWrongSound();
-            item.classList.add("wrong-circled"); // Red circle
+            item.classList.add("wrong-circled");
             speakText("Not a " + sec.type + " letter, try again");
           }
         };
