@@ -109,6 +109,15 @@
         </div>
         <div class="eng-card-bottom-pill">Root, Sky & Grass Practice</div>
       </div>
+
+      <!-- Card 6: A / An Game Mode (New Red/Orange) -->
+      <div class="eng-menu-card pink-card" onclick="startQuiz('english', 'aan_game')">
+        <div class="eng-card-top">
+          <div class="eng-card-icon-text">🍎⚽</div>
+          <div class="eng-card-title-sm">Use 'A' or 'An' Game</div>
+        </div>
+        <div class="eng-card-bottom-pill">A / An Practice Game</div>
+      </div>
     </div>
   </div>
 
@@ -413,10 +422,26 @@
       <div id="worksheetRowsContainer"></div>
     </div>
 
-    <!-- SGR FULL WORKBOOK BOARD (Root, Sky, Grass in one screen) -->
+    <!-- SGR FULL WORKBOOK BOARD -->
     <div id="sgrWorkbookBoard" class="sgr-workbook-container hidden">
       <div class="abc-chart-title">Circle Root, Sky & Grass Letters!</div>
       <div id="sgrWorkbookSectionsContainer"></div>
+    </div>
+
+    <!-- A / AN GAME BOARD -->
+    <div id="aanGameBoard" class="aan-game-container hidden">
+      <div class="abc-chart-title">Choose A or An!</div>
+      <div class="aan-question-box">
+        <div id="aanEmoji" class="aan-emoji">🍎</div>
+        <div class="aan-eq-row">
+          <span id="aanBlankBox" class="aan-blank">___</span>
+          <span id="aanWordText" class="aan-word">apple</span>
+        </div>
+      </div>
+      <div class="aan-buttons-row">
+        <button class="aan-choice-btn a-btn" onclick="checkAAnAnswer('a')">A</button>
+        <button class="aan-choice-btn an-btn" onclick="checkAAnAnswer('an')">AN</button>
+      </div>
     </div>
 
     <div id="optionsContainer" class="options-grid"></div>
