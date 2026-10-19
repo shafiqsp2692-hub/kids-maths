@@ -313,7 +313,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* English Menu 2x2 Grid Style */
+/* English Menu Grid Style */
 .eng-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -560,7 +560,7 @@ html, body {
   color: white;
 }
 
-/* SGR FULL WORKBOOK CONTAINER (Jesa aapne photo me dikhaya hai) */
+/* SGR FULL WORKBOOK CONTAINER */
 .sgr-workbook-container {
   width: 100%;
   max-width: 540px;
@@ -667,6 +667,98 @@ html, body {
 @keyframes popCircle {
   0% { transform: scale(0); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/* A / AN GAME BOARD STYLES */
+.aan-game-container {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border: 6px solid #ff7675;
+  border-radius: 28px;
+  padding: 25px 20px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.aan-question-box {
+  background: #f1f2f6;
+  border: 4px solid #70a1ff;
+  border-radius: 22px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.aan-emoji {
+  font-size: 80px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+.aan-eq-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 38px;
+  font-weight: 900;
+  color: #2d3436;
+}
+
+.aan-blank {
+  background: #ffeaa7;
+  border: 3px dashed #fdcb6e;
+  padding: 2px 20px;
+  border-radius: 14px;
+  color: #d63031;
+  min-width: 100px;
+  text-align: center;
+}
+
+.aan-word {
+  color: #0984e3;
+}
+
+.aan-buttons-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.aan-choice-btn {
+  flex: 1;
+  max-width: 160px;
+  height: 75px;
+  font-size: 28px;
+  font-weight: 900;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 0 rgba(0,0,0,0.25), 0 10px 15px rgba(0,0,0,0.15);
+  transition: transform 0.1s;
+}
+
+.aan-choice-btn.a-btn {
+  background: linear-gradient(to bottom, #0984e3, #74b9ff);
+  box-shadow: 0 8px 0 #074b83, 0 10px 15px rgba(0,0,0,0.15);
+}
+
+.aan-choice-btn.an-btn {
+  background: linear-gradient(to bottom, #ff7675, #d63031);
+  box-shadow: 0 8px 0 #b22222, 0 10px 15px rgba(0,0,0,0.15);
+}
+
+.aan-choice-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
 }
 
 /* SINGLE BOX COMBINED ENGLISH LESSON BOARD */
